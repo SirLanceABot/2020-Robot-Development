@@ -17,7 +17,7 @@ public class Robot extends TimedRobot
     @Override
     public void robotInit()
     {
-        System.out.println("2020 Robot Development");
+        System.out.println("2020-Robot-Development");
     }
 
     /**
