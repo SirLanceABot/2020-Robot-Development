@@ -7,6 +7,7 @@ import com.revrobotics.CANEncoder;
 
 public class Drivetrain extends DifferentialDrive
 {
+    // Example change
     //          ***TODO***  BEFORE RUNNING MUST DOUBLE CHECK THE ID VALUES OF THE CAN SPARK MAX          ***ERROR***              //
     // delete these 2 lines when the correct id's have been implemented
     private static CANSparkMax frontRightMotor = new CANSparkMax(1, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
