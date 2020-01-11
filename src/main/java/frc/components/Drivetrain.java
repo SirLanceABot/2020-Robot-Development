@@ -14,16 +14,15 @@ public class Drivetrain extends DifferentialDrive
     private static CANSparkMax backLeftMotor = new CANSparkMax(3, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANSparkMax frontLeftMotor = new CANSparkMax(4, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
   
-    public CANEncoder frontLeftEncoder = frontLeftMotor.getEncoder();
-    public CANEncoder frontRightEncoder = frontRightMotor.getEncoder();
-    public CANEncoder backLeftEncoder = backLeftMotor.getEncoder();
-    public CANEncoder backRightEncoder = backRightMotor.getEncoder();
+    private static CANEncoder frontLeftEncoder = frontLeftMotor.getEncoder();
+    private static CANEncoder frontRightEncoder = frontRightMotor.getEncoder();
+    private static CANEncoder backLeftEncoder = backLeftMotor.getEncoder();
+    private static CANEncoder backRightEncoder = backRightMotor.getEncoder();
 
     private static SpeedControllerGroup motorsRight = new SpeedControllerGroup(frontRightMotor, backRightMotor);
     private static SpeedControllerGroup motorsLeft = new SpeedControllerGroup(backLeftMotor, frontLeftMotor);
 
     private static Drivetrain instance = new Drivetrain();
-
 
     private Drivetrain()
     {
