@@ -20,14 +20,14 @@ public class Drivetrain extends DifferentialDrive
     private static CANEncoder backLeftEncoder = backLeftMotor.getEncoder();
     private static CANEncoder backRightEncoder = backRightMotor.getEncoder();
 
-    private static SpeedControllerGroup motorsRight = new SpeedControllerGroup(frontRightMotor, backRightMotor);
-    private static SpeedControllerGroup motorsLeft = new SpeedControllerGroup(backLeftMotor, frontLeftMotor);
+    private static SpeedControllerGroup rightMotors = new SpeedControllerGroup(frontRightMotor, backRightMotor);
+    private static SpeedControllerGroup leftMotors = new SpeedControllerGroup(backLeftMotor, frontLeftMotor);
 
     private static Drivetrain instance = new Drivetrain();
 
     private Drivetrain()
     {
-        super(motorsLeft, motorsRight);
+        super(leftMotors, rightMotors);
         frontRightMotor.restoreFactoryDefaults();
         frontLeftMotor.restoreFactoryDefaults();
         backRightMotor.restoreFactoryDefaults();
