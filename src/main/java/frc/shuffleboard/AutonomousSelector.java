@@ -1,4 +1,4 @@
-package frc.SlabShuffleboard;
+package frc.shuffleboard;
 
 public class AutonomousSelector
 {
