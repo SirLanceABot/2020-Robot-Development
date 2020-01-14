@@ -4,11 +4,17 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+/**
+ * Class for controlling the turret that aims the shooter on the X plane
+ * 0 degrees is straight ahead, -180 to the left, +180 to the right
+ * @author Maxwell Li
+ */
 public class Turret
 {
     private static TalonSRX motor = new TalonSRX(Constants.MOTOR_ID);
     private static double currentPostion;
     private static Turret instance = new Turret();
+    private static boolean isMoving = false;
 
     private Turret()
     {
@@ -32,6 +38,7 @@ public class Turret
     {
         motor.set(ControlMode.PercentOutput, speed);
         setCurrentPosition(getEncoderPosition());
+        setIsMoving(true);
     }
 
     /**
@@ -41,6 +48,7 @@ public class Turret
     {
         motor.set(ControlMode.PercentOutput, 0.0);
         setCurrentPosition(getEncoderPosition());
+        setIsMoving(false);
     }
 
     /**
@@ -83,11 +91,29 @@ public class Turret
      * Uses the current position in encoder values to calc the angle (absolute)
      * @return the absolute angle of the turret
      */
-    public double getAngle()
+    public double getCurrentAngle()
     {
         return ((currentPostion - Constants.ZERO_LOCATION) / Constants.TOTAL_TICKS) * 180.0;
     }
 
+
+    /**
+     * sets the instance variable that determines if it is running
+     * @param moving
+     */
+    private static void setIsMoving(boolean moving)
+    {
+        isMoving = moving;
+    }
+
+    /**
+     * getter function for the isRunning boolean
+     * @return true if it is running, false if it is not
+     */
+    public boolean getIsMoving()
+    {
+        return isMoving;
+    }
 
     /**
      * Init function to be run to zero the location of the turret out.
@@ -126,16 +152,24 @@ public class Turret
         int integral = 0;
         int previous_error = 0;
     
-        double error = angle - getAngle(); // Error = Target - Actual
+        double error = angle - getCurrentAngle(); // Error = Target - Actual
         integral += (error * .02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         double derivative = (error - previous_error) / .02;
         double speed = P * error + I * integral + D * derivative;
 
-        setSpeed(speed);
+        if(error + Constants.ROTATION_TOLERANCE < angle || error - Constants.ROTATION_TOLERANCE > angle)
+        {
+            setSpeed(speed);
+        }
+        else
+        {
+            stop();
+        }
 
         // motor.configMotionSCurveStrength(curveStrength, timeoutMs)
         // motor.set(ControlMode.MotionMagic, 2);
     }
+    
 
     /**
      * Rotates the turret to a relative position (in degrees)
@@ -166,5 +200,6 @@ public class Turret
         /* Nonzero to block the config until success, zero to skip checking */
         private static final int TIMEOUT_MS = 30;
         private static final double TOTAL_TICKS = 0.0; //TODO: Find out how many total ticks there are
+        private static final double ROTATION_TOLERANCE = 2.0;
     }
 }
