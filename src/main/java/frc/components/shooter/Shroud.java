@@ -3,7 +3,6 @@ package frc.components.shooter;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
 
 /**
  * Class for controlling the shroud 
