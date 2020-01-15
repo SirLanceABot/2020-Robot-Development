@@ -49,7 +49,7 @@ public class Logitech extends Joystick
     private AxisScale[] axisScale = new AxisScale[4];
     private Button[] buttons = new Button[11];
 
-    private Logitech(int port)
+    Logitech(int port)
     {
         super(port);
 
@@ -244,7 +244,6 @@ public class Logitech extends Joystick
                 }
                 break;
         }
-
         return str;
     }
 }
