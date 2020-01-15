@@ -3,7 +3,10 @@ package frc.control;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-
+/**
+ * Defines the Xbox controller used for driving the robot
+ * @author Elliot Measel
+ */
 public class Xbox extends Joystick
 {
     public enum Button
@@ -35,20 +38,27 @@ public class Xbox extends Joystick
         kLinear, kSquared, kCubed;
     }
 
+    // set the default axis values
     private final double DEFAULT_DEADZONE = 0.1;
     private final double DEFAULT_MAX_OUTPUT = 1.0;
     private final boolean DEFAULT_IS_FLIPPED = false;
     private final AxisScale DEFAULT_AXIS_SCALE = AxisScale.kLinear;
 
+    //store the default axis values into their own array lists
     private double[] axisDeadzone = new double[6];
     private double[] axisMaxOutput = new double[6];
     private boolean[] axisIsFlipped = new boolean[6];
     private AxisScale[] axisScale = new AxisScale[6];
 
+    /**
+     * Public method to set all the default button and axis settings
+     * @param port
+     */
     public Xbox(int port)
     {
         super(port);
 
+        // loop to set the defaults for every axis
         for(int index = 0; index <= 5; index++)
         {
             axisDeadzone[index] = DEFAULT_DEADZONE;
@@ -58,7 +68,12 @@ public class Xbox extends Joystick
         }
     }
 
+   
     @Override
+    /**
+     * Public method to get the value of an axis
+     * @param axis
+     */
     public double getRawAxis(int axis)
     {
         double value = super.getRawAxis(axis);
@@ -99,6 +114,11 @@ public class Xbox extends Joystick
         return super.getRawButton(button.value);
     }
 
+    /**
+     * Public method to manually set an axis deadzone
+     * @param axis
+     * @param axisDeadzone
+     */
     public void setAxisDeadzone(Axis axis, double axisDeadzone)
     {
         axisDeadzone = Math.abs(axisDeadzone);
@@ -107,6 +127,11 @@ public class Xbox extends Joystick
         this.axisDeadzone[axis.value] = axisDeadzone;
     }
 
+    /**
+     * Public method to manually set an axis max output
+     * @param axis
+     * @param axisMaxOutput
+     */
     public void setAxisMaxOutput(Axis axis, double axisMaxOutput)
     {
         axisMaxOutput = Math.abs(axisMaxOutput);
@@ -114,4 +139,47 @@ public class Xbox extends Joystick
 
         this.axisMaxOutput[axis.value] = axisMaxOutput;
     }
+
+    /**
+     * Public method to manually set whether an axis is flipped or not
+     * @param axis
+     * @param axisIsFlipped
+     */
+    public void setAxisIsFlipped(Axis axis, boolean axisIsFlipped)
+    {
+        this.axisIsFlipped[axis.value] = axisIsFlipped;
+    }
+
+    /**
+     * Public method to manually set the scale for an axis
+     * @param axis
+     * @param axisScale
+     */
+    public void setAxisScale(Axis axis, AxisScale axisScale)
+    {
+        this.axisScale[axis.value] = axisScale;
+    }
+
+    
+    // @Override
+    // public String toString()
+    // {
+    //     String str = "";
+
+    //     for (int index = 1; index <= 10; index++)
+    //     { 
+    //         if (getRawButton(index)) 
+    //             str = str + "1 ";
+    //         else
+    //             str = str + "0 ";
+    //     }
+
+    //     for (int index = 0; index <= 5; index++)
+    //     {
+    //         str = str + getRawAxis(index);
+    //     }
+
+    //     return str;
+    // }
+    
 }
