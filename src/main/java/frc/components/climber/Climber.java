@@ -1,5 +1,5 @@
 // Import all the code involved in the robot's components.
-package frc.components;
+package frc.components.climber;
 
 // Import material to implement Talons and controls.
 import com.ctre.phoenix.motorcontrol.ControlMode;
