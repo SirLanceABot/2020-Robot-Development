@@ -51,10 +51,10 @@ public class Xbox extends Joystick
     private AxisScale[] axisScale = new AxisScale[6];
 
     /**
-     * Public method to set all the default button and axis settings
+     * Protected constructor for Xbox controller
      * @param port
      */
-    public Xbox(int port)
+    protected Xbox(int port)
     {
         super(port);
 
