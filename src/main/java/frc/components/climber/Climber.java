@@ -12,7 +12,6 @@ public class Climber
     // The private instance variable for the instance must come last in these declarations.
     private static TalonSRX extensionMotor = new TalonSRX(0);
     private static TalonSRX winchMotorMaster = new TalonSRX(1);
-    private static TalonSRX winchMotorSlave = new TalonSRX(2);
     //TODO: verify motor controllers
     private static Climber instance = new Climber();
     
