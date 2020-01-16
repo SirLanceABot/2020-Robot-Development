@@ -20,18 +20,18 @@ public class Flywheel extends PIDSubsystem
 
     private static TalonSRX masterMotor = new TalonSRX(MASTER_MOTOR_ID);
     private static TalonSRX followerMotor = new TalonSRX(FOLLOWER_MOTOR_ID);
-    private static Flywheel instance = new Flywheel();
     private static boolean isMoving = false;
+    private static Flywheel instance = new Flywheel();
 
     private Flywheel()
     {
         super("Flywheel", 0.0, 0.0, 0.0); //(Name, P, I, D)
-        System.out.println("Started Constructing the Flywheel");
+        System.out.println(this.getClass().getName() + ": Started Constructing");
         masterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS); //TODO: Find out port
         followerMotor.follow(masterMotor);
         setAbsoluteTolerance(0.05);
         getPIDController();
-        System.out.println("Finished Constructing the Flywheel");
+        System.out.println(this.getClass().getName() + ": Started Constructing");
     }
 
     /**

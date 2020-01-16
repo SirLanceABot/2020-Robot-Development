@@ -13,16 +13,17 @@ public class Turret
 {
     private static TalonSRX motor = new TalonSRX(Constants.MOTOR_ID);
     private static double currentPostion;
-    private static Turret instance = new Turret();
     private static boolean isMoving = false;
+    private static Turret instance = new Turret();
 
     private Turret()
     {
-        System.out.println("Started Constructing the turret");
+
+        System.out.println(this.getClass().getName() + ": Started Constructing");
         motor.configFactoryDefault();
 		/* Configure talon with feedback device to double check CANifier */
         motor.configSelectedFeedbackSensor(	FeedbackDevice.QuadEncoder, 0, Constants.TIMEOUT_MS); //TODO: Find out port
-        System.out.println("Finished Constructing the turret");
+        System.out.println(this.getClass().getName() + ": Finished Constructing");        
     }
 
     public static Turret getInstance()

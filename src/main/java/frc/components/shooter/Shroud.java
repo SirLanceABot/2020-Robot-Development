@@ -27,13 +27,14 @@ public class Shroud
 
     private Shroud()
     {
+        System.out.println(this.getClass().getName() + ": Started Constructing");
         motor.configFactoryDefault();
         motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS); //TODO: Find out port
         motor.configForwardSoftLimitEnable(true);
         motor.configForwardSoftLimitThreshold(UPPER_LIMIT);
         motor.configReverseSoftLimitEnable(true);
         motor.configReverseSoftLimitThreshold(LOWER_LIMIT);
-
+        System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
 
     /**
