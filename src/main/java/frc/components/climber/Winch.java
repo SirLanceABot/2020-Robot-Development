@@ -11,6 +11,7 @@ public class Winch
 {
     private static CANSparkMax winchMotor = new CANSparkMax(1, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANEncoder winchEncoder = winchMotor.getEncoder();
+
     private static Winch instance = new Winch();
     
     /**
@@ -19,6 +20,7 @@ public class Winch
     private Winch()
     {
         winchMotor.restoreFactoryDefaults();
+        winchEncoder.getPosition();
     }
 
     /**
@@ -31,6 +33,16 @@ public class Winch
     }
 
     /**
+     * Returns the encoder value of winchMotor.
+     * @return winchEncoder.getPosition()   
+     * The location of the encoder (ticks?).
+     */
+    public double getEncoder()
+    {
+        return winchEncoder.getPosition();
+    }
+
+    /**
      * Sets the speed of winchMotor.
      * @param speed The speed at which the winch spools the rope. Values are from -1 to 1.
      */
@@ -38,9 +50,12 @@ public class Winch
     {
         winchMotor.set(speed);
     }
+    
+    //--------------------------------------------------------//
+    //             TO-DO: HOW FAST TO REEL IN ROPE
+    //--------------------------------------------------------//
 
     //constant for how fast the winch reels in rope
-    //TO-DO: HOW FAST TO REEL IN ROPE
     private final double WINCH_WIND_SPEED = 0.5;
 
     public void windWinch()
@@ -55,4 +70,11 @@ public class Winch
     {
         setWinchSpeed(0.0);
     }
+
+    //--------------------------------------------------------//
+    //             TO-DO: getDistance() method to 
+    //             calculate distance of rope reeled
+    //             given encoder value (need gear ratios)
+    //--------------------------------------------------------//
+
 }
