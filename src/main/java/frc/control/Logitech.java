@@ -49,7 +49,7 @@ public class Logitech extends Joystick
     private AxisScale[] axisScale = new AxisScale[4];
     private Button[] buttons = new Button[11];
 
-    Logitech(int port)
+    protected Logitech(int port)
     {
         super(port);
 
@@ -163,11 +163,8 @@ public class Logitech extends Joystick
         this.axisScale[axis.value] = axisScale;
     }
 
-    @Override
-    public String toString()
+    public void joystickTest()
     {
-        String str = "";
-        
         for(int i = 1; i <= 12; i++)
         switch(buttons[i])
         {
@@ -244,6 +241,46 @@ public class Logitech extends Joystick
                 }
                 break;
         }
+    }
+    
+    public String toString()
+    {
+        String str = "";
+
+        // Concatenates the button values to the string
+        str = str + (getRawButton(1) ? " 1" : " 0");
+        str = str + (getRawButton(2) ? " 1" : " 0");
+        str = str + (getRawButton(3) ? " 1" : " 0");
+        str = str + (getRawButton(4) ? " 1" : " 0");
+        str = str + (getRawButton(5) ? " 1" : " 0");
+        str = str + (getRawButton(6) ? " 1" : " 0");
+        str = str + (getRawButton(7) ? " 1" : " 0");
+        str = str + (getRawButton(8) ? " 1" : " 0");
+        str = str + (getRawButton(9) ? " 1" : " 0");
+        str = str + (getRawButton(10) ? " 1" : " 0");
+        str = str + (getRawButton(11) ? " 1" : " 0");
+        str = str + (getRawButton(12) ? " 1" : " 0");
+     
+        // for(Button button: Button.values())
+        // {
+        //     if(getRawButton(button))
+        //     {
+        //         str = str + " 1";
+        //     }
+        //     else
+        //     {
+        //         str = str + " 0";
+        //     }
+        // }
+        
+        // Concatenates the axis values to the stirng
+        str = str + String.format(" % 3.2f % 3.2f % 3.2f % 3.2f", getRawAxis(0), getRawAxis(1), getRawAxis(2), getRawAxis(3));
+
+        // for(Axis axis: Axis.values())
+        // {
+        //     str = str + String.format("% 3.2f", getRawAxis(axis));
+        // }
+
         return str;
     }
 }
