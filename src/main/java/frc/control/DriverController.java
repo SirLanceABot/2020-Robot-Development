@@ -15,8 +15,10 @@ public class DriverController extends Xbox
     private DriverController()
     {
         super(0);
+        System.out.println(this.getClass().getName() + " : constructor started");
         setAxisIsFlipped(Xbox.Axis.kLeftY, true);
         setAxisIsFlipped(Xbox.Axis.kRightY, true);
+        System.out.println(this.getClass().getName() + " : constructor finished");
     }
 
     /**
