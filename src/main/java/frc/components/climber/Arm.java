@@ -1,16 +1,20 @@
 package frc.components.climber;
 
-// Import material to implement Talons and controls.
+// Import material to implement motors, encoders, and controls.
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANEncoder;
 
 public class Arm
 {
     private static final int DEFAULT_POSITION = 10; // TODO: find actual default encoder position 
     private static final int ERROR_THRESHOLD = 5; // TODO: find actual threshold we want for the robot
     // TODO: What is the identity of the motor controller that extends the arm? Mr. Vanderweide says the motor controller is not a Talon but a SparkMAX brushless motor.
-    private static TalonSRX extensionMotor = new TalonSRX(0);
+    
+    private static CANSparkMax armMotor = new CANSparkMax(4, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    private static CANEncoder armEncoder = armMotor.getEncoder();
+
     private static Arm instance = new Arm();
 
     /**
@@ -18,8 +22,7 @@ public class Arm
      */
     private Arm()
     {
-        extensionMotor.configFactoryDefault();
-        extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        
     }
 
     /**
@@ -35,9 +38,9 @@ public class Arm
      * The method to retrieve the current encoder position.
      * @return extensionMotor.getSelectedSensorPosition(0) 
      */
-    public int getEncoderPosition()
+    public double getEncoderPosition()
     {
-        return extensionMotor.getSelectedSensorPosition(0);
+        return armEncoder.getPosition();
     }
 
     /**
@@ -46,7 +49,7 @@ public class Arm
      */
     public void setEncoderPosition(int position)
     {
-        extensionMotor.setSelectedSensorPosition(position);
+        armEncoder.setPosition(position);
     }
 
     /**
@@ -55,7 +58,7 @@ public class Arm
      */
     private void setExtensionSpeed(double speed)
     {
-        extensionMotor.set(ControlMode.PercentOutput, speed);
+        armMotor.set(speed);
     }
 
     /**
@@ -89,7 +92,7 @@ public class Arm
      */
     public void setArmToDefaultPosition()
     {
-        int currentPosition = getEncoderPosition();
+        double currentPosition = getEncoderPosition();
         if(currentPosition < DEFAULT_POSITION - ERROR_THRESHOLD)   
         {
             extendArm();
