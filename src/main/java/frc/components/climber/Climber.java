@@ -27,7 +27,6 @@ public class Climber
         // Reset the motors to their default factory settings.
         extensionMotor.configFactoryDefault();
         winchMotorMaster.configFactoryDefault();
-
         // Make the winch motor slave follow the winch motor master.
     }
 

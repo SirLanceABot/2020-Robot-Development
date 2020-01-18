@@ -1,48 +1,34 @@
 package frc.components;
 
-import com.revrobotics.CANSparkMax;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import com.revrobotics.CANEncoder;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Drivetrain extends DifferentialDrive
 {
-    // Example change
-    //          ***TODO***  BEFORE RUNNING MUST DOUBLE CHECK THE ID VALUES OF THE CAN SPARK MAX          ***ERROR***              //
-    // delete these 2 lines when the correct id's have been implemented
-    private static CANSparkMax frontRightMotor = new CANSparkMax(1, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    private static CANSparkMax backRightMotor = new CANSparkMax(2, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    private static CANSparkMax backLeftMotor = new CANSparkMax(3, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    private static CANSparkMax frontLeftMotor = new CANSparkMax(4, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-  
-    private static CANEncoder frontLeftEncoder = frontLeftMotor.getEncoder();
-    private static CANEncoder frontRightEncoder = frontRightMotor.getEncoder();
-    private static CANEncoder backLeftEncoder = backLeftMotor.getEncoder();
-    private static CANEncoder backRightEncoder = backRightMotor.getEncoder();
-
+    private static WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(1);
+    private static WPI_TalonSRX backRightMotor = new WPI_TalonSRX(2);
+    private static WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(3);
+    private static WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(4);
+    
     private static SpeedControllerGroup rightMotors = new SpeedControllerGroup(frontRightMotor, backRightMotor);
-    private static SpeedControllerGroup leftMotors = new SpeedControllerGroup(backLeftMotor, frontLeftMotor);
+    private static SpeedControllerGroup leftMotors = new SpeedControllerGroup(frontLeftMotor, backLeftMotor);
 
     private static Drivetrain instance = new Drivetrain();
 
     private Drivetrain()
     {
         super(leftMotors, rightMotors);
-        frontRightMotor.restoreFactoryDefaults();
-        frontLeftMotor.restoreFactoryDefaults();
-        backRightMotor.restoreFactoryDefaults();
-        backLeftMotor.restoreFactoryDefaults();
+        frontRightMotor.configFactoryDefault();
+        frontLeftMotor.configFactoryDefault();
+        backRightMotor.configFactoryDefault();
+        backLeftMotor.configFactoryDefault();
 
         //These invert the motor from the firmware on the motor controller
         frontRightMotor.setInverted(true);
         frontLeftMotor.setInverted(false);
         backRightMotor.setInverted(true);
         backLeftMotor.setInverted(false);
-
-        frontLeftEncoder.setPosition(0);
-        frontRightEncoder.setPosition(0);
-        backLeftEncoder.setPosition(0);
-        backRightEncoder.setPosition(0);
 
         /**
          * This one inverts within software (flips a boolean)
@@ -58,10 +44,8 @@ public class Drivetrain extends DifferentialDrive
         return instance;
     }
 
-    
     public void westcoastDrive(double move, double rotate)
     {
-        
         super.arcadeDrive(move, rotate);
     }
 
@@ -69,5 +53,4 @@ public class Drivetrain extends DifferentialDrive
     {
         super.arcadeDrive(move, rotate, squared);
     }
-
 }
