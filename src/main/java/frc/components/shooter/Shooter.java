@@ -3,8 +3,13 @@ package frc.components.shooter;
 public class Shooter 
 {
   double elevatorPosition = 0;
-  private State currentState = State.Off;
+  private static State currentState = State.Off;
   private static Button lastButtonPressed = null;
+  private static Flywheel flywheel = Flywheel.getInstance();
+  private static Turret turret = Turret.getInstance();
+  private static Shroud shroud = Shroud.getInstance();
+  //private static Gate gate = Gate.getInstance();
+
   private static Shooter instance = new Shooter();
 
   // ----------------------------------------------------------------------//
@@ -22,6 +27,10 @@ public class Shooter
       void doAction() 
       {
         System.out.println("State: Searching");
+        turret.rotateToWall();
+        //vision function that returns the boolean of if the tape is on the screen or not
+        //if true
+        currentState = Transition.findNextState(currentState, Event.TapeFound);
       }
     },
     Aligning() 
@@ -29,6 +38,7 @@ public class Shooter
         void doAction() 
         {
           System.out.println("State: Aligning");
+          //vision code method that will get the relative angle of the 
         }
       },
     Calculating() 

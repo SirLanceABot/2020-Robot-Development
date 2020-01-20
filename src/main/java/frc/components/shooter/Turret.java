@@ -3,32 +3,78 @@ package frc.components.shooter;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import frc.sensors.NavX;
+
 
 /**
  * Class for controlling the turret that aims the shooter on the X plane
  * 0 degrees is straight ahead, -180 to the left, +180 to the right
  * @author Maxwell Li
  */
-public class Turret
+public class Turret extends PIDSubsystem
 {
-    private static TalonSRX motor = new TalonSRX(Constants.MOTOR_ID);
+    private static final double kPORPORTIONAL = 0.0;
+    private static final double kINTEGRAL = 0.0;
+    private static final double kDERIVATIVE = 0.0;
+    private static final double kFEEDFORWARD = 0.0;
+    private static final double kTOLERANCE = 0.0;
+    private static final int kMOTOR_ID = 0;
+    private static final double kZERO_LOCATION = 0; //TODO: Find out what value is straight ahead
+    private static final int kTIMEOUT_MS = 30;
+    private static final double kTOTAL_TICKS = 0.0; //TODO: Find out how many total ticks there are
+
+
+
+    private static NavX navX = NavX.getInstance();
+    private static TalonSRX motor = new TalonSRX(kMOTOR_ID);
     private static double currentPostion;
     private static boolean isMoving = false;
     private static Turret instance = new Turret();
 
     private Turret()
     {
-
+        super("Turret", kPORPORTIONAL, kINTEGRAL, kDERIVATIVE, kFEEDFORWARD);
         System.out.println(this.getClass().getName() + ": Started Constructing");
         motor.configFactoryDefault();
+        setAbsoluteTolerance(0.05);
+        getPIDController();
+        setInputRange(-180, 180);
+        setAbsoluteTolerance(kTOLERANCE);
 		/* Configure talon with feedback device to double check CANifier */
-        motor.configSelectedFeedbackSensor(	FeedbackDevice.QuadEncoder, 0, Constants.TIMEOUT_MS); //TODO: Find out port
+        motor.configSelectedFeedbackSensor(	FeedbackDevice.QuadEncoder, 0, kTIMEOUT_MS); //TODO: Find out port
         System.out.println(this.getClass().getName() + ": Finished Constructing");        
     }
 
     public static Turret getInstance()
     {
         return instance;
+    }
+
+      /**
+     * init command needed for the PID control
+     */
+    public void initDefaultCommand()
+    {
+
+    }
+
+    /**
+     * @return returns the value that the PID controller should use
+     */
+    protected double returnPIDInput()
+    {
+        // return masterMotor.getMotorOutputVoltage();
+        return getCurrentAngle(); // returns the sensor value that is providing the feedback for the system
+    }
+
+    /**
+    * uses the PID to control the motor
+    */
+    protected void usePIDOutput(double output)
+    {
+        setSpeed(output);// this is where the computed output value fromthe PIDController is applied to the motor
+        setIsMoving(true);
     }
 
     /**
@@ -67,7 +113,7 @@ public class Turret
      */
     private void setEncoderPosition(int position)
     {
-		motor.setSelectedSensorPosition(position, 0, Constants.TIMEOUT_MS);
+		motor.setSelectedSensorPosition(position, 0, kTIMEOUT_MS);
     }
 
     /**
@@ -94,7 +140,7 @@ public class Turret
      */
     public double getCurrentAngle()
     {
-        return ((currentPostion - Constants.ZERO_LOCATION) / Constants.TOTAL_TICKS) * 180.0;
+        return ((currentPostion - kZERO_LOCATION) / kTOTAL_TICKS) * 180.0;
     }
 
 
@@ -125,11 +171,11 @@ public class Turret
     {   
         double currentPositionInTicks = getEncoderPosition();
 
-        if(currentPositionInTicks > Constants.ZERO_LOCATION + 5)
+        if(currentPositionInTicks > kZERO_LOCATION + 5)
         {
             setSpeed(-0.1);
         }
-        else if(currentPositionInTicks < Constants.ZERO_LOCATION - 5)
+        else if(currentPositionInTicks < kZERO_LOCATION - 5)
         {
             setSpeed(0.1);
         }
@@ -147,26 +193,7 @@ public class Turret
      */
     public void rotateTo(double angle)
     {
-        int P = 1;
-        int I = 1;
-        int D = 1;
-        int integral = 0;
-        int previous_error = 0;
-    
-        double error = angle - getCurrentAngle(); // Error = Target - Actual
-        integral += (error * .02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
-        double derivative = (error - previous_error) / .02;
-        double speed = P * error + I * integral + D * derivative;
-
-        if(error + Constants.ROTATION_TOLERANCE < angle || error - Constants.ROTATION_TOLERANCE > angle)
-        {
-            setSpeed(speed);
-        }
-        else
-        {
-            stop();
-        }
-
+        usePIDOutput(angle);
         // motor.configMotionSCurveStrength(curveStrength, timeoutMs)
         // motor.set(ControlMode.MotionMagic, 2);
     }
@@ -179,28 +206,14 @@ public class Turret
      */
     public void rotate(double angle)
     {
-        int P = 1;
-        int I = 1;
-        int D = 1;
-        int integral = 0;
-        int previous_error = 0;
-    
-        double error = angle; // Error = Target - Actual
-        integral += (error * .02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
-        double derivative = (error - previous_error) / .02;
-        double speed = P * error + I * integral + D * derivative;
-
-        setSpeed(speed);
+        usePIDOutput(angle + getCurrentAngle());
     }
 
-
-    private class Constants
+    public void rotateToWall()
     {
-        private static final int MOTOR_ID = 0;
-        private static final double ZERO_LOCATION = 0; //TODO: Find out what value is straight ahead
-        /* Nonzero to block the config until success, zero to skip checking */
-        private static final int TIMEOUT_MS = 30;
-        private static final double TOTAL_TICKS = 0.0; //TODO: Find out how many total ticks there are
-        private static final double ROTATION_TOLERANCE = 2.0;
+        double targetAngle = navX.getAngleOfPowerPortWall();
+        double currentAngle = navX.getAngleOfPowerPortWall();
+
+        usePIDOutput(targetAngle - currentAngle);
     }
 }

@@ -15,7 +15,11 @@ public class Flywheel extends PIDSubsystem
     private static final int MASTER_MOTOR_ID = 0;
     private static final int FOLLOWER_MOTOR_ID = 1;
     private static final int TIMEOUT_MS = 30;
-    private static final int VELOCITY_ERROR = 3;
+    //private static final int VELOCITY_ERROR = 3;
+    private static final double PORPORTIONAL = 0.0;
+    private static final double INTEGRAL = 0.0;
+    private static final double DERIVATIVE = 0.0;
+    private static final double FEEDFORWARD = 0.0;
     //------------------------------------------------------------------//
 
     private static TalonSRX masterMotor = new TalonSRX(MASTER_MOTOR_ID);
@@ -25,7 +29,7 @@ public class Flywheel extends PIDSubsystem
 
     private Flywheel()
     {
-        super("Flywheel", 0.0, 0.0, 0.0); //(Name, P, I, D)
+        super("Flywheel", PORPORTIONAL, INTEGRAL, DERIVATIVE, FEEDFORWARD); //(Name, P, I, D, FF)
         System.out.println(this.getClass().getName() + ": Started Constructing");
         masterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS); //TODO: Find out port
         followerMotor.follow(masterMotor);
@@ -65,7 +69,7 @@ public class Flywheel extends PIDSubsystem
     */
     protected void usePIDOutput(double output)
     {
-        masterMotor.set(ControlMode.Velocity, output);// this is where the computed output value fromthe PIDController is applied to the motor
+        setSpeed(output);// this is where the computed output value fromthe PIDController is applied to the motor
         setIsMoving(true);
     }
 
