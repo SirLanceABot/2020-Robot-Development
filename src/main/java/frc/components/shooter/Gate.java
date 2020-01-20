@@ -3,6 +3,11 @@ package frc.components.shooter;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
+/**
+ * Class for the pneumatic gate that will allow power cells to contact the flywheel
+ * @author Maxwell Li
+ * @deprecated No plans on incorperating a gate into the design
+ */
 public class Gate
 {   
     private static final int WRIST_SOLENOID_EXTEND = 0;

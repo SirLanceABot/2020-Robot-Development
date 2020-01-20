@@ -1,4 +1,4 @@
-package frc.control;
+package frc.controls;
 
 public class OperatorController extends Logitech
 {

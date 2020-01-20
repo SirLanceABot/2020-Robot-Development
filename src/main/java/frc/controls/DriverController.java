@@ -1,4 +1,4 @@
-package frc.control;
+package frc.controls;
 
 /**
  * Customized Xbox instance used for driving the robot
