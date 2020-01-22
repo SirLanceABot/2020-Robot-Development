@@ -7,27 +7,30 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Climber
 {
-    // Create private instance variables for the instance of the class
-    // and the three motors involved in the climbing mechanism.
-    // The private instance variable for the instance must come last in these declarations.
+    // Create private instance variables.
     private static TalonSRX extensionMotor = new TalonSRX(0);
     private static TalonSRX winchMotorMaster = new TalonSRX(1);
     //TODO: verify motor controllers
     private static Climber instance = new Climber();
-    
-    // Create a private constructor for the Climber() class,
-    // which resets the three motors to their default factory settings
-    // makes the slave winch motor work in tandem with the master winch motor.
+
+    // Get instances of the Arm and Winch subclasses.
+    private static Winch winch = Winch.getInstance();
+    private static Arm arm = Arm.getInstance();
+
+    // Create constants
+    //TODO: verify actual buttons
+    private static final double MINIMUM_HEIGHT = 0.0;
+    private static final double MAXIMUM_HEIGHT = 50.0;
+    private static final boolean IS_RAISE_CLIMBER_BUTTON_PRESSED = false;
+    private static final boolean IS_LOWER_WINCH_BUTTON_PRESSED = false;
+    private static final boolean IS_RAISE_WINCH_BUTTON_PRESSED = false;
 
     /**
      * The constructor for the Climber class. 
      */
     private Climber()
     {
-        // Reset the motors to their default factory settings.
-        extensionMotor.configFactoryDefault();
-        winchMotorMaster.configFactoryDefault();
-        // Make the winch motor slave follow the winch motor master.
+        
     }
 
     /**
@@ -39,53 +42,31 @@ public class Climber
         return instance;
     }
 
-    // Are we setting the climber speed from a trigger on the joystick,
-    // or is the speed an automatic thing that is triggered just when the climber moves?
-    // Do all the motors run at the same speed?
-    // Why would we need to adjust the speed of the climber?
-
-    /**
-     * Sets the speed of the extensionMotor.
-     * @param speed The speed at which the Climber extends. Values are from -1 to 1.
-     */
-    private void setExtensionSpeed(double speed)
+    public void lowerClimber()
     {
-        extensionMotor.set(ControlMode.PercentOutput, speed);
+        double currentPosition = Arm.getEncoderPosition;
+        while(currentPosition > MINIMUM_HEIGHT)
+        {
+            setMotorSpeed = -.05;
+        }
+    }
+    
+    public void raiseClimber()
+    {
+        double currentPosition = Arm.getEncoderPosition;
+        while(currentPosition < MAXIMUM_HEIGHT)
+        {
+            setMotorSpeed = .05;
+        }
     }
 
-    /**
-     * Sets the speed of the winchMotorMaster.
-     * @param speed The speed at which the winch spools the rope. Values are from -1 to 1.
-     */
-    private void setWinchSpeed(double speed)
+    public void lowerWinch()
     {
-        winchMotorMaster.set(ControlMode.PercentOutput, speed);
+
     }
 
-    /**
-     * The method to extend the Climber. 
-     * Climber extends at half power (0.5).
-     */
-    public void extendClimber()
+    public void raiseWinch()
     {
-        setExtensionSpeed(0.5);
-    }
 
-    /**
-     * The method to retract the Climber.
-     * Climber retracts at half power (-0.5).
-     */
-    public void retractClimber()
-    {
-        setExtensionSpeed(-0.5);
     }
-
-    /**
-     * The method to stop the extension or retraction of the Climber.
-     */
-    public void stopExtender()
-    {
-        setExtensionSpeed(0.0);
-    }
-
 }
