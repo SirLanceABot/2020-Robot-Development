@@ -29,7 +29,7 @@ public class Arm
      * The method to retrieve the instance of an Arm.
      * @return instance 
      */
-    public Arm getInstance()
+    public static Arm getInstance()
     {
         return instance;
     }

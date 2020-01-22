@@ -4,6 +4,8 @@ package frc.components.climber;
 // Import material to implement Talons and controls.
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.components.climber.Arm;
+import frc.components.climber.Winch;
 
 public class Climber
 {
@@ -44,19 +46,22 @@ public class Climber
 
     public void lowerClimber()
     {
-        double currentPosition = Arm.getEncoderPosition;
+
+        //NO loops!
+        double currentPosition = arm.getEncoderPosition();
         while(currentPosition > MINIMUM_HEIGHT)
         {
-            setMotorSpeed = -.05;
+            //setMotorSpeed = -.05;
         }
     }
     
     public void raiseClimber()
     {
-        double currentPosition = Arm.getEncoderPosition;
+        //No Loops! Already looping all the code every 20ms
+        double currentPosition = arm.getEncoderPosition();
         while(currentPosition < MAXIMUM_HEIGHT)
         {
-            setMotorSpeed = .05;
+            //setMotorSpeed = .05;
         }
     }
 

@@ -27,7 +27,7 @@ public class Winch
      * Returns an instance of the Winch.
      * @return instance
      */
-    public Winch getInstance()
+    public static Winch getInstance()
     {
         return instance;
     }
