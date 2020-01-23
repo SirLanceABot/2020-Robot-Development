@@ -52,7 +52,7 @@ public class Winch
     }
     
     //--------------------------------------------------------//
-    //             TO-DO: HOW FAST TO REEL IN ROPE
+    //             TODO: HOW FAST TO REEL IN ROPE
     //--------------------------------------------------------//
 
     //constant for how fast the winch reels in rope
@@ -72,7 +72,7 @@ public class Winch
     }
 
     //--------------------------------------------------------//
-    //             TO-DO: getDistance() method to 
+    //             TODO: getDistance() method to 
     //             calculate distance of rope reeled
     //             given encoder value (need gear ratios)
     //--------------------------------------------------------//

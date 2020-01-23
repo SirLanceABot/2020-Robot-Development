@@ -6,6 +6,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANEncoder;
 
+/**
+ * Class for controlling the arm subsystem of the climber
+ * @author Annika Price
+ */
 public class Arm
 {
     private static final int DEFAULT_POSITION = 10; // TODO: find actual default encoder position 
@@ -69,6 +73,15 @@ public class Arm
     {
         setExtensionSpeed(0.5);
     }
+    
+    /**
+     * The method to extend the Arm. 
+     * @param speed (this value is modified to always be positive)
+     */
+    public void extendArm(double speed)
+    {
+        setExtensionSpeed(Math.abs(speed));
+    }
 
     /**
      * The method to retract the Arm.
@@ -78,6 +91,16 @@ public class Arm
     {
         setExtensionSpeed(-0.5);
     }
+
+    /**
+     * The method to retract the Arm.
+     * @param speed (this value is modified to always be negative)
+     */
+    public void retractArm(double speed)
+    {
+        setExtensionSpeed(-Math.abs(speed));
+    }
+
 
     /**
      * The method to stop the extension or retraction of the Arm.
