@@ -1,5 +1,7 @@
 package frc.components.shooter;
 
+import frc.controls.OperatorController;
+import frc.controls.Logitech.Button;
 import frc.sensors.LidarLite.LIDAR_Lite;
 public class Shooter 
 {
@@ -13,6 +15,7 @@ public class Shooter
   private static double distanceToTarget;
   private static double angleToTarget;
   //private static Gate gate = Gate.getInstance();
+  private static OperatorController operatorController = OperatorController.getInstance();
 
   private static Shooter instance = new Shooter();
 
@@ -24,6 +27,10 @@ public class Shooter
       void doAction() 
       {
         System.out.println("State: Off");
+        if(operatorController.getRawButton(2))
+        {
+          currentState = Transition.findNextState(currentState, Event.VisionAssistButtonPressed);
+        }
       }
     },
     Searching() 
@@ -245,6 +252,6 @@ public class Shooter
   // ----------------------------------------------------------------------//
   public void ShooterFSM() 
   {
-
+    currentState.doAction();
   }
 }

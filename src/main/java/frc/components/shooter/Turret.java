@@ -12,13 +12,50 @@ import frc.sensors.NavX;
  * 0 degrees is straight ahead, -180 to the left, +180 to the right
  * @author Maxwell Li
  */
-public class Turret extends PIDSubsystem
+public class Turret
 {
-    private static final double kPORPORTIONAL = 0.0;
-    private static final double kINTEGRAL = 0.0;
-    private static final double kDERIVATIVE = 0.0;
-    private static final double kFEEDFORWARD = 0.0;
-    private static final double kTOLERANCE = 0.0;
+    public static class Gains {
+        public final double kP;
+        public final double kI;
+        public final double kD;
+        public final double kF;
+        public final int kIzone;
+        public final double kPeakOutput;
+        
+        public Gains(double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput){
+            kP = _kP;
+            kI = _kI;
+            kD = _kD;
+            kF = _kF;
+            kIzone = _kIzone;
+            kPeakOutput = _kPeakOutput;
+        }
+    }
+    	/**
+	 * Which PID slot to pull gains from. Starting 2018, you can choose from
+	 * 0,1,2 or 3. Only the first two (0,1) are visible in web-based
+	 * configuration.
+	 */
+	public static final int kSlotIdx = 0;
+
+	/**
+	 * Talon SRX/ Victor SPX will supported multiple (cascaded) PID loops. For
+	 * now we just want the primary one.
+	 */
+	public static final int kPIDLoopIdx = 0;
+
+	/**
+	 * set to zero to skip waiting for confirmation, set to nonzero to wait and
+	 * report to DS if action fails.
+	 */
+	public static final int kTimeoutMs = 30;
+
+	/**
+	 * Gains used in Motion Magic, to be adjusted accordingly
+     * Gains(kp, ki, kd, kf, izone, peak output);
+     */
+    static final Gains kGains = new Gains(0.2, 0.0, 0.0, 0.0, 0, 1.0);
+
     private static final int kMOTOR_ID = 0;
     private static final double kZERO_LOCATION = 0; //TODO: Find out what value is straight ahead
     private static final int kTIMEOUT_MS = 30;
@@ -34,47 +71,31 @@ public class Turret extends PIDSubsystem
 
     private Turret()
     {
-        super("Turret", kPORPORTIONAL, kINTEGRAL, kDERIVATIVE, kFEEDFORWARD);
         System.out.println(this.getClass().getName() + ": Started Constructing");
         motor.configFactoryDefault();
-        setAbsoluteTolerance(0.05);
-        getPIDController();
-        setInputRange(-180, 180);
-        setAbsoluteTolerance(kTOLERANCE);
-		/* Configure talon with feedback device to double check CANifier */
-        motor.configSelectedFeedbackSensor(	FeedbackDevice.QuadEncoder, 0, kTIMEOUT_MS); //TODO: Find out port
+		/* Configure Selected Sensor for Talon */
+		motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative//,	// Feedback
+											//0, 											// PID ID
+                                            //kTIMEOUT_MS
+                                            );								// Timeout
+                                            		/* Set the peak and nominal outputs */
+		// motor.configNominalOutputForward(0, kTimeoutMs);
+		// motor.configNominalOutputReverse(0, kTimeoutMs);
+		// motor.configPeakOutputForward(1, kTimeoutMs);
+		// motor.configPeakOutputReverse(-1, kTimeoutMs);
+
+		// /* Set Motion Magic gains in slot0 - see documentation */
+		// motor.selectProfileSlot(kSlotIdx, kPIDLoopIdx);
+		// motor.config_kF(kSlotIdx, kGains.kF, kTimeoutMs);
+		// motor.config_kP(kSlotIdx, kGains.kP, kTimeoutMs);
+		// motor.config_kI(kSlotIdx, kGains.kI, kTimeoutMs);
+		// motor.config_kD(kSlotIdx, kGains.kD, kTimeoutMs);
         System.out.println(this.getClass().getName() + ": Finished Constructing");        
     }
 
     public static Turret getInstance()
     {
         return instance;
-    }
-
-      /**
-     * init command needed for the PID control
-     */
-    public void initDefaultCommand()
-    {
-
-    }
-
-    /**
-     * @return returns the value that the PID controller should use
-     */
-    protected double returnPIDInput()
-    {
-        // return masterMotor.getMotorOutputVoltage();
-        return getCurrentAngle(); // returns the sensor value that is providing the feedback for the system
-    }
-
-    /**
-    * uses the PID to control the motor
-    */
-    protected void usePIDOutput(double output)
-    {
-        setSpeed(output);// this is where the computed output value fromthe PIDController is applied to the motor
-        setIsMoving(true);
     }
 
     /**
@@ -143,6 +164,20 @@ public class Turret extends PIDSubsystem
         return ((currentPostion - kZERO_LOCATION) / kTOTAL_TICKS) * 180.0;
     }
 
+	/**
+	 * @param units CTRE mag encoder sensor units 
+	 * @return degrees rounded to tenths.
+	 */
+	String ToDeg(int units) {
+		double deg = units * 360.0 / 4096.0;
+
+		/* truncate to 0.1 res */
+		deg *= 10;
+		deg = (int) deg;
+		deg /= 10;
+
+		return "" + deg;
+	}
 
     /**
      * sets the instance variable that determines if it is running
@@ -188,14 +223,24 @@ public class Turret extends PIDSubsystem
 
     /**
      * Moves the shooter to an absolute position (in degrees)
-     * uses a PID loop
+     * TODO: needs to use a PID loop
      * @param angle
      */
     public void rotateTo(double angle)
     {
-        usePIDOutput(angle);
-        // motor.configMotionSCurveStrength(curveStrength, timeoutMs)
-        // motor.set(ControlMode.MotionMagic, 2);
+        double currentAngle = getCurrentAngle();
+        if(angle < currentAngle - 5)
+        {
+            setSpeed(0.5);
+        }
+        else if(angle > currentAngle + 5)
+        {
+            setSpeed(-0.5);
+        }
+        else
+        {
+            stop();
+        }
     }
     
 
@@ -206,7 +251,7 @@ public class Turret extends PIDSubsystem
      */
     public void rotate(double angle)
     {
-        usePIDOutput(angle + getCurrentAngle());
+        rotateTo(angle + getCurrentAngle());
     }
 
     public void rotateToWall()
@@ -214,6 +259,23 @@ public class Turret extends PIDSubsystem
         double targetAngle = navX.getAngleOfPowerPortWall();
         double currentAngle = navX.getAngleOfPowerPortWall();
 
-        usePIDOutput(targetAngle - currentAngle);
+        rotateTo(targetAngle - currentAngle);
+    }
+
+    public String toString()
+    {
+        int selSenPos = motor.getSelectedSensorPosition(0);
+		int pulseWidthWithoutOverflows = motor.getSensorCollection().getPulseWidthPosition() & 0xFFF;
+                
+        /**
+		 * Display how we've adjusted PWM to produce a QUAD signal that is
+		 * absolute and continuous. Show in sensor units and in rotation
+		 * degrees.
+		 */
+		System.out.print("pulseWidPos:" + pulseWidthWithoutOverflows + "   =>    " + "selSenPos:" + selSenPos);
+        System.out.print("      ");
+        System.out.print("pulseWidDeg:" + ToDeg(pulseWidthWithoutOverflows) + "   =>    " + "selSenDeg:" + ToDeg(selSenPos));
+        return "\n";
+
     }
 }

@@ -7,7 +7,6 @@ public class OperatorController extends Logitech
     private OperatorController()
     {
         super(1);
-
         setAxisFlipped(Logitech.Axis.kYAxis, true);
     }
 
