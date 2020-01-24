@@ -1,11 +1,13 @@
 // Import all the code involved in the robot's components.
 package frc.components.climber;
 
+// Import all the material from the Arm and Winch subclasses to be packaged together in this class.
+import frc.components.climber.Arm;
+import frc.components.climber.Winch;
+
 // Import material to implement Talons and controls.
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import frc.components.climber.Arm;
-import frc.components.climber.Winch;
 
 public class Climber
 {
@@ -15,14 +17,16 @@ public class Climber
     //TODO: verify motor controllers
     private static Climber instance = new Climber();
 
-    // Get instances of the Arm and Winch subclasses.
+    // Get private instances of the Arm and Winch subclasses.
     private static Winch winch = Winch.getInstance();
     private static Arm arm = Arm.getInstance();
 
     // Create constants
+    //TODO: verify actual minimum and maximum heights
     //TODO: verify actual buttons
     private static final double MINIMUM_HEIGHT = 0.0;
     private static final double MAXIMUM_HEIGHT = 50.0;
+    private static final boolean IS_LOWER_CLIMBER_BUTTON_PRESSED = false;
     private static final boolean IS_RAISE_CLIMBER_BUTTON_PRESSED = false;
     private static final boolean IS_LOWER_WINCH_BUTTON_PRESSED = false;
     private static final boolean IS_RAISE_WINCH_BUTTON_PRESSED = false;
@@ -32,7 +36,6 @@ public class Climber
      */
     private Climber()
     {
-        
     }
 
     /**
@@ -44,34 +47,67 @@ public class Climber
         return instance;
     }
 
+    /**
+     * The method to lower the Climber.
+     */
     public void lowerClimber()
     {
-
-        //NO loops!
         double currentPosition = arm.getEncoderPosition();
-        while(currentPosition > MINIMUM_HEIGHT)
+        if(currentPosition > MINIMUM_HEIGHT)
         {
             //setMotorSpeed = -.05;
         }
+        else
+        {
+            System.out.println("Cannot lower the climber. It is already at the minimum height.");
+        }
     }
     
+    /**
+     * The method to raise the Climber.
+     */
     public void raiseClimber()
     {
-        //No Loops! Already looping all the code every 20ms
         double currentPosition = arm.getEncoderPosition();
-        while(currentPosition < MAXIMUM_HEIGHT)
+        if(currentPosition < MAXIMUM_HEIGHT)
         {
             //setMotorSpeed = .05;
         }
+        else
+        {
+            System.out.println("Cannot raise the climber. It is already at the maximum height.");
+        }
     }
 
+    /**
+     * The method to lower the Winch.
+     */
     public void lowerWinch()
     {
-
+        double currentPosition = winch.getEncoder();
+        if(currentPosition > MINIMUM_HEIGHT)
+        {
+            //setMotorSpeed = -.05;
+        }
+        else
+        {
+            System.out.println("Cannot lower the winch. It is already at the minimum height.");
+        }
     }
 
+    /**
+     * The method to raise the Winch.
+     */
     public void raiseWinch()
     {
-
+        double currentPosition = winch.getEncoder();
+        if(currentPosition < MAXIMUM_HEIGHT)
+        {
+            //setMotorSpeed = .05;
+        }
+        else
+        {
+            System.out.println("Cannot raise the winch. It is already at the maximum height.");
+        }
     }
 }
