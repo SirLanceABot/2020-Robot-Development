@@ -25,8 +25,10 @@ public class Wrist
     private static DoubleSolenoid wristSolenoidRight = new DoubleSolenoid(WRIST_SOLENOID_RIGHT_EXTEND_PORT, WRIST_SOLENOID_RIGHT_RETRACT_PORT);
 
     private WristState wristState = WristState.kUp;
-
     private static Timer timer;
+    private double loweringTimeOut = 1.0;
+    private double raisingTimeOut = 1.0;
+
     private static Wrist instance = new Wrist();
 
     private Wrist()
@@ -46,21 +48,34 @@ public class Wrist
      */
     public void raise()
     {
-        if(wristState !=  WristState.kUp)
+        if(wristState !=  WristState.kUp && wristState != WristState.kRaising)
         {
             timer.reset();
             setPneumatics(DoubleSolenoid.Value.kReverse);
-            wristState = WristState.kLowering;
+            wristState = WristState.kRaising;
             timer.start();
         }
     }
 
     /**
-     * 
+     * Checks if the Wrist is up or should be up by this time.
      */
     public boolean isUp()
     {
-        return wristState == WristState.kUp;
+        if(wristState == WristState.kUp)
+        {
+            return true;
+        }
+        else if((wristState == WristState.kRaising) && (timer.get() >= raisingTimeOut)) // TODO: Check limit switch possibly
+        {
+            wristState = WristState.kUp;
+            timer.stop();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -68,7 +83,7 @@ public class Wrist
      */
     public void lower()
     {
-        if(wristState != WristState.kDown)
+        if(wristState != WristState.kDown && wristState != WristState.kLowering)
         {
             timer.reset();
             setPneumatics(DoubleSolenoid.Value.kForward);
@@ -78,12 +93,42 @@ public class Wrist
     }
 
     /**
-     * 
+     * Checks if the Wrist is down or should be down by this time.
      */
     public boolean isDown()
     {
-        
-        return true;
+        if(wristState == WristState.kDown)
+        {
+            return true;
+        }
+        else if((wristState == WristState.kLowering) && (timer.get() >= loweringTimeOut)) // TODO: Check limit switch possibly
+        {
+            wristState = WristState.kDown;
+            timer.stop();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Sets the time out for lowering the Wrist.
+     * @param newTimeOut
+     */
+    public void setLoweringTimeOut(double newTimeOut)
+    {
+        loweringTimeOut = newTimeOut;
+    }
+
+    /**
+     * Sets the time out for raising the Wrist.
+     * @param newTimeOut
+     */
+    public void setRaisingTimeOut(double newTimeOut)
+    {
+        raisingTimeOut = newTimeOut;
     }
 
     /**
