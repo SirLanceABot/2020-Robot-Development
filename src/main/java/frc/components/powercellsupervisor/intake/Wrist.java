@@ -1,4 +1,4 @@
-package frc.components.intake;
+package frc.components.powercellsupervisor.intake;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 

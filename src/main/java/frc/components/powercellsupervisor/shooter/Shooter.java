@@ -1,4 +1,4 @@
-package frc.components.shooter;
+package frc.components.powercellsupervisor.shooter;
 
 import frc.controls.OperatorController;
 import frc.controls.Logitech.Button;

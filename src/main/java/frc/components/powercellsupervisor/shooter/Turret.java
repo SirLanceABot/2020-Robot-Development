@@ -1,4 +1,4 @@
-package frc.components.shooter;
+package frc.components.powercellsupervisor.shooter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;

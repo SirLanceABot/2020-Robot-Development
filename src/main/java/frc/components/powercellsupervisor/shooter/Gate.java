@@ -1,4 +1,4 @@
-package frc.components.shooter;
+package frc.components.powercellsupervisor.shooter;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;

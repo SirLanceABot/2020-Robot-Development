@@ -1,4 +1,4 @@
-package frc.components.intake;
+package frc.components.powercellsupervisor.intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANEncoder;
