@@ -1,4 +1,4 @@
-package frc.components;
+package frc.components.drivetrain;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
