@@ -8,11 +8,14 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  */
 public class Wrist
 {
-    // Constants
-    private static final int WRIST_SOLENOID_EXTEND_PORT = 0;
-    private static final int WRIST_SOLENOID_RETRACT_PORT = 1;
+    // TODO: Constants - Change these if the solenoids are going in the wrong direction
+    private static final int WRIST_SOLENOID_LEFT_EXTEND_PORT = 1;
+    private static final int WRIST_SOLENOID_LEFT_RETRACT_PORT = 0;
+    private static final int WRIST_SOLENOID_RIGHT_EXTEND_PORT = 2;
+    private static final int WRIST_SOLENOID_RIGHT_RETRACT_PORT = 3;
 
-    private static DoubleSolenoid wristSolenoid = new DoubleSolenoid(WRIST_SOLENOID_EXTEND_PORT, WRIST_SOLENOID_RETRACT_PORT);
+    private static DoubleSolenoid wristSolenoidLeft = new DoubleSolenoid(WRIST_SOLENOID_LEFT_EXTEND_PORT, WRIST_SOLENOID_LEFT_RETRACT_PORT);
+    private static DoubleSolenoid wristSolenoidRight = new DoubleSolenoid(WRIST_SOLENOID_RIGHT_EXTEND_PORT, WRIST_SOLENOID_RIGHT_RETRACT_PORT);
 
     private static Wrist instance = new Wrist();
 
@@ -51,6 +54,7 @@ public class Wrist
      */
     private static void setPneumatics(DoubleSolenoid.Value position)
     {
-        wristSolenoid.set(position);
+        wristSolenoidLeft.set(position);
+        wristSolenoidRight.set(position);
     }
 }
