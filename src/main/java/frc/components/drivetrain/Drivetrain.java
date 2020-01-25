@@ -44,13 +44,23 @@ public class Drivetrain extends DifferentialDrive
         return instance;
     }
 
-    public void westcoastDrive(double move, double rotate)
+    public void westCoastDrive(double move, double rotate)
     {
         super.arcadeDrive(move, rotate);
     }
 
-    public void westcoastDrive(double move, double rotate, Boolean squared)
+    public void westCoastDrive(double move, double rotate, Boolean squared)
     {
         super.arcadeDrive(move, rotate, squared);
+    }
+
+    public void move(int distance)
+    {
+
+    }
+
+    public void rotate(int rotation)
+    {
+
     }
 }
