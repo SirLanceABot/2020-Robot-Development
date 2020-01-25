@@ -7,17 +7,18 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANEncoder;
 
 /**
- * Class for controlling the arm subsystem of the climber
+ * Class to control the Arm subsystem of the Climber.
  * @author Annika Price
  */
 public class Arm
 {
-    private static final int DEFAULT_POSITION = 10; // TODO: find actual default encoder position 
-    private static final int ERROR_THRESHOLD = 5; // TODO: find actual threshold we want for the robot
-    // TODO: What is the identity of the motor controller that extends the arm? Mr. Vanderweide says the motor controller is not a Talon but a SparkMAX brushless motor.
-    
+    // Declare and initialize private instance variables.
     private static CANSparkMax armMotor = new CANSparkMax(4, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANEncoder armEncoder = armMotor.getEncoder();
+    private static final int DEFAULT_POSITION = 10; // TODO: find actual default encoder position 
+    private static final int ERROR_THRESHOLD = 5; // TODO: find actual threshold we want for the robot
+    private static final double MINIMUM_HEIGHT = 0.0;
+    private static final double MAXIMUM_HEIGHT = 50.0;
 
     private static Arm instance = new Arm();
 
@@ -25,8 +26,8 @@ public class Arm
      * The constructor for the Arm class. 
      */
     private Arm()
-    {
-        
+    { 
+        armMotor.restoreFactoryDefaults();
     }
 
     /**
@@ -48,7 +49,7 @@ public class Arm
     }
 
     /**
-     * Sets the position of the encoder.
+     * The method to set the position of the encoder.
      * @param position The position of the encoder.
      */
     public void setEncoderPosition(int position)
@@ -66,41 +67,38 @@ public class Arm
     }
 
     /**
-     * The method to extend the Arm. 
-     * Arm extends at half power, .5 meaning 50% power (0.5).
+     * The method to retract the Arm.
+     * @param speed (this value is modified to always be negative)
      */
-    public void extendArm()
+    public void retractArm(double speed)
     {
-        setExtensionSpeed(0.5);
+        double currentPosition = getEncoderPosition();
+        if(currentPosition > MINIMUM_HEIGHT - ERROR_THRESHOLD)
+        {
+            setExtensionSpeed(-Math.abs(speed));
+        }
+        else
+        {
+            System.out.println("Cannot lower the arm. It is already at the minimum height.");
+        }
     }
-    
+
     /**
      * The method to extend the Arm. 
      * @param speed (this value is modified to always be positive)
      */
     public void extendArm(double speed)
     {
-        setExtensionSpeed(Math.abs(speed));
+        double currentPosition = getEncoderPosition();
+        if(currentPosition < MAXIMUM_HEIGHT + ERROR_THRESHOLD)
+        {
+            setExtensionSpeed(Math.abs(speed));
+        }
+        else
+        {
+            System.out.println("Cannot raise the arm. It is already at the maximum height.");
+        }
     }
-
-    /**
-     * The method to retract the Arm.
-     * Arm retracts at half power, -.5 meaning -50% power (-0.5).
-     */
-    public void retractArm()
-    {
-        setExtensionSpeed(-0.5);
-    }
-
-    /**
-     * The method to retract the Arm.
-     * @param speed (this value is modified to always be negative)
-     */
-    public void retractArm(double speed)
-    {
-        setExtensionSpeed(-Math.abs(speed));
-    }
-
 
     /**
      * The method to stop the extension or retraction of the Arm.
@@ -118,11 +116,11 @@ public class Arm
         double currentPosition = getEncoderPosition();
         if(currentPosition < DEFAULT_POSITION - ERROR_THRESHOLD)   
         {
-            extendArm();
+            extendArm(0.5);
         }
         else if(currentPosition > DEFAULT_POSITION + ERROR_THRESHOLD)
         {
-            retractArm();
+            retractArm(-0.5);
         }
         else 
         {

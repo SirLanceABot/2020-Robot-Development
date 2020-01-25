@@ -12,6 +12,11 @@ public class Winch
     private static CANSparkMax winchMotor = new CANSparkMax(1, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANEncoder winchEncoder = winchMotor.getEncoder();
 
+    //TODO: determine actual height constraints.
+    private static final double MINIMUM_HEIGHT = 0.0;
+    private static final double MAXIMUM_HEIGHT = 50.0;
+    private static final int ERROR_THRESHOLD = 5; // TODO: find actual threshold we want for the robot
+
     private static Winch instance = new Winch();
     
     /**
@@ -20,7 +25,6 @@ public class Winch
     private Winch()
     {
         winchMotor.restoreFactoryDefaults();
-        winchEncoder.getPosition();
     }
 
     /**
@@ -37,7 +41,7 @@ public class Winch
      * @return winchEncoder.getPosition()   
      * The location of the encoder (ticks?).
      */
-    public double getEncoder()
+    public double getEncoderPosition()
     {
         return winchEncoder.getPosition();
     }
@@ -64,7 +68,7 @@ public class Winch
     }
 
     /**
-     * Stops the winch.
+     * The method to stop the winch.
      */
     public void stopWinch()
     {
@@ -77,4 +81,35 @@ public class Winch
     //             given encoder value (need gear ratios)
     //--------------------------------------------------------//
 
+    /**
+     * The method to lower the Winch.
+     */
+    public void lowerWinch(double speed)
+    {
+        double currentPosition = getEncoderPosition();
+        if(currentPosition > MINIMUM_HEIGHT - ERROR_THRESHOLD)
+        {
+            setWinchSpeed(-Math.abs(speed));
+        }
+        else
+        {
+            System.out.println("Cannot lower the winch. It is already at the minimum height.");
+        }
+    }
+
+    /**
+     * The method to raise the Winch.
+     */
+    public void raiseWinch(double speed)
+    {
+        double currentPosition = getEncoderPosition();
+        if(currentPosition < MAXIMUM_HEIGHT + ERROR_THRESHOLD)
+        {
+            setWinchSpeed(Math.abs(speed));
+        }
+        else
+        {
+            System.out.println("Cannot raise the winch. It is already at the maximum height.");
+        }
+    }
 }
