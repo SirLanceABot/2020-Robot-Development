@@ -32,7 +32,7 @@ public class Shifter
     }
 
     /**
-     * Shifts the dog gear into high gear (7 feet per second).
+     * Shifts the dog gear into high gear (14 feet per second).
      */
     public void highGear()
     {
