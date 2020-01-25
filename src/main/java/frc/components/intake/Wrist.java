@@ -114,6 +114,24 @@ public class Wrist
     }
 
     /**
+     * Synchronizes the position with the state by force raising the Wrist.
+     */
+    public void forceRaise()
+    {
+        setPneumatics(DoubleSolenoid.Value.kReverse);
+        wristState = WristState.kUp;
+    }
+
+    /**
+     * Synchronizes the position with the state by force lowering the Wrist.
+     */
+    public void forceLower()
+    {
+        setPneumatics(DoubleSolenoid.Value.kForward);
+        wristState = WristState.kDown;
+    }
+
+    /**
      * Sets the time out for lowering the Wrist.
      * @param newTimeOut
      */
