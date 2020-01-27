@@ -75,12 +75,6 @@ public class Winch
         setWinchSpeed(0.0);
     }
 
-    //--------------------------------------------------------//
-    //             TODO: getDistance() method to 
-    //             calculate distance of rope reeled
-    //             given encoder value (need gear ratios)
-    //--------------------------------------------------------//
-
     /**
      * The method to lower the Winch.
      */
