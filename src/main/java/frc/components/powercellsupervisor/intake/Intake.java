@@ -34,6 +34,7 @@ public class Intake
             @Override
             void doAction()
             {
+                roller.stop();
                 wrist.lower();
                 /**
                  * if(wristIsLowered)
@@ -60,7 +61,15 @@ public class Intake
             void doAction() 
             {
                 roller.intake();
-
+                //TODO: Need to find or create libraries to find things such as steady state and other stuff (spikes)
+                if(driverController.getRawButton(Xbox.Button.kA))
+                {
+                    Transition.findNextState(currentState, Event.kIntakeButtonPressed);
+                }
+                else
+                {
+                    Transition.findNextState(currentState, Event.kNoPress);
+                }            
             }
         };
         
@@ -92,9 +101,10 @@ public class Intake
         Transition_L_02(State.Lowering,                 Event.kIntakeButtonPressed,             State.Lowering),
         Transition_L_03(State.Lowering,                 Event.kLowered,                         State.Intaking),
         Transition_L_04(State.Lowering,                 Event.kRaised,                          State.Off),
-
-        Transition_I_01(State.Intaking,                 Event.kNoPress,                         State.Raising),
-        Transition_I_02(State.Intaking,                 Event.kIntakeButtonPressed,             State.Intaking),
+        //TODO: Find out if we want to have the driver hold the button, or tap to toggle 
+        //This will be achieved in states I 01 and I 02.
+        Transition_I_01(State.Intaking,                 Event.kNoPress,                         State.Off),
+        Transition_I_02(State.Intaking,                 Event.kIntakeButtonPressed,             State.Raising),
         Transition_I_03(State.Intaking,                 Event.kLowered,                         State.Intaking),
         Transition_I_04(State.Intaking,                 Event.kRaised,                          State.Off);
 
