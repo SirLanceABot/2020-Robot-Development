@@ -36,7 +36,7 @@ public class Intake
             {
                 wrist.lower();
                 /**
-                 * if(wristIsLowered
+                 * if(wristIsLowered)
                  * Transition.findNextState(currentState, Event.Lowered)
                  */
             }
@@ -60,6 +60,7 @@ public class Intake
             void doAction() 
             {
                 roller.intake();
+
             }
         };
         
@@ -70,7 +71,7 @@ public class Intake
 
     private enum Event
     {
-        kIntakeButtonPressed, kNoPress, kExtended, kRaised;
+        kIntakeButtonPressed, kNoPress, kLowered, kRaised;
     }
 
       // ----------------------------------------------------------------------//
@@ -79,22 +80,22 @@ public class Intake
         //-----------Current State --------------------------Event---------------------------NextState------//
         Transition_O_01(State.Off,                      Event.kNoPress,                         State.Off),
         Transition_O_02(State.Off,                      Event.kIntakeButtonPressed,             State.Lowering),
-        Transition_O_03(State.Off,                      Event.kExtended,                        State.Off),
+        Transition_O_03(State.Off,                      Event.kLowered,                         State.Off),
         Transition_O_04(State.Off,                      Event.kRaised,                          State.Off),
 
         Transition_R_01(State.Raising,                  Event.kNoPress,                         State.Raising),
         Transition_R_02(State.Raising,                  Event.kIntakeButtonPressed,             State.Lowering),
-        Transition_R_03(State.Raising,                  Event.kExtended,                        State.Off),
+        Transition_R_03(State.Raising,                  Event.kLowered,                         State.Off),
         Transition_R_04(State.Raising,                  Event.kRaised,                          State.Off),
         
         Transition_L_01(State.Lowering,                 Event.kNoPress,                         State.Off),
         Transition_L_02(State.Lowering,                 Event.kIntakeButtonPressed,             State.Lowering),
-        Transition_L_03(State.Lowering,                 Event.kExtended,                        State.Off),
+        Transition_L_03(State.Lowering,                 Event.kLowered,                         State.Intaking),
         Transition_L_04(State.Lowering,                 Event.kRaised,                          State.Off),
 
         Transition_I_01(State.Intaking,                 Event.kNoPress,                         State.Raising),
         Transition_I_02(State.Intaking,                 Event.kIntakeButtonPressed,             State.Intaking),
-        Transition_I_03(State.Intaking,                 Event.kExtended,                        State.Off),
+        Transition_I_03(State.Intaking,                 Event.kLowered,                         State.Intaking),
         Transition_I_04(State.Intaking,                 Event.kRaised,                          State.Off);
 
         private final State currentState;

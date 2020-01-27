@@ -99,6 +99,15 @@ public class Roller
     }
 
     /**
+     * getter method for the amerage of the motor
+     * @return the amps the motor is currently drawing
+     */
+    public double getAmps()
+    {
+        return masterMotor.getOutputCurrent();
+    }
+
+    /**
      * Public method to reset the encoder to 0
      */
     public void resetEncoderValue()
