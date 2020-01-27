@@ -41,6 +41,7 @@ public class Roller
      */
     private Roller()
     {
+        System.out.println(this.getClass().getName() + ": Started Constructing");
         masterMotor.restoreFactoryDefaults();
         slaveMotor.restoreFactoryDefaults();
         slaveMotor.follow(masterMotor);
@@ -52,6 +53,7 @@ public class Roller
         pidController.setIZone(kIz);
         pidController.setFF(kFF);
         pidController.setOutputRange(kMinOutput, kMaxOutput);
+        System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
 
     /**
