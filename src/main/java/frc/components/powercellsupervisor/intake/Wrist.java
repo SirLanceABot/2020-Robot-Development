@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
  * Class for controlling the Wrist of the Intake system.
  * @author Darren Fife
  */
+// TODO: Test if the system works with only one solenoid.
 public class Wrist
 {
     // Constants
