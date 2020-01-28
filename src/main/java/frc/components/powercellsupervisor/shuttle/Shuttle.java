@@ -7,6 +7,41 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Shuttle
 {
+    private enum State
+    {
+        Off()
+        {
+            @Override
+            void doAction() {
+                // TODO Auto-generated method stub
+                
+            }
+        },
+        MovingOnePosition()
+        {
+            @Override
+            void doAction() {
+                // TODO Auto-generated method stub
+                
+            }
+        },
+        UnloadingClip()
+        {
+            @Override
+            void doAction() {
+                // TODO Auto-generated method stub
+                
+            }
+        };
+
+        abstract void doAction();
+        State() {}
+    }
+
+    public enum Event
+    {
+        PowerCellReadyToShuttle, ShuttleEmpty, ShuttleFull, NoPowerCellReadyToShuttle;
+    }
     private static final int MOTOR_ID = 1; //TOD0: Change to actual motor id
     private static final double TICKS_PER_ROTATION = 4096.0;
 
