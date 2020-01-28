@@ -3,7 +3,6 @@ package frc.components.powercellsupervisor.shooter;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import frc.sensors.NavX;
 
 

@@ -36,10 +36,11 @@ public class Intake
             {
                 roller.stop();
                 wrist.lower();
-                /**
-                 * if(wristIsLowered)
-                 * Transition.findNextState(currentState, Event.Lowered)
-                 */
+
+                if(wrist.isDown())
+                {
+                    Transition.findNextState(currentState, Event.kLowered);
+                }
             }
         },
         Raising()
@@ -49,10 +50,11 @@ public class Intake
             {
                 roller.stop();
                 wrist.raise();
-                /**
-                 * if(wristIsLowered
-                 * Transition.findNextState(currentState, Event.Raised)
-                 */
+                
+                if(wrist.isUp())
+                {
+                    Transition.findNextState(currentState, Event.kRaised);
+                }
             }
         },
         Intaking()
@@ -61,7 +63,6 @@ public class Intake
             void doAction() 
             {
                 roller.intake();
-                //TODO: Need to find or create libraries to find things such as steady state and other stuff (spikes)
                 if(driverController.getRawButton(Xbox.Button.kA))
                 {
                     Transition.findNextState(currentState, Event.kIntakeButtonPressed);
@@ -119,13 +120,17 @@ public class Intake
         }
 
         // table lookup to determine new state given the current state and the event
-        private static State findNextState(State currentState, Event event) {
-        for (Transition transition : Transition.values()) {
-            if (transition.currentState == currentState && transition.event == event) {
-            return transition.nextState;
+        private static State findNextState(State currentState, Event event) 
+        {
+            for (Transition transition : Transition.values()) 
+            {
+                if (transition.currentState == currentState && transition.event == event) 
+                {
+                return transition.nextState;
+                }
             }
-        }
-        return currentState; // throw an error if here
+            System.out.println("ERROR: NO STATE TO TRANSITION TO FOUND");
+            return currentState; // throw an error if here
         }
     }
 

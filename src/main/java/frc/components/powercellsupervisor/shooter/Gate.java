@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  */
 public class Gate
 {   
-    private static final int WRIST_SOLENOID_EXTEND = 0;
-    private static final int WRIST_SOLENOID_RETRACT = 1;
 
     private DoubleSolenoid gateSolenoid = new DoubleSolenoid(0, 1);
     private static Gate instance = new Gate();
