@@ -59,6 +59,7 @@ public class Wrist
 
     /**
      * Checks if the Wrist is up or should be up by this time.
+     * @return Whether the Wrist is up (true) or not.
      */
     public boolean isUp()
     {
@@ -87,13 +88,14 @@ public class Wrist
         {
             timer.reset();
             setPneumatics(DoubleSolenoid.Value.kForward);
-            wristState = WristState.kRaising;
+            wristState = WristState.kLowering;
             timer.start();
         }
     }
 
     /**
      * Checks if the Wrist is down or should be down by this time.
+     * @return Whether the Wrist is down (true) or not.
      */
     public boolean isDown()
     {
