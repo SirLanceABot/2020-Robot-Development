@@ -16,9 +16,9 @@ public class Shifter
         kLowGear, kShiftingUp, kHighGear, kShiftingDown
     };
 
-    // TODO: Change these if the solenoids are going in the wrong direction
-    private static final int SHIFTER_SOLENOID_EXTEND_PORT = 1;
-    private static final int SHIFTER_SOLENOID_RETRACT_PORT = 0;
+    // TODO: Change these to the correct port
+    private static final int SHIFTER_SOLENOID_EXTEND_PORT = 3;
+    private static final int SHIFTER_SOLENOID_RETRACT_PORT = 2;
     // private static final int SHIFTER_SOLENOID_RIGHT_EXTEND_PORT = 2;
     // private static final int SHIFTER_SOLENOID_RIGHT_RETRACT_PORT = 3;
 
@@ -26,7 +26,7 @@ public class Shifter
     // private static DoubleSolenoid shifterSolenoidRight = new DoubleSolenoid(SHIFTER_SOLENOID_RIGHT_EXTEND_PORT, SHIFTER_SOLENOID_RIGHT_RETRACT_PORT);
 
     private ShifterState shifterState = ShifterState.kLowGear; // TODO: Check defaul position
-    private static Timer timer;
+    private static Timer timer = new Timer();
     private double shiftingUpTimeOut = 1.0;
     private double shiftingDownTimeOut = 1.0;
 
@@ -35,7 +35,6 @@ public class Shifter
     private Shifter()
     {
         System.out.println(this.getClass().getName() + ": Started Constructing");
-        timer = new Timer();
         System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
 
