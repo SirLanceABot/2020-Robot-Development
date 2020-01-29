@@ -5,6 +5,8 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+
 /**
  * Class for controlling the shuttling of powercells from the intake to 
  * the shooter system.
@@ -30,6 +32,18 @@ public class Shuttle
             @Override
             void doAction() 
             {
+                if(currentPosition < targetPosition - 5)
+                {
+                    motor.set(0.5);
+                }
+                else if(currentPosition > targetPosition + 5)
+                {
+                    motor.set(-0.5);
+                }
+                else
+                {
+                    Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
+                }
                 //TODO: Add PID Position Control
             }
         },
@@ -38,8 +52,15 @@ public class Shuttle
             @Override
             void doAction() 
             {
-                // TODO Auto-generated method stub
-                
+                if(!isEmpty())
+                {
+                    setSpeed(0.75);
+                }
+                else
+                {
+                    stop();
+                    Transition.findNextState(currentState, Event.ShuttleEmpty);
+                }
             }
         },
         Full()
@@ -47,8 +68,21 @@ public class Shuttle
             @Override
             void doAction() 
             {
-                // TODO Auto-generated method stub
-                
+                if(isFull())
+                {
+                    stop();
+                }
+                else
+                {
+                    if(sensor1.get())
+                    {
+                        Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
+                    }
+                    else
+                    {                    
+                        Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
+                    }
+                }
             }
         },
         Empty()
@@ -56,8 +90,14 @@ public class Shuttle
             @Override
             void doAction()
             {
-                // TODO Auto-generated method stub
-                
+                if(sensor1.get())
+                {
+                    Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
+                }
+                else
+                {                    
+                    Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
+                }
             }
         };
 
@@ -133,8 +173,13 @@ public class Shuttle
     private static CANPIDController pidController = new CANPIDController(motor);
     //private static double currentPosition;
     private static double targetPosition;
+    private static DigitalInput sensor1 = new DigitalInput(0);
+    private static DigitalInput sensor2 = new DigitalInput(0);
+    private static DigitalInput sensor3 = new DigitalInput(0);
+    private static DigitalInput sensor4 = new DigitalInput(0);
+    private static DigitalInput sensor5 = new DigitalInput(0);
+    private static State currentState = State.Empty;
     private static Shuttle instance = new Shuttle();
-
 
     protected Shuttle()
     {
@@ -176,6 +221,29 @@ public class Shuttle
         encoder.setPosition(position);
     }
 
+    private static boolean isFull()
+    {
+        if(sensor1.get() && sensor2.get() && sensor3.get() && sensor4.get() && sensor5.get())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private static boolean isEmpty()
+    {
+        if(!sensor1.get() && !sensor2.get() && !sensor3.get() && !sensor4.get() && !sensor5.get())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     // private static void setCurrentPosition(double position)
     // {
     //     currentPosition = position;
