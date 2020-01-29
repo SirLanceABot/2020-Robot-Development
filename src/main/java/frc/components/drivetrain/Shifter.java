@@ -47,7 +47,7 @@ public class Shifter
     /**
      * Shifts the dog gear into high gear (14 feet per second).
      */
-    public void highGear()
+    public void shiftDown()
     {
         if(shifterState !=  ShifterState.kLowGear && shifterState != ShifterState.kShiftingDown)
         {
@@ -83,7 +83,7 @@ public class Shifter
     /**
      * Shifts the dog gear into low gear (7 feet per second).
      */
-    public void lowGear()
+    public void shiftUp()
     {
         if(shifterState != ShifterState.kHighGear && shifterState != ShifterState.kShiftingUp)
         {
