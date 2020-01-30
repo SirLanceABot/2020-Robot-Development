@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 public class Shuttle
 {
+    /**
+     * Enum for the states that the component can operate within
+     */
     private enum State
     {
         Off()
@@ -42,7 +45,7 @@ public class Shuttle
                 }
                 else
                 {
-                    Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
+                    currentState = Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
                 }
                 //TODO: Add PID Position Control
             }
@@ -59,7 +62,7 @@ public class Shuttle
                 else
                 {
                     stop();
-                    Transition.findNextState(currentState, Event.ShuttleEmpty);
+                    currentState = Transition.findNextState(currentState, Event.ShuttleEmpty);
                 }
             }
         },
@@ -76,11 +79,11 @@ public class Shuttle
                 {
                     if(sensor1.get())
                     {
-                        Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
+                        currentState = Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
                     }
                     else
                     {                    
-                        Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
+                        currentState = Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
                     }
                 }
             }
@@ -92,11 +95,11 @@ public class Shuttle
             {
                 if(sensor1.get())
                 {
-                    Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
+                    currentState = Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
                 }
                 else
                 {                    
-                    Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
+                    currentState = Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
                 }
             }
         };
@@ -105,11 +108,17 @@ public class Shuttle
         State() {}
     }
 
+    /**
+     * Event enum that contains all the events that the machine can go through
+     */
     private enum Event
     {
         PowerCellReadyToShuttle, ShuttleEmpty, ShuttleFull, NoPowerCellReadyToShuttle;
     }
 
+    /**
+     * Transition enum for the transition table that will direct the states
+     */
     private enum Transition
     {
         //-----------------------------------------------TRANSITION TABLE---------------------------------------------------
@@ -142,15 +151,27 @@ public class Shuttle
         private final State currentState;
         private final Event event;
         private final State nextState;
-
-        Transition(State currentState, Event event, State nextState) 
+    
+        /**
+         * Constructor for a transition, shouldn't have to add any as it is all self contained
+         * @param currentState
+         * @param event
+         * @param nextState
+         */
+        private Transition(State currentState, Event event, State nextState) 
         {
             this.currentState = currentState;
             this.event = event;
             this.nextState = nextState;
         }
 
-        // table lookup to determine new state given the current state and the event
+        /**
+         * table lookup to determine new state given the current state and the event
+         * There is room for optimization
+         * @param currentState
+         * @param event
+         * @return the next state (NEED TO STORE TO CURRENT STATE VARIABLE)
+         */
         private static State findNextState(State currentState, Event event) 
         {
             for (Transition transition : Transition.values()) 
@@ -185,7 +206,7 @@ public class Shuttle
     {
         System.out.println(this.getClass().getName() + ": Started Constructing");
         motor.restoreFactoryDefaults();
-        encoder.setPosition(0);
+        setEncoderPosition(0);
         // currentPosition = 0;
         targetPosition = 0;
         System.out.println(this.getClass().getName() + ": Finished Constructing");
