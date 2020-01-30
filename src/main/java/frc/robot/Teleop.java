@@ -1,5 +1,6 @@
 package frc.robot;
 
+import frc.components.climber.Climber;
 import frc.components.drivetrain.Drivetrain;
 // import frc.components.powercellsupervisor.PowerCellSupervisor;
 import frc.controls.DriverController;
@@ -13,6 +14,7 @@ import frc.controls.Xbox;
  */
 public class Teleop
 {
+    // private static Climber climber = Climber.getInstance();
     private static Drivetrain drivetrain = Drivetrain.getInstance();
     // private static PowerCellSupervisor powercellsupervisor = PowerCellSupervisor.getInstance();
     private static DriverController driverController = DriverController.getInstance();
