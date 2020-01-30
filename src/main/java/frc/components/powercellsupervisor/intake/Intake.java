@@ -18,14 +18,15 @@ public class Intake
             @Override
             void doAction() 
             {
+
                 roller.stop();
                 if(driverController.getRawButton(Xbox.Button.kA))
                 {
-                    Transition.findNextState(currentState, Event.kIntakeButtonPressed);
+                    currentState = Transition.findNextState(currentState, Event.kIntakeButtonPressed);
                 }
                 else
                 {
-                    Transition.findNextState(currentState, Event.kNoPress);
+                    currentState = Transition.findNextState(currentState, Event.kNoPress);
                 }
             }
         },
@@ -39,7 +40,7 @@ public class Intake
 
                 if(wrist.isDown())
                 {
-                    Transition.findNextState(currentState, Event.kLowered);
+                    currentState = Transition.findNextState(currentState, Event.kLowered);
                 }
             }
         },
@@ -53,7 +54,7 @@ public class Intake
                 
                 if(wrist.isUp())
                 {
-                    Transition.findNextState(currentState, Event.kRaised);
+                    currentState = Transition.findNextState(currentState, Event.kRaised);
                 }
             }
         },
@@ -65,11 +66,11 @@ public class Intake
                 roller.intake();
                 if(driverController.getRawButton(Xbox.Button.kA))
                 {
-                    Transition.findNextState(currentState, Event.kIntakeButtonPressed);
+                    currentState = Transition.findNextState(currentState, Event.kIntakeButtonPressed);
                 }
                 else
                 {
-                    Transition.findNextState(currentState, Event.kNoPress);
+                    currentState = Transition.findNextState(currentState, Event.kNoPress);
                 }            
             }
         };
@@ -105,7 +106,7 @@ public class Intake
         //TODO: Find out if we want to have the driver hold the button, or tap to toggle 
         //This will be achieved in states I 01 and I 02.
         Transition_I_01(State.Intaking,                 Event.kNoPress,                         State.Off),
-        Transition_I_02(State.Intaking,                 Event.kIntakeButtonPressed,             State.Raising),
+        Transition_I_02(State.Intaking,                 Event.kIntakeButtonPressed,             State.Intaking),
         Transition_I_03(State.Intaking,                 Event.kLowered,                         State.Intaking),
         Transition_I_04(State.Intaking,                 Event.kRaised,                          State.Off);
 
