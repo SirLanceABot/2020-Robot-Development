@@ -41,7 +41,7 @@ public class Climber
      * The method to retrieve the instance of a Climber.
      * @return instance 
      */
-    public Climber getInstance()
+    public static Climber getInstance()
     {
         return instance;
     }
