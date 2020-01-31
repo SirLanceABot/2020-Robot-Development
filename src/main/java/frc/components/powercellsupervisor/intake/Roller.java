@@ -13,11 +13,11 @@ public class Roller
 {
     // motor controller id's
     private static final int MASTER_MOTOR_ID = 0;
-    private static final int SLAVE_MOTOR_ID = 1;
+    // private static final int SLAVE_MOTOR_ID = 1;
 
     // pid controller constants
-    private static final double kP = 5e-5; 
-    private static final double kI = 1e-6;
+    private static final double kP = 0.00005; 
+    private static final double kI = 0.0000004;
     private static final double kD = 0; 
     private static final double kIz = 0; 
     private static final double kFF = 0; 
@@ -27,7 +27,7 @@ public class Roller
 
     // initializing the motors
     private static CANSparkMax masterMotor = new CANSparkMax(MASTER_MOTOR_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    private static CANSparkMax slaveMotor = new CANSparkMax(SLAVE_MOTOR_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    // private static CANSparkMax slaveMotor = new CANSparkMax(SLAVE_MOTOR_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
 
     // initializing the encoder and pid controller
     private static CANEncoder encoder = masterMotor.getEncoder();
@@ -43,8 +43,8 @@ public class Roller
     {
         System.out.println(this.getClass().getName() + ": Started Constructing");
         masterMotor.restoreFactoryDefaults();
-        slaveMotor.restoreFactoryDefaults();
-        slaveMotor.follow(masterMotor);
+        // slaveMotor.restoreFactoryDefaults();
+        //slaveMotor.follow(masterMotor);
         encoder.setPosition(0);
 
         pidController.setP(kP);
