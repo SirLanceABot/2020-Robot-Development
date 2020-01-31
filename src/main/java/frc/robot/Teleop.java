@@ -14,7 +14,7 @@ import frc.controls.Xbox;
  */
 public class Teleop
 {
-    // private static Climber climber = Climber.getInstance();
+    private static Climber climber = Climber.getInstance();
     private static Drivetrain drivetrain = Drivetrain.getInstance();
     // private static PowerCellSupervisor powercellsupervisor = PowerCellSupervisor.getInstance();
     private static DriverController driverController = DriverController.getInstance();
@@ -78,10 +78,18 @@ public class Teleop
         {
             // Call up powercellsupervisor to turn the turret left
         }
+        else
+        {
+            // Call up powercellsupervisor to stop the turret
+        }
         
         if(shoot)
         {
             // Call up powercellsupervisor to shoot the ball
+        }
+        else
+        {
+            // Call up powercellsupervisor to turn off the flywheel
         }
     }
 }
