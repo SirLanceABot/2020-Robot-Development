@@ -31,7 +31,7 @@ public class Roller
 
     // initializing the encoder and pid controller
     private static CANEncoder encoder = masterMotor.getEncoder();
-    private CANPIDController pidController;
+    private static CANPIDController pidController = new CANPIDController(masterMotor);
 
     // creating the one instance of the Roller cass
     private static Roller instance = new Roller();

@@ -142,7 +142,10 @@ public class Logitech extends Joystick
         axisMaxOutput = Math.abs(axisMaxOutput);
         axisMaxOutput = Math.min(axisMaxOutput, 1.0);
 
-        this.axisMaxOutput[axis.value] = axisMaxOutput;
+        if(axisMaxOutput >= axisMinOutput[axis.value])
+        {
+            this.axisMaxOutput[axis.value] = axisMaxOutput;
+        }
     }
 
     /**
@@ -155,11 +158,7 @@ public class Logitech extends Joystick
         axisMinOutput = Math.abs(axisMinOutput);
         axisMinOutput = Math.min(axisMinOutput, 1.0);
 
-        if(axisMaxOutput[axis.value] <= axisMinOutput)
-        {
-            return;
-        }
-        else
+        if(axisMinOutput <= axisMaxOutput[axis.value])
         {
             this.axisMinOutput[axis.value] = axisMinOutput;
         }
