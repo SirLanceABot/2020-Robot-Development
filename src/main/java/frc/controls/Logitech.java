@@ -40,11 +40,13 @@ public class Logitech extends Joystick
 
     private final double DEFAULT_DEADZONE = 0.1;
     private final double DEFAULT_MAX_OUTPUT = 1.0;
+    private final double DEFAULT_MIN_OUTPUT = 0.0;
     private final boolean DEFAULT_IS_FLIPPED = false;
     private final AxisScale DEFAULT_AXIS_SCALE = AxisScale.kLinear;
 
     private double[] axisDeadzone = new double[4];
     private double[] axisMaxOutput = new double[4];
+    private double[] axisMinOutput = new double[4];
     private boolean[] axisIsFlipped = new boolean[4];
     private AxisScale[] axisScale = new AxisScale[4];
     private Button[] buttons = new Button[11];
@@ -57,6 +59,7 @@ public class Logitech extends Joystick
             {
                 axisDeadzone[index] = DEFAULT_DEADZONE;
                 axisMaxOutput[index] = DEFAULT_MAX_OUTPUT;
+                axisMaxOutput[index] = DEFAULT_MIN_OUTPUT;
                 axisIsFlipped[index] = DEFAULT_IS_FLIPPED;
                 axisScale[index] = DEFAULT_AXIS_SCALE;
             }
@@ -140,6 +143,26 @@ public class Logitech extends Joystick
         axisMaxOutput = Math.min(axisMaxOutput, 1.0);
 
         this.axisMaxOutput[axis.value] = axisMaxOutput;
+    }
+
+    /**
+     * Used to set the minimum output of the specified axis
+     * @param axis
+     * @param minOutput
+     */
+    public void setAxisMinOutput(Axis axis, double axisMinOutput)
+    {
+        axisMinOutput = Math.abs(axisMinOutput);
+        axisMinOutput = Math.min(axisMinOutput, 1.0);
+
+        if(axisMaxOutput[axis.value] <= axisMinOutput)
+        {
+            return;
+        }
+        else
+        {
+            this.axisMinOutput[axis.value] = axisMinOutput;
+        }
     }
 
     /**
