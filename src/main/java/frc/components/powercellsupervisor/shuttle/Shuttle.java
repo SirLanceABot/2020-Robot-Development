@@ -206,6 +206,7 @@ public class Shuttle
     {
         System.out.println(this.getClass().getName() + ": Started Constructing");
         motor.restoreFactoryDefaults();
+        motor.setSmartCurrentLimit(40);
         setEncoderPosition(0);
         // currentPosition = 0;
         targetPosition = 0;

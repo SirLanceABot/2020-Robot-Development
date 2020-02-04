@@ -25,6 +25,7 @@ public class Winch
     private Winch()
     {
         winchMotor.restoreFactoryDefaults();
+        winchMotor.setSmartCurrentLimit(30);
     }
 
     /**

@@ -46,7 +46,7 @@ public class Roller
         // slaveMotor.restoreFactoryDefaults();
         //slaveMotor.follow(masterMotor);
         encoder.setPosition(0);
-
+        masterMotor.setSmartCurrentLimit(40);
         pidController.setP(kP);
         pidController.setI(kI);
         pidController.setD(kD);
