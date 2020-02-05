@@ -113,7 +113,7 @@ public class Shuttle
      */
     private enum Event
     {
-        PowerCellReadyToShuttle, ShuttleEmpty, ShuttleFull, NoPowerCellReadyToShuttle;
+        PowerCellReadyToShuttle, ShuttleEmpty, ShuttleFull, NoPowerCellReadyToShuttle, PowerCellAtFlywheel;
     }
 
     /**
@@ -127,33 +127,39 @@ public class Shuttle
         TRANSITION_O_2(State.Off,                       Event.ShuttleEmpty,                         State.Off),
         TRANSITION_O_3(State.Off,                       Event.ShuttleFull,                          State.Off),
         TRANSITION_O_4(State.Off,                       Event.NoPowerCellReadyToShuttle,            State.MovingOnePosition),
+        TRANSITION_O_5(State.Off,                       Event.PowerCellAtFlywheel,                  State.Off),
+
         
         TRANSITION_M_1(State.MovingOnePosition,         Event.PowerCellReadyToShuttle,              State.MovingOnePosition),
         TRANSITION_M_2(State.MovingOnePosition,         Event.ShuttleEmpty,                         State.Off),
         TRANSITION_M_3(State.MovingOnePosition,         Event.ShuttleFull,                          State.Off),
         TRANSITION_M_4(State.MovingOnePosition,         Event.NoPowerCellReadyToShuttle,            State.MovingOnePosition),
+        TRANSITION_M_5(State.MovingOnePosition,         Event.PowerCellAtFlywheel,                  State.Off),
 
         TRANSITION_U_1(State.UnloadingClip,             Event.PowerCellReadyToShuttle,              State.UnloadingClip),
         TRANSITION_U_2(State.UnloadingClip,             Event.ShuttleEmpty,                         State.Off),
         TRANSITION_U_3(State.UnloadingClip,             Event.ShuttleFull,                          State.Off),
         TRANSITION_U_4(State.UnloadingClip,             Event.NoPowerCellReadyToShuttle,            State.UnloadingClip),
+        TRANSITION_U_5(State.UnloadingClip,             Event.PowerCellAtFlywheel,                  State.Off),
 
         TRANSITION_F_1(State.Full,                      Event.PowerCellReadyToShuttle,              State.Off),
         TRANSITION_F_2(State.Full,                      Event.ShuttleEmpty,                         State.Off),
         TRANSITION_F_3(State.Full,                      Event.ShuttleFull,                          State.Off),
         TRANSITION_F_4(State.Full,                      Event.NoPowerCellReadyToShuttle,            State.Off),
+        TRANSITION_F_5(State.Full,                      Event.PowerCellAtFlywheel,                  State.Off),
 
         TRANSITION_E_1(State.Empty,                     Event.PowerCellReadyToShuttle,              State.MovingOnePosition),
         TRANSITION_E_2(State.Empty,                     Event.ShuttleEmpty,                         State.Off),
         TRANSITION_E_3(State.Empty,                     Event.ShuttleFull,                          State.Off),
-        TRANSITION_E_4(State.Empty,                     Event.NoPowerCellReadyToShuttle,            State.MovingOnePosition);
+        TRANSITION_E_4(State.Empty,                     Event.NoPowerCellReadyToShuttle,            State.MovingOnePosition),
+        TRANSITION_E_5(State.Empty,                     Event.PowerCellAtFlywheel,                  State.Off);
         //-------------------------------------------------------------------------------------------------------------------
         private final State currentState;
         private final Event event;
         private final State nextState;
     
         /**
-         * Constructor for a transition, shouldn't have to add any as it is all self contained
+         * Constructor for transitions, shouldn't have to add any as it is all self contained
          * @param currentState
          * @param event
          * @param nextState
