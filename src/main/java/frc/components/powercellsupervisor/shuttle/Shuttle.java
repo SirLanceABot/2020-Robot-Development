@@ -297,6 +297,10 @@ public class Shuttle
         return inches * TICKS_PER_ROTATION;
     }
 
+    private void runFSM()
+    {
+        currentState.doAction();
+    }
 
  
 }
