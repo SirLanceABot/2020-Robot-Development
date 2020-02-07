@@ -1,11 +1,15 @@
 package frc.components.powercellsupervisor.shuttle;
 
+import java.sql.Driver;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.controls.DriverController;
+import frc.controls.Xbox;
 
 /**
  * Class for controlling the shuttling of powercells from the intake to 
@@ -57,7 +61,7 @@ public class Shuttle
             {
                 if(!isEmpty())
                 {
-                    setSpeed(0.75);
+                    setSpeed(0.75); //TODO: Find the right feed speed
                 }
                 else
                 {
@@ -113,7 +117,7 @@ public class Shuttle
      */
     private enum Event
     {
-        PowerCellReadyToShuttle, ShuttleEmpty, ShuttleFull, NoPowerCellReadyToShuttle, PowerCellAtFlywheel;
+        PowerCellReadyToShuttle, ShuttleEmpty, ShuttleFull, NoPowerCellReadyToShuttle, PowerCellAtFlywheel, ReadyToFeed;
     }
 
     /**
@@ -124,35 +128,40 @@ public class Shuttle
         //-----------------------------------------------TRANSITION TABLE---------------------------------------------------
         //----Name-----Current State--------------------------Event------------------------------------Target State---------
         TRANSITION_O_1(State.Off,                       Event.PowerCellReadyToShuttle,              State.MovingOnePosition),
-        TRANSITION_O_2(State.Off,                       Event.ShuttleEmpty,                         State.Off),
+        // TRANSITION_O_2(State.Off,                       Event.ShuttleEmpty,                         State.Off),
         TRANSITION_O_3(State.Off,                       Event.ShuttleFull,                          State.Off),
         TRANSITION_O_4(State.Off,                       Event.NoPowerCellReadyToShuttle,            State.MovingOnePosition),
-        TRANSITION_O_5(State.Off,                       Event.PowerCellAtFlywheel,                  State.Off),
-
+        // TRANSITION_O_5(State.Off,                       Event.PowerCellAtFlywheel,                  State.Off),
+        // TRANSITION_O_6(State.Off,                       Event.ReadyToFeed,                          State.Off),
         
         TRANSITION_M_1(State.MovingOnePosition,         Event.PowerCellReadyToShuttle,              State.MovingOnePosition),
-        TRANSITION_M_2(State.MovingOnePosition,         Event.ShuttleEmpty,                         State.Off),
-        TRANSITION_M_3(State.MovingOnePosition,         Event.ShuttleFull,                          State.Off),
-        TRANSITION_M_4(State.MovingOnePosition,         Event.NoPowerCellReadyToShuttle,            State.MovingOnePosition),
-        TRANSITION_M_5(State.MovingOnePosition,         Event.PowerCellAtFlywheel,                  State.Off),
+        // TRANSITION_M_2(State.MovingOnePosition,         Event.ShuttleEmpty,                         State.Off),
+        // TRANSITION_M_3(State.MovingOnePosition,         Event.ShuttleFull,                          State.Off),
+        TRANSITION_M_4(State.MovingOnePosition,         Event.NoPowerCellReadyToShuttle,            State.Off),
+        // TRANSITION_M_5(State.MovingOnePosition,         Event.PowerCellAtFlywheel,                  State.Off),
+        // TRANSITION_M_6(State.MovingOnePosition,         Event.ReadyToFeed,                          State.Off),
 
-        TRANSITION_U_1(State.UnloadingClip,             Event.PowerCellReadyToShuttle,              State.UnloadingClip),
+        // TRANSITION_U_1(State.UnloadingClip,             Event.PowerCellReadyToShuttle,              State.UnloadingClip),
         TRANSITION_U_2(State.UnloadingClip,             Event.ShuttleEmpty,                         State.Off),
-        TRANSITION_U_3(State.UnloadingClip,             Event.ShuttleFull,                          State.Off),
-        TRANSITION_U_4(State.UnloadingClip,             Event.NoPowerCellReadyToShuttle,            State.UnloadingClip),
-        TRANSITION_U_5(State.UnloadingClip,             Event.PowerCellAtFlywheel,                  State.Off),
+        // TRANSITION_U_3(State.UnloadingClip,             Event.ShuttleFull,                          State.Off),
+        // TRANSITION_U_4(State.UnloadingClip,             Event.NoPowerCellReadyToShuttle,            State.UnloadingClip),
+        // TRANSITION_U_5(State.UnloadingClip,             Event.PowerCellAtFlywheel,                  State.Off),
+        // TRANSITION_U_6(State.UnloadingClip,             Event.ReadyToFeed,                          State.Off),
 
-        TRANSITION_F_1(State.Full,                      Event.PowerCellReadyToShuttle,              State.Off),
-        TRANSITION_F_2(State.Full,                      Event.ShuttleEmpty,                         State.Off),
-        TRANSITION_F_3(State.Full,                      Event.ShuttleFull,                          State.Off),
-        TRANSITION_F_4(State.Full,                      Event.NoPowerCellReadyToShuttle,            State.Off),
-        TRANSITION_F_5(State.Full,                      Event.PowerCellAtFlywheel,                  State.Off),
+        // TRANSITION_F_1(State.Full,                      Event.PowerCellReadyToShuttle,              State.Off),
+        // TRANSITION_F_2(State.Full,                      Event.ShuttleEmpty,                         State.Off),
+        // TRANSITION_F_3(State.Full,                      Event.ShuttleFull,                          State.Off),
+        // TRANSITION_F_4(State.Full,                      Event.NoPowerCellReadyToShuttle,            State.Off),
+        // TRANSITION_F_5(State.Full,                      Event.PowerCellAtFlywheel,                  State.Off),
+        TRANSITION_F_6(State.Full,                      Event.ReadyToFeed,                          State.UnloadingClip),
 
-        TRANSITION_E_1(State.Empty,                     Event.PowerCellReadyToShuttle,              State.MovingOnePosition),
-        TRANSITION_E_2(State.Empty,                     Event.ShuttleEmpty,                         State.Off),
-        TRANSITION_E_3(State.Empty,                     Event.ShuttleFull,                          State.Off),
-        TRANSITION_E_4(State.Empty,                     Event.NoPowerCellReadyToShuttle,            State.MovingOnePosition),
-        TRANSITION_E_5(State.Empty,                     Event.PowerCellAtFlywheel,                  State.Off);
+        TRANSITION_E_1(State.Empty,                     Event.PowerCellReadyToShuttle,              State.MovingOnePosition);
+        // TRANSITION_E_2(State.Empty,                     Event.ShuttleEmpty,                         State.Off),
+        // TRANSITION_E_3(State.Empty,                     Event.ShuttleFull,                          State.Off),
+        // TRANSITION_E_4(State.Empty,                     Event.NoPowerCellReadyToShuttle,            State.MovingOnePosition),
+        // TRANSITION_E_5(State.Empty,                     Event.PowerCellAtFlywheel,                  State.Off),
+        // TRANSITION_E_6(State.Empty,                     Event.ReadyToFeed,                          State.Off);
+
         //-------------------------------------------------------------------------------------------------------------------
         private final State currentState;
         private final Event event;
@@ -206,6 +215,7 @@ public class Shuttle
     private static DigitalInput sensor4 = new DigitalInput(0);
     private static DigitalInput sensor5 = new DigitalInput(0);
     private static State currentState = State.Empty;
+    private static DriverController controller = DriverController.getInstance();
     private static Shuttle instance = new Shuttle();
 
     protected Shuttle()
