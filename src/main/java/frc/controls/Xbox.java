@@ -198,6 +198,34 @@ public class Xbox extends Joystick
         this.axisScale[axis.value] = axisScale;
     }
 
+    /**
+     * Public method to initialize the settings for one axis
+     * @param axis
+     * @param axisDeadzone
+     * @param axisMinOutput
+     * @param axisMaxOutput
+     * @param axisIsFlipped
+     * @param axisScale
+     */
+    public void setAxisSettings(Axis axis, double axisDeadzone, double axisMinOutput, double axisMaxOutput, boolean axisIsFlipped, AxisScale axisScale)
+    {
+        setAxisDeadzone(axis, axisDeadzone);
+        setAxisMinOutput(axis, axisMinOutput);
+        setAxisMaxOutput(axis, axisMaxOutput);
+        setAxisIsFlipped(axis, axisIsFlipped);
+        setAxisScale(axis, axisScale);
+    }
+
+    /**
+     * Public method to initialize the settings for one axis
+     * @param axis
+     * @param axisSettings
+     */
+    public void setAxisSettings(Axis axis, AxisSettings axisSettings)
+    {
+        setAxisSettings(axis, axisSettings.axisDeadzone, axisSettings.axisMinOutput, axisSettings.axisMaxOutput, axisSettings.axisIsFlipped, axisSettings.axisScale);
+        
+    }
     
     // @Override
     // public String toString()
