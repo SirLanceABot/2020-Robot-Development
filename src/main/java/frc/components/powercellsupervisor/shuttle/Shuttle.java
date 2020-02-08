@@ -29,7 +29,16 @@ public class Shuttle
             @Override
             void doAction() 
             {
-                stop();        
+                System.out.println("Shuttle State: Off");
+                stop();       
+                if(sensor1.get())
+                {
+                    currentState = Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
+                }
+                else
+                {                    
+                    currentState = Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
+                } 
             }
         },
         MovingOnePosition()
@@ -39,6 +48,8 @@ public class Shuttle
             @Override
             void doAction() 
             {
+                System.out.println("Shuttle State: MovingOnePosition");
+
                 if(currentPosition < targetPosition - 5)
                 {
                     motor.set(0.5);
@@ -54,14 +65,15 @@ public class Shuttle
                 //TODO: Add PID Position Control
             }
         },
-        UnloadingClip()
+        UnloadingShuttle()
         {
             @Override
             void doAction() 
             {
+                System.out.println("Shuttle State: Unloading");
                 if(!isEmpty())
                 {
-                    setSpeed(0.75); //TODO: Find the right feed speed
+                    setSpeed(0.25); //TODO: Find the right feed speed
                 }
                 else
                 {
@@ -75,6 +87,7 @@ public class Shuttle
             @Override
             void doAction() 
             {
+                System.out.println("Shuttle State: Full");
                 if(isFull())
                 {
                     stop();
@@ -97,6 +110,7 @@ public class Shuttle
             @Override
             void doAction()
             {
+                System.out.println("Shuttle State: Empty");
                 if(sensor1.get())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
@@ -129,20 +143,20 @@ public class Shuttle
         //----Name-----Current State--------------------------Event------------------------------------Target State---------
         TRANSITION_O_1(State.Off,                       Event.PowerCellReadyToShuttle,              State.MovingOnePosition),
         // TRANSITION_O_2(State.Off,                       Event.ShuttleEmpty,                         State.Off),
-        TRANSITION_O_3(State.Off,                       Event.ShuttleFull,                          State.Off),
-        TRANSITION_O_4(State.Off,                       Event.NoPowerCellReadyToShuttle,            State.MovingOnePosition),
+        TRANSITION_O_3(State.Off,                       Event.ShuttleFull,                          State.Full),
+        TRANSITION_O_4(State.Off,                       Event.NoPowerCellReadyToShuttle,            State.Off),
         // TRANSITION_O_5(State.Off,                       Event.PowerCellAtFlywheel,                  State.Off),
         // TRANSITION_O_6(State.Off,                       Event.ReadyToFeed,                          State.Off),
         
-        TRANSITION_M_1(State.MovingOnePosition,         Event.PowerCellReadyToShuttle,              State.MovingOnePosition),
+        // TRANSITION_M_1(State.MovingOnePosition,         Event.PowerCellReadyToShuttle,              State.MovingOnePosition),
         // TRANSITION_M_2(State.MovingOnePosition,         Event.ShuttleEmpty,                         State.Off),
-        // TRANSITION_M_3(State.MovingOnePosition,         Event.ShuttleFull,                          State.Off),
+        TRANSITION_M_3(State.MovingOnePosition,         Event.ShuttleFull,                          State.Full),
         TRANSITION_M_4(State.MovingOnePosition,         Event.NoPowerCellReadyToShuttle,            State.Off),
         // TRANSITION_M_5(State.MovingOnePosition,         Event.PowerCellAtFlywheel,                  State.Off),
         // TRANSITION_M_6(State.MovingOnePosition,         Event.ReadyToFeed,                          State.Off),
 
         // TRANSITION_U_1(State.UnloadingClip,             Event.PowerCellReadyToShuttle,              State.UnloadingClip),
-        TRANSITION_U_2(State.UnloadingClip,             Event.ShuttleEmpty,                         State.Off),
+        TRANSITION_U_2(State.UnloadingShuttle,             Event.ShuttleEmpty,                         State.Off),
         // TRANSITION_U_3(State.UnloadingClip,             Event.ShuttleFull,                          State.Off),
         // TRANSITION_U_4(State.UnloadingClip,             Event.NoPowerCellReadyToShuttle,            State.UnloadingClip),
         // TRANSITION_U_5(State.UnloadingClip,             Event.PowerCellAtFlywheel,                  State.Off),
@@ -153,7 +167,7 @@ public class Shuttle
         // TRANSITION_F_3(State.Full,                      Event.ShuttleFull,                          State.Off),
         // TRANSITION_F_4(State.Full,                      Event.NoPowerCellReadyToShuttle,            State.Off),
         // TRANSITION_F_5(State.Full,                      Event.PowerCellAtFlywheel,                  State.Off),
-        TRANSITION_F_6(State.Full,                      Event.ReadyToFeed,                          State.UnloadingClip),
+        TRANSITION_F_6(State.Full,                      Event.ReadyToFeed,                          State.UnloadingShuttle),
 
         TRANSITION_E_1(State.Empty,                     Event.PowerCellReadyToShuttle,              State.MovingOnePosition);
         // TRANSITION_E_2(State.Empty,                     Event.ShuttleEmpty,                         State.Off),
@@ -273,7 +287,7 @@ public class Shuttle
 
     private static boolean isEmpty()
     {
-        if(!sensor1.get() && !sensor2.get() && !sensor3.get() && !sensor4.get() && !sensor5.get())
+        if(/**!sensor1.get() && **/!sensor2.get() && !sensor3.get() && !sensor4.get() && !sensor5.get())
         {
             return true;
         }
