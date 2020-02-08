@@ -7,17 +7,27 @@ package frc.controls;
 public class DriverController extends Xbox
 {
     // the one and only instance of driver controller
-    private static DriverController driverController = new DriverController(); 
+    private static DriverController instance = new DriverController(0); 
 
     /**
      * Private constructor for driver controller
      */
-    private DriverController()
+    private DriverController(int port)
     {
-        super(0);
+        super(port);
         System.out.println(this.getClass().getName() + " : constructor started");
-        setAxisIsFlipped(Xbox.Axis.kLeftY, true);
-        setAxisIsFlipped(Xbox.Axis.kRightY, true);
+
+        setAxisSettings(Axis.kLeftX, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
+        setAxisSettings(Axis.kLeftY, 0.1, 0.0, 1.0, true, AxisScale.kLinear);
+
+        setAxisSettings(Axis.kRightX, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
+        setAxisSettings(Axis.kRightY, 0.1, 0.0, 1.0, true, AxisScale.kLinear);
+
+        setAxisSettings(Axis.kLeftTrigger, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
+        setAxisSettings(Axis.kRightTrigger, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
+
+        
+
         System.out.println(this.getClass().getName() + " : constructor finished");
     }
 
@@ -27,6 +37,6 @@ public class DriverController extends Xbox
      */
     public static DriverController getInstance()
     {
-        return driverController;
+        return instance;
     }
 }
