@@ -7,10 +7,17 @@
 
 package frc.robot;
 
+import frc.controls.DriverController;
+import frc.shuffleboard.MainShuffleboard;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot
 {
+    private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
+    private DriverController driverController = DriverController.getInstance();
+
+    private boolean isPreAutonomous = true;
     /**
      * This function is run when the robot is first started up and should be used for any initialization code.
      */
@@ -36,7 +43,7 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousInit()
     {
-
+        isPreAutonomous = false;
     }
 
     /**
@@ -54,7 +61,7 @@ public class Robot extends TimedRobot
     @Override
     public void teleopInit()
     {
-
+        mainShuffleboard.setDriverControllerSettings();
     }
 
     /**
@@ -63,7 +70,7 @@ public class Robot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-    
+        System.out.println(driverController.getRawAxis(DriverController.Axis.kLeftX));
     }
 
     /**
@@ -72,7 +79,7 @@ public class Robot extends TimedRobot
     @Override
     public void testInit()
     {
-
+        isPreAutonomous = true;
     }
 
     /**
@@ -99,6 +106,9 @@ public class Robot extends TimedRobot
     @Override
     public void disabledPeriodic()
     {
-
+        if(isPreAutonomous)
+        {
+            mainShuffleboard.checkForNewAutonomousTabData();
+        }
     }
 }
