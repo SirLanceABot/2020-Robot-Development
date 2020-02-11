@@ -38,6 +38,15 @@ public class Logitech extends Joystick
         kLinear, kSquared, kCubed;
     }
 
+    public class AxisSettings
+    {
+        public double axisDeadzone;
+        public double axisMinOutput;
+        public double axisMaxOutput;
+        public boolean axisIsFlipped;
+        public AxisScale axisScale;
+    }
+
     private final double DEFAULT_DEADZONE = 0.1;
     private final double DEFAULT_MAX_OUTPUT = 1.0;
     private final double DEFAULT_MIN_OUTPUT = 0.0;
@@ -87,13 +96,13 @@ public class Logitech extends Joystick
             switch(axisScale[axis])
             {
                 case kLinear:
-                    value = axisMaxOutput[axis] / (1.0 - axisDeadzone[axis]) * (value - axisDeadzone[axis] * Math.signum(value));
+                    value = (axisMaxOutput[axis] - axisMinOutput[axis]) / (1.0 - axisDeadzone[axis]) * (value - axisDeadzone[axis] * Math.signum(value)) + (axisMinOutput[axis] * Math.signum(value));
                     break;
                 case kSquared:
-                    value = axisMaxOutput[axis] * Math.signum(value) / Math.pow((1.0 - axisDeadzone[axis]), 2) * Math.pow((value - axisDeadzone[axis] * Math.signum(value)), 2);
+                    value = (axisMaxOutput[axis] - axisMinOutput[axis]) * Math.signum(value) / Math.pow((1.0 - axisDeadzone[axis]), 2) * Math.pow((value - axisDeadzone[axis] * Math.signum(value)), 2)  + (axisMinOutput[axis] * Math.signum(value));
                     break;
                 case kCubed:
-                value = axisMaxOutput[axis] / Math.pow((1.0 - axisDeadzone[axis]), 3) * Math.pow((value - axisDeadzone[axis] * Math.signum(value)), 3);
+                    value = (axisMaxOutput[axis] - axisMinOutput[axis]) / Math.pow((1.0 - axisDeadzone[axis]), 3) * Math.pow((value - axisDeadzone[axis] * Math.signum(value)), 3)  + (axisMinOutput[axis] * Math.signum(value));
                     break;
             }
         }
@@ -117,6 +126,19 @@ public class Logitech extends Joystick
     public boolean getRawButton(Button button)
     {
         return super.getRawButton(button.value);
+    }
+
+    public AxisSettings getAxisSettings(Axis axis)
+    {
+        AxisSettings axisSettings = new AxisSettings();
+
+        axisSettings.axisDeadzone = axisDeadzone[axis.value];
+        axisSettings.axisMinOutput = axisMinOutput[axis.value];
+        axisSettings.axisMaxOutput = axisMaxOutput[axis.value];
+        axisSettings.axisIsFlipped = axisIsFlipped[axis.value];
+        axisSettings.axisScale = axisScale[axis.value];
+
+        return axisSettings;
     }
 
     /**
@@ -169,7 +191,7 @@ public class Logitech extends Joystick
      * @param axis
      * @param axisIsFlipped
      */
-    public void setAxisFlipped(Axis axis, boolean axisIsFlipped)
+    public void setAxisIsFlipped(Axis axis, boolean axisIsFlipped)
     {
         this.axisIsFlipped[axis.value] = axisIsFlipped;
     }
@@ -183,6 +205,34 @@ public class Logitech extends Joystick
     public void setAxisScale(Axis axis, AxisScale axisScale)
     {
         this.axisScale[axis.value] = axisScale;
+    }
+
+    /**
+     * Public method to initialize the settings for one axis
+     * @param axis
+     * @param axisDeadzone
+     * @param axisMinOutput
+     * @param axisMaxOutput
+     * @param axisIsFlipped
+     * @param axisScale
+     */
+    public void setAxisSettings(Axis axis, double axisDeadzone, double axisMinOutput, double axisMaxOutput, boolean axisIsFlipped, AxisScale axisScale)
+    {
+        setAxisDeadzone(axis, axisDeadzone);
+        setAxisMinOutput(axis, axisMinOutput);
+        setAxisMaxOutput(axis, axisMaxOutput);
+        setAxisIsFlipped(axis, axisIsFlipped);
+        setAxisScale(axis, axisScale);
+    }
+
+    /**
+     * Public method to initialize the settings for one axis
+     * @param axis
+     * @param axisSettings
+     */
+    public void setAxisSettings(Axis axis, AxisSettings axisSettings)
+    {
+        setAxisSettings(axis, axisSettings.axisDeadzone, axisSettings.axisMinOutput, axisSettings.axisMaxOutput, axisSettings.axisIsFlipped, axisSettings.axisScale);
     }
 
     public void joystickTest()
