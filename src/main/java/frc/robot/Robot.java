@@ -18,10 +18,6 @@ public class Robot extends TimedRobot
     private static frc.vision.UdpReceive UDPreceiver;
     private static Thread UDPreceiverThread;
     private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
-<<<<<<< HEAD
-    // private DriverController driverController = DriverController.getInstance();
-    // private OperatorController operatorController = OperatorController.getInstance();
-=======
     private DriverController driverController = DriverController.getInstance();
     private OperatorController operatorController = OperatorController.getInstance();
     
@@ -30,7 +26,6 @@ public class Robot extends TimedRobot
     public static frc.vision.TargetDataE turretNext = new frc.vision.TargetDataE();
     public static frc.vision.TargetDataE turret = new frc.vision.TargetDataE();
 
->>>>>>> annika and mr. thomas: output messages to driver
 
     private boolean isPreAutonomous = true;
     /**
@@ -91,9 +86,6 @@ public class Robot extends TimedRobot
     public void teleopPeriodic()
     {
         // System.out.println(driverController.getRawAxis(DriverController.Axis.kLeftX));
-<<<<<<< HEAD
-        // System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
-=======
         System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
 
         intake = intakeNext.get();
@@ -101,7 +93,6 @@ public class Robot extends TimedRobot
 
         System.out.println(intake);
         System.out.println(turret);
->>>>>>> annika and mr. thomas: output messages to driver
     }
 
     /**
