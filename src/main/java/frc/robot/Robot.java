@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 public class Robot extends TimedRobot
 {
     private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
-    private DriverController driverController = DriverController.getInstance();
-    private OperatorController operatorController = OperatorController.getInstance();
+    // private DriverController driverController = DriverController.getInstance();
+    // private OperatorController operatorController = OperatorController.getInstance();
 
     private boolean isPreAutonomous = true;
     /**
@@ -36,7 +36,7 @@ public class Robot extends TimedRobot
     @Override
     public void robotPeriodic()
     {
-
+        mainShuffleboard.updateShuffleboardTime();
     }
 
     /**
@@ -74,7 +74,7 @@ public class Robot extends TimedRobot
     public void teleopPeriodic()
     {
         // System.out.println(driverController.getRawAxis(DriverController.Axis.kLeftX));
-        System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
+        // System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
     }
 
     /**

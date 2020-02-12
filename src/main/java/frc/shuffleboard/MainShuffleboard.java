@@ -23,7 +23,7 @@ public class MainShuffleboard
     private AutonomousTab autonomousTab = AutonomousTab.getInstance();
     private DriverControllerTab driverControllerTab = DriverControllerTab.getInstance();
     private OperatorControllerTab operatorControllerTab = OperatorControllerTab.getInstance();
-    // private CameraTab cameraTab = CameraTab.getInstance();
+    private CameraTab cameraTab = CameraTab.getInstance();
 
     private static MainShuffleboard instance = new MainShuffleboard();
 
@@ -61,5 +61,12 @@ public class MainShuffleboard
     public void setOperatorControllerSettings()
     {
        operatorControllerTab.setOperatorControllerAxisSettings();
+    }
+
+    // ------------------------------------------------------------------------------------
+    // CAMERA TAB
+    public void updateShuffleboardTime()
+    {
+       cameraTab.updateShuffleboardTime();
     }
 }
