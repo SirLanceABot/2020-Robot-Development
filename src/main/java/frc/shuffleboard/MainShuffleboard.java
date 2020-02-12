@@ -65,8 +65,13 @@ public class MainShuffleboard
 
     // ------------------------------------------------------------------------------------
     // CAMERA TAB
-    public void updateShuffleboardTime()
+    public void updateMatchTime()
     {
-       cameraTab.updateShuffleboardTime();
+       cameraTab.updateMatchTime();
+    }
+
+    public void updateMatchInfo()
+    {
+       cameraTab.updateMatchInfo();
     }
 }

@@ -15,8 +15,7 @@ public class CameraTab
     private NetworkTableEntry matchEntry;
     private NetworkTableEntry teamStationEntry;
 
-    // private int oldTime = 0;
-    private double oldTime = 0.0;
+    private int oldTime = 0;
 
     private static DriverStation dStation = DriverStation.getInstance();;
     
@@ -25,7 +24,8 @@ public class CameraTab
     private CameraTab()
     {
         createCameraTab();
-        updateCameraTab();
+        timeRemainingEntry.setString("0:00");
+        updateMatchInfo();
     }
 
     protected static CameraTab getInstance()
@@ -35,7 +35,8 @@ public class CameraTab
 
     private void createCameraTab()
     {
-        // Camera widgets created on Rasp Pi
+        // The Camera widgets are created on Rasp Pi
+        // These are the Time and Match Information boxes
         timeRemainingEntry = 
             cameraTab.add("Time", "NA")
                 .withWidget(BuiltInWidgets.kTextView)
@@ -58,36 +59,31 @@ public class CameraTab
                 .getEntry();
     }
     
-    public void updateShuffleboardTime()
+    public void updateMatchTime()
     {
-        double delay = 0.2;
-        
+        int matchTime;
         int minutes;
-        double seconds;
-
-        double matchTime = dStation.getMatchTime();;
+        int seconds;
         String timeRemainingFormatted;
 
-        // matchTime = (int)dStation.getMatchTime(); 
+        matchTime = (int) Math.round(dStation.getMatchTime() + 0.5);
+        matchTime = (matchTime < 0 ? 0 : matchTime);
 
-        if (matchTime >= oldTime + delay)
+        if (matchTime != oldTime)
         {
             oldTime = matchTime;
-            minutes = (int) (matchTime / 60.0);
-            seconds = Math.round((matchTime - minutes * 60.0) * 10.0) / 10.0;
-            timeRemainingFormatted = Integer.toString(minutes) + ":" + Double.toString(seconds);
-            // timeRemainingFormatted = Double.toString(matchTime);
+            minutes = matchTime / 60;
+            seconds = matchTime % 60;
+            timeRemainingFormatted = Integer.toString(minutes) + (seconds < 10 ? ":0" : ":") + Integer.toString(seconds);
 
             timeRemainingEntry.setString(timeRemainingFormatted);
         }
     }
 
-    public void updateCameraTab()
+    public void updateMatchInfo()
     {
         String matchString;
         String teamStationString;
-
-        updateShuffleboardTime();
 
         matchString = dStation.getMatchType() + " " + dStation.getMatchNumber();
         teamStationString = dStation.getAlliance() + " " + dStation.getLocation();

@@ -48,7 +48,7 @@ public class Robot extends TimedRobot
     @Override
     public void robotPeriodic()
     {
-        mainShuffleboard.updateShuffleboardTime();
+        mainShuffleboard.updateMatchTime();
     }
 
     /**
@@ -130,6 +130,7 @@ public class Robot extends TimedRobot
     {
         if(isPreAutonomous)
         {
+            mainShuffleboard.updateMatchInfo();
             mainShuffleboard.checkForNewAutonomousTabData();
         }
     }
