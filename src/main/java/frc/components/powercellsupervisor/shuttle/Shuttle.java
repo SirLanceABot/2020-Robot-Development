@@ -1,7 +1,5 @@
 package frc.components.powercellsupervisor.shuttle;
 
-import java.sql.Driver;
-
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -9,6 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.controls.DriverController;
+import frc.controls.OperatorController;
 import frc.controls.Xbox;
 
 /**
@@ -92,17 +91,23 @@ public class Shuttle
                 {
                     stop();
                 }
-                else
+
+
+                if(OperatorController.getInstance().getRawButton(0)) //assign the correct button
                 {
-                    if(sensor1.get())
-                    {
-                        currentState = Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
-                    }
-                    else
-                    {                    
-                        currentState = Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
-                    }
+                    currentState = Transition.findNextState(currentState, Event.ReadyToFeed);
                 }
+                // else
+                // {
+                //     if(sensor1.get())
+                //     {
+                //         currentState = Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
+                //     }
+                //     else
+                //     {                    
+                //         currentState = Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
+                //     }
+                // }
             }
         },
         Empty()
