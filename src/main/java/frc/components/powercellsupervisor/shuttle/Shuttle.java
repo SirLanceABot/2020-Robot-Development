@@ -27,10 +27,18 @@ public class Shuttle
         {
             @Override
             void doAction() 
-            {
+            {   
+                if(sensor5.get())
+                {
+                    currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
+                }       
                 System.out.println("Shuttle State: Off");
-                stop();       
-                if(sensor1.get())
+                stop();
+                if(isFull())
+                {
+                    currentState = Transition.findNextState(currentState, Event.ShuttleFull);
+                }       
+                else if(sensor1.get())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
                 }
@@ -47,13 +55,22 @@ public class Shuttle
             @Override
             void doAction() 
             {
+                if(sensor5.get())
+                {
+                    currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
+                }       
+                if(isFull())
+                {
+                    currentState = Transition.findNextState(currentState, Event.ShuttleFull);
+                }       
+
                 System.out.println("Shuttle State: MovingOnePosition");
 
-                if(currentPosition < targetPosition - 5)
+                if(currentPosition < targetPosition - 10)
                 {
                     motor.set(0.5);
                 }
-                else if(currentPosition > targetPosition + 5)
+                else if(currentPosition > targetPosition + 10)
                 {
                     motor.set(-0.5);
                 }
@@ -86,6 +103,10 @@ public class Shuttle
             @Override
             void doAction() 
             {
+                if(sensor5.get())
+                {
+                    currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
+                }       
                 System.out.println("Shuttle State: Full");
                 if(isFull())
                 {
@@ -115,6 +136,10 @@ public class Shuttle
             @Override
             void doAction()
             {
+                if(sensor5.get())
+                {
+                    currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
+                }       
                 System.out.println("Shuttle State: Empty");
                 if(sensor1.get())
                 {
@@ -212,7 +237,7 @@ public class Shuttle
             {
                 if (transition.currentState == currentState && transition.event == event) 
                 {
-                return transition.nextState;
+                    return transition.nextState;
                 }
             }
             System.out.println("ERROR: NO STATE TO TRANSITION TO FOUND");
@@ -292,7 +317,7 @@ public class Shuttle
 
     private static boolean isEmpty()
     {
-        if(/**!sensor1.get() && **/!sensor2.get() && !sensor3.get() && !sensor4.get() && !sensor5.get())
+        if(!sensor1.get() && !sensor2.get() && !sensor3.get() && !sensor4.get() && !sensor5.get())
         {
             return true;
         }
