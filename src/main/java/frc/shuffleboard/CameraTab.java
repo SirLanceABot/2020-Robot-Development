@@ -40,21 +40,21 @@ public class CameraTab
         timeRemainingEntry = 
             cameraTab.add("Time", "NA")
                 .withWidget(BuiltInWidgets.kTextView)
-                .withPosition(0,0)//20, 13)
+                .withPosition(20, 13)
                 .withSize(4, 2)
                 .getEntry();
 
         matchEntry = 
             cameraTab.add("Match", "NA")
                 .withWidget(BuiltInWidgets.kTextView)
-                .withPosition(0,4)//24, 13)
+                .withPosition(24, 13)
                 .withSize(4, 2)
                 .getEntry();
 
         teamStationEntry =
             cameraTab.add("Alliance", "NA")
                 .withWidget(BuiltInWidgets.kTextView)
-                .withPosition(0,8)//28, 13)
+                .withPosition(28, 13)
                 .withSize(4, 2)
                 .getEntry();
     }
