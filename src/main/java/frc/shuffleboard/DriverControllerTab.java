@@ -34,6 +34,9 @@ public class DriverControllerTab
 
 
     private AxisObjects leftXObjects = new AxisObjects();
+    private AxisObjects leftYObjects = new AxisObjects();
+    private AxisObjects rightXObjects = new AxisObjects();
+    private AxisObjects rightYObjects = new AxisObjects();
 
     private static DriverControllerTab instance = new DriverControllerTab();
 
@@ -42,6 +45,9 @@ public class DriverControllerTab
         System.out.println(this.getClass().getName() + ": Started Constructor");
 
         createAxisWidgets(DriverController.Axis.kLeftX, "Left X", leftXObjects, 0);
+        createAxisWidgets(DriverController.Axis.kLeftY, "Left Y", leftYObjects, 5);
+        createAxisWidgets(DriverController.Axis.kRightX, "Right X", rightXObjects, 10);
+        createAxisWidgets(DriverController.Axis.kRightY, "Right Y", rightYObjects, 15);
 
         // TODO: create the other widgets for the other axes
 
@@ -160,12 +166,21 @@ public class DriverControllerTab
 
         axisSettings = getAxisSettingsFromShuffleboard(leftXObjects);
         driverController.setAxisSettings(DriverController.Axis.kLeftX, axisSettings);
+
+        axisSettings = getAxisSettingsFromShuffleboard(leftYObjects);
+        driverController.setAxisSettings(DriverController.Axis.kLeftY, axisSettings);
+
+        axisSettings = getAxisSettingsFromShuffleboard(rightXObjects);
+        driverController.setAxisSettings(DriverController.Axis.kRightX, axisSettings);
+
+        axisSettings = getAxisSettingsFromShuffleboard(rightYObjects);
+        driverController.setAxisSettings(DriverController.Axis.kRightY, axisSettings);
         // axisSettings = getAxisSettingsFromShuffleboard(leftYObjects);
         // driverController.setAxisSettings(DriverController.Axis.kLeftY, axisSettings);
 
         // driverController.setAxisSettings(DriverController.Axis.kRightX, axisSettings);
         // driverController.setAxisSettings(DriverController.Axis.kRightY, axisSettings);
 
-        // TODO: Add the other axes
+        
     }
 }
