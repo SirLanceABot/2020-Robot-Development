@@ -15,9 +15,22 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot
 {
+    private static frc.vision.UdpReceive UDPreceiver;
+    private static Thread UDPreceiverThread;
     private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
+<<<<<<< HEAD
     // private DriverController driverController = DriverController.getInstance();
     // private OperatorController operatorController = OperatorController.getInstance();
+=======
+    private DriverController driverController = DriverController.getInstance();
+    private OperatorController operatorController = OperatorController.getInstance();
+    
+    public static frc.vision.TargetDataB intakeNext = new frc.vision.TargetDataB();
+    public static frc.vision.TargetDataB intake = new frc.vision.TargetDataB();
+    public static frc.vision.TargetDataE turretNext = new frc.vision.TargetDataE();
+    public static frc.vision.TargetDataE turret = new frc.vision.TargetDataE();
+
+>>>>>>> annika and mr. thomas: output messages to driver
 
     private boolean isPreAutonomous = true;
     /**
@@ -27,6 +40,10 @@ public class Robot extends TimedRobot
     public void robotInit()
     {
         System.out.println("2020-Robot-Development");
+        // start test UDP receiver
+        UDPreceiver = new frc.vision.UdpReceive(5800); // port must match what the RPi is sending on
+        UDPreceiverThread = new Thread(UDPreceiver, "4237UDPreceive");
+        UDPreceiverThread.start();
         //Test
     }
 
@@ -74,7 +91,17 @@ public class Robot extends TimedRobot
     public void teleopPeriodic()
     {
         // System.out.println(driverController.getRawAxis(DriverController.Axis.kLeftX));
+<<<<<<< HEAD
         // System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
+=======
+        System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
+
+        intake = intakeNext.get();
+        turret = turretNext.get();
+
+        System.out.println(intake);
+        System.out.println(turret);
+>>>>>>> annika and mr. thomas: output messages to driver
     }
 
     /**
