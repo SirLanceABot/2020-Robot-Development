@@ -170,6 +170,11 @@ public class TargetDataB
         return imageSize;
     }
 
+    public synchronized double getAngleToTurn()
+    {
+        return angleToTurn;
+    }
+
     /*
     public synchronized  Point getCenter()
     {
