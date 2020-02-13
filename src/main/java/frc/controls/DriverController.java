@@ -1,12 +1,38 @@
 package frc.controls;
 
+import java.util.ArrayList;
+
+import edu.wpi.first.wpilibj.DriverStation;
+
 /**
  * Customized Xbox instance used for driving the robot
+ * 
  * @author Elliot Measel
  */
 public class DriverController extends Xbox
 {
+    public class RumbleEvent
+    {
+        public double startTime;
+        public double duration;
+        public double leftPower;
+        public double rightPower;
+
+        public RumbleEvent(double startTime, double duration, double leftPower, double rightPower)
+        {
+            this.startTime = startTime;
+            this.duration = duration;
+            this.leftPower = leftPower;
+            this.rightPower = rightPower;
+        }
+    }
+
     private static final int DRIVER_CONTROLLER_PORT = 0;
+
+    private ArrayList<RumbleEvent> rumbleEvents = new ArrayList<RumbleEvent>();
+    private int rumbleCounter = 0;
+
+    private DriverStation driverStation = DriverStation.getInstance();
 
     // the one and only instance of driver controller
     private static DriverController instance = new DriverController(DRIVER_CONTROLLER_PORT); 
@@ -28,6 +54,15 @@ public class DriverController extends Xbox
         setAxisSettings(Axis.kLeftTrigger, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
         setAxisSettings(Axis.kRightTrigger, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
 
+        createRumbleEvent(60.0, 1.0, 0.5, 0.5);
+        createRumbleEvent(30.0, 2.0, 0.75, 0.75);
+        createRumbleEvent(10.0, 1.0, 1.0, 1.0);
+        createRumbleEvent(5.0, 0.25, 1.0, 1.0);
+        createRumbleEvent(4.0, 0.25, 1.0, 1.0);
+        createRumbleEvent(3.0, 0.25, 1.0, 1.0);
+        createRumbleEvent(2.0, 0.25, 1.0, 1.0);
+        createRumbleEvent(1.0, 0.25, 1.0, 1.0);
+
         System.out.println(this.getClass().getName() + " : constructor finished");
     }
 
@@ -38,5 +73,32 @@ public class DriverController extends Xbox
     public static DriverController getInstance()
     {
         return instance;
+    }
+
+    public void createRumbleEvent(double startTime, double duration, double leftPower, double rightPower)
+    {
+        rumbleEvents.add(new RumbleEvent(startTime, duration, leftPower, rightPower));
+    }
+
+    public void checkRumbleEvent()
+    {
+        if (rumbleEvents.size() > rumbleCounter)
+        {
+            double matchTime = driverStation.getMatchTime();
+            double startTime = rumbleEvents.get(rumbleCounter).startTime;
+            double duration = rumbleEvents.get(rumbleCounter).duration;
+
+            if (startTime >= matchTime && matchTime >= startTime - duration)
+            {
+                setRumble(RumbleType.kLeftRumble, rumbleEvents.get(rumbleCounter).leftPower);
+                setRumble(RumbleType.kRightRumble, rumbleEvents.get(rumbleCounter).rightPower);
+            }
+            else if (matchTime < startTime - duration)
+            {
+                rumbleCounter++;
+                setRumble(RumbleType.kLeftRumble, 0.0);
+                setRumble(RumbleType.kRightRumble, 0.0); 
+            }
+        }
     }
 }

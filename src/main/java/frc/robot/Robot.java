@@ -85,6 +85,8 @@ public class Robot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
+        driverController.checkRumbleEvent();
+
         // System.out.println(driverController.getRawAxis(DriverController.Axis.kLeftX));
         System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
 
