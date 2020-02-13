@@ -11,6 +11,34 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public class DriverController extends Xbox
 {
+    public enum ButtonAction
+    {
+        kIntakeOn(Button.kRB),
+        kIntakeUp(Button.kRightStick),
+        kIntakeDown(Button.kLeftStick),
+        kWalk(Button.kLB);
+
+        public final Button button;
+
+        private ButtonAction(Button button)
+        {
+            this.button = button;
+        }
+    }
+
+    public enum AxisAction
+    {
+        kMove(Axis.kLeftY),
+        kRotate(Axis.kRightX);
+
+        public final Axis axis;
+
+        private AxisAction(Axis axis)
+        {
+            this.axis = axis;
+        }
+    }
+
     public class RumbleEvent
     {
         public double startTime;
@@ -100,5 +128,20 @@ public class DriverController extends Xbox
                 setRumble(RumbleType.kRightRumble, 0.0); 
             }
         }
+    }
+
+    public boolean getAction(ButtonAction buttonAction)
+    {
+        return getRawButton(buttonAction.button);
+    }
+
+    public double getAction(AxisAction axisAction)
+    {
+        return getRawAxis(axisAction.axis);
+    }
+
+    public void resetRumbleCounter()
+    {
+        rumbleCounter = 0;
     }
 }

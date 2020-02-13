@@ -104,6 +104,7 @@ public class Robot extends TimedRobot
     public void testInit()
     {
         isPreAutonomous = true;
+        driverController.resetRumbleCounter();
     }
 
     /**
