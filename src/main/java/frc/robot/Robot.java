@@ -12,6 +12,9 @@ import frc.controls.OperatorController;
 import frc.controls.Xbox;
 import frc.shuffleboard.MainShuffleboard;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot
@@ -22,10 +25,13 @@ public class Robot extends TimedRobot
     private DriverController driverController = DriverController.getInstance();
     private OperatorController operatorController = OperatorController.getInstance();
     
-    public static frc.vision.TargetDataB intakeNext = new frc.vision.TargetDataB();
-    public static frc.vision.TargetDataB intake = new frc.vision.TargetDataB();
-    public static frc.vision.TargetDataE turretNext = new frc.vision.TargetDataE();
-    public static frc.vision.TargetDataE turret = new frc.vision.TargetDataE();
+    public static frc.vision.TargetDataB turretNext = new frc.vision.TargetDataB();
+    public static frc.vision.TargetDataB turret = new frc.vision.TargetDataB();
+    public static frc.vision.TargetDataE intakeNext = new frc.vision.TargetDataE();
+    public static frc.vision.TargetDataE intake = new frc.vision.TargetDataE();
+
+    public static CANSparkMax leftMotor = new CANSparkMax(3, MotorType.kBrushless);
+    public static CANSparkMax rightMotor = new CANSparkMax(2, MotorType.kBrushless);
 
 
     private boolean isPreAutonomous = true;
@@ -40,6 +46,9 @@ public class Robot extends TimedRobot
         UDPreceiver = new frc.vision.UdpReceive(5800); // port must match what the RPi is sending on
         UDPreceiverThread = new Thread(UDPreceiver, "4237UDPreceive");
         UDPreceiverThread.start();
+        leftMotor.restoreFactoryDefaults();
+        rightMotor.restoreFactoryDefaults();
+        rightMotor.setInverted(true);
         //Test
     }
 
@@ -96,8 +105,31 @@ public class Robot extends TimedRobot
         intake = intakeNext.get();
         turret = turretNext.get();
 
-        System.out.println(intake);
-        System.out.println(turret);
+        if(turret.isFreshData())
+        {
+            if(turret.getAngleToTurn() > 1)
+            {
+                System.out.println("turning to the right" + "\t\tangle to turn: " + turret.getAngleToTurn());
+                rightMotor.set(-0.05);
+                leftMotor.set(0.05);
+            }
+            else if(turret.getAngleToTurn() < -1)
+            {
+                System.out.println("turning to the left" +  "\t\tangle to turn: " + turret.getAngleToTurn());
+                rightMotor.set(0.05);
+                leftMotor.set(-0.05);
+            }
+            else
+            {
+                System.out.print("it is off" + "\t\tangle to turn: " + turret.getAngleToTurn());
+                rightMotor.set(0.0);
+                leftMotor.set(0.0);
+            }
+        }
+
+
+        //System.out.println(intake);
+       // System.out.println(turret);
     }
 
     /**
