@@ -130,6 +130,18 @@ public class DriverController extends Xbox
         }
     }
 
+    @Deprecated
+    public double getRawAxis(Axis axis)
+    {
+        return super.getRawAxis(axis);
+    }
+
+    @Deprecated
+    public boolean getRawButton(Button button)
+    {
+        return super.getRawButton(button);
+    }
+
     public boolean getAction(ButtonAction buttonAction)
     {
         return getRawButton(buttonAction.button);

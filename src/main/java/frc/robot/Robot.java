@@ -9,6 +9,7 @@ package frc.robot;
 
 import frc.controls.DriverController;
 import frc.controls.OperatorController;
+import frc.controls.Xbox;
 import frc.shuffleboard.MainShuffleboard;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -87,8 +88,10 @@ public class Robot extends TimedRobot
     {
         driverController.checkRumbleEvent();
 
-        // System.out.println(driverController.getRawAxis(DriverController.Axis.kLeftX));
+        System.out.println(driverController.getAction(DriverController.AxisAction.kMove));
         System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
+
+        driverController.getRawButton(Xbox.Button.kStart);
 
         intake = intakeNext.get();
         turret = turretNext.get();
