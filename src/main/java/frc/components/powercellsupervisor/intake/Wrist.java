@@ -1,5 +1,6 @@
 package frc.components.powercellsupervisor.intake;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -13,14 +14,21 @@ public class Wrist
     // Constants
     private static enum WristState
     {
-        kUp, kLowering, kDown, kRaising
-    };
+        kUp, kLowering, kDown, kRaising;
+    }
 
     // TODO: Change these to the correct port
     private static final int WRIST_SOLENOID_EXTEND_PORT = 1;
     private static final int WRIST_SOLENOID_RETRACT_PORT = 0;
     // private static final int WRIST_SOLENOID_RIGHT_EXTEND_PORT = 2;
     // private static final int WRIST_SOLENOID_RIGHT_RETRACT_PORT = 3;
+
+    //TODO: what are the ports for the digital sensors
+    private static final int WRIST_SOLENOID_EXTENDED_SENSOR_PORT = 0;
+    private static final int WRIST_SOLENOID_RETRACTED_SENSOR_PORT = 1;
+
+    private static DigitalInput magneticSensorExtended = new DigitalInput(WRIST_SOLENOID_EXTENDED_SENSOR_PORT);
+    private static DigitalInput magneticSensorRetracted = new DigitalInput(WRIST_SOLENOID_RETRACTED_SENSOR_PORT);
 
     private static DoubleSolenoid wristSolenoid = new DoubleSolenoid(WRIST_SOLENOID_EXTEND_PORT, WRIST_SOLENOID_RETRACT_PORT);
     // private static DoubleSolenoid wristSolenoidRight = new DoubleSolenoid(WRIST_SOLENOID_RIGHT_EXTEND_PORT, WRIST_SOLENOID_RIGHT_RETRACT_PORT);
@@ -61,13 +69,19 @@ public class Wrist
      * Checks if the Wrist is up or should be up by this time.
      * @return Whether the Wrist is up (true) or not.
      */
-    public boolean isUp()
+    public boolean isUp(boolean useSensor)
     {
         if(wristState == WristState.kUp)
         {
             return true;
         }
-        else if((wristState == WristState.kRaising) && (timer.get() >= raisingTimeOut)) // TODO: Check limit switch possibly
+        else if(!useSensor && (wristState == WristState.kRaising) && (timer.get() >= raisingTimeOut)) // TODO: Check limit switch possibly
+        {
+            wristState = WristState.kUp;
+            timer.stop();
+            return true;
+        }
+        else if(useSensor && (wristState == WristState.kRaising) && !magneticSensorRetracted.get())
         {
             wristState = WristState.kUp;
             timer.stop();
@@ -97,13 +111,19 @@ public class Wrist
      * Checks if the Wrist is down or should be down by this time.
      * @return Whether the Wrist is down (true) or not.
      */
-    public boolean isDown()
+    public boolean isDown(boolean useSensor)
     {
         if(wristState == WristState.kDown)
         {
             return true;
         }
-        else if((wristState == WristState.kLowering) && (timer.get() >= loweringTimeOut)) // TODO: Check limit switch possibly
+        else if(!useSensor && (wristState == WristState.kLowering) && (timer.get() >= loweringTimeOut)) // TODO: Check limit switch possibly
+        {
+            wristState = WristState.kDown;
+            timer.stop();
+            return true;
+        }
+        else if(useSensor && (wristState == WristState.kLowering) && !magneticSensorExtended.get())
         {
             wristState = WristState.kDown;
             timer.stop();

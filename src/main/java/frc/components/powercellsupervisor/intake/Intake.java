@@ -38,7 +38,7 @@ public class Intake
                 roller.stop();
                 wrist.lower();
 
-                if(wrist.isDown())
+                if(wrist.isDown(useSensor))
                 {
                     currentState = Transition.findNextState(currentState, Event.kLowered);
                 }
@@ -52,7 +52,7 @@ public class Intake
                 roller.stop();
                 wrist.raise();
                 
-                if(wrist.isUp())
+                if(wrist.isUp(useSensor))
                 {
                     currentState = Transition.findNextState(currentState, Event.kRaised);
                 }
@@ -139,6 +139,7 @@ public class Intake
     private static Wrist wrist;
     private static DriverController driverController;
     private static State currentState = State.Off;
+    private static final boolean useSensor = true;
     private static Intake instance = new Intake();
 
     private Intake()
