@@ -9,7 +9,9 @@ public class Autonomous
      */
     private Autonomous()
     {
-
+        System.out.println(this.getClass().getName() + ": Started Constructing");
+        
+        System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
 
     /**
@@ -19,5 +21,15 @@ public class Autonomous
     public static Autonomous getInstance()
     {
         return instance;
+    }
+
+    public void init()
+    {
+
+    }
+
+    public void periodic()
+    {
+
     }
 }

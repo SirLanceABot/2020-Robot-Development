@@ -9,7 +9,6 @@ package frc.robot;
 
 import frc.controls.DriverController;
 import frc.controls.OperatorController;
-import frc.controls.Xbox;
 import frc.shuffleboard.MainShuffleboard;
 import frc.vision.UdpReceive;
 
@@ -20,22 +19,40 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot
 {
-    private static UdpReceive udpReceiver = new UdpReceive(5800); // port must match what the RPi is sending on;
-    private static Thread udpReceiverThread = new Thread(udpReceiver, "4237UDPreceive");
+    public enum RobotState
+    {
+        kNone,
+        kStartup,
+        kDisabledBeforeGame,
+        kAutonomous,
+        kDisabledBetweenAutonomousAndTeleop,
+        kTeleop,
+        kDisabledAfterGame,
+        kTest;
+    }
+
+    private static RobotState robotState = RobotState.kNone;
+
+    private static Test test = Test.getInstance();
+    private static Autonomous autonomous = Autonomous.getInstance();
+    private static Disabled disabled = Disabled.getInstance();
+    private static Teleop teleop = Teleop.getInstance();
+
+    private static UdpReceive udpReceive = new UdpReceive(5800); // port must match what the RPi is sending on;
+    private static Thread udpReceiverThread = new Thread(udpReceive, "4237UDPreceive");
     private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
     private DriverController driverController = DriverController.getInstance();
     private OperatorController operatorController = OperatorController.getInstance();
-    
-    private static frc.vision.TargetDataB turret = new frc.vision.TargetDataB();
-    private static frc.vision.TargetDataE intake = new frc.vision.TargetDataE();
-
-    public static CANSparkMax leftMotor = new CANSparkMax(3, MotorType.kBrushless);
-    public static CANSparkMax rightMotor = new CANSparkMax(2, MotorType.kBrushless);
 
     private boolean isPreAutonomous = true;
+
+    private static CANSparkMax leftMotor = new CANSparkMax(3, MotorType.kBrushless);
+    private static CANSparkMax rightMotor = new CANSparkMax(2, MotorType.kBrushless);
     
     public Robot()
     {
+        robotState = RobotState.kStartup;
+
         udpReceiverThread.start();
     }
 
@@ -66,7 +83,9 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousInit()
     {
-        isPreAutonomous = false;
+        robotState = RobotState.kAutonomous;
+
+        autonomous.init();
     }
 
     /**
@@ -75,7 +94,7 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousPeriodic()
     {
-
+        autonomous.periodic();
     }
 
     /**
@@ -84,8 +103,9 @@ public class Robot extends TimedRobot
     @Override
     public void teleopInit()
     {
-        mainShuffleboard.setDriverControllerSettings();
-        mainShuffleboard.setOperatorControllerSettings();
+        robotState = RobotState.kTeleop;
+
+        teleop.init();
     }
 
     /**
@@ -94,41 +114,7 @@ public class Robot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-        driverController.checkRumbleEvent();
-
-        System.out.println(driverController.getAction(DriverController.AxisAction.kMove));
-        System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
-
-        driverController.getRawButton(Xbox.Button.kStart);
-
-        intake = udpReceiver.getIntake();
-        turret = udpReceiver.getTurret();
-
-        if(turret.isFreshData())
-        {
-            if(turret.getAngleToTurn() > 1)
-            {
-                System.out.println("turning to the right" + "\t\tangle to turn: " + turret.getAngleToTurn());
-                rightMotor.set(-0.05);
-                leftMotor.set(0.05);
-            }
-            else if(turret.getAngleToTurn() < -1)
-            {
-                System.out.println("turning to the left" +  "\t\tangle to turn: " + turret.getAngleToTurn());
-                rightMotor.set(0.05);
-                leftMotor.set(-0.05);
-            }
-            else
-            {
-                System.out.print("it is off" + "\t\tangle to turn: " + turret.getAngleToTurn());
-                rightMotor.set(0.0);
-                leftMotor.set(0.0);
-            }
-        }
-
-
-        //System.out.println(intake);
-       // System.out.println(turret);
+        teleop.periodic();
     }
 
     /**
@@ -137,8 +123,9 @@ public class Robot extends TimedRobot
     @Override
     public void testInit()
     {
-        isPreAutonomous = true;
-        driverController.resetRumbleCounter();
+        robotState = RobotState.kTest;
+
+        test.init();
     }
 
     /**
@@ -147,7 +134,7 @@ public class Robot extends TimedRobot
     @Override
     public void testPeriodic()
     {
-
+        test.periodic();
     }
 
         /**
@@ -156,7 +143,14 @@ public class Robot extends TimedRobot
     @Override
     public void disabledInit()
     {
+        if (robotState == RobotState.kStartup)
+            robotState = RobotState.kDisabledBeforeGame;
+        else if (robotState == RobotState.kAutonomous)
+            robotState = RobotState.kDisabledBetweenAutonomousAndTeleop;
+        else if (robotState == RobotState.kTeleop)
+            robotState = RobotState.kDisabledAfterGame;
 
+        disabled.init();
     }
 
     /**
@@ -165,10 +159,16 @@ public class Robot extends TimedRobot
     @Override
     public void disabledPeriodic()
     {
-        if(isPreAutonomous)
-        {
-            mainShuffleboard.updateMatchInfo();
-            mainShuffleboard.checkForNewAutonomousTabData();
-        }
+        disabled.periodic();
+    }
+
+    public static RobotState getRobotState()
+    {
+        return robotState;
+    }
+
+    public static UdpReceive getUdpReceive()
+    {
+        return udpReceive;
     }
 }

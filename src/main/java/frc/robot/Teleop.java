@@ -1,5 +1,8 @@
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import frc.components.climber.Climber;
 import frc.components.drivetrain.Drivetrain;
 // import frc.components.powercellsupervisor.PowerCellSupervisor;
@@ -7,6 +10,10 @@ import frc.controls.DriverController;
 import frc.controls.Logitech;
 import frc.controls.OperatorController;
 import frc.controls.Xbox;
+import frc.shuffleboard.MainShuffleboard;
+import frc.vision.TargetDataB;
+import frc.vision.TargetDataE;
+import frc.vision.UdpReceive;
 
 /**
  * Class for controlling the robot during the Teleop period.
@@ -19,19 +26,37 @@ public class Teleop
     // private static PowerCellSupervisor powercellsupervisor = PowerCellSupervisor.getInstance();
     private static DriverController driverController = DriverController.getInstance();
     private static OperatorController operatorController = OperatorController.getInstance();
+    private static MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
 
-    public Teleop()
+    private static TargetDataB turret = new TargetDataB();
+    private static TargetDataE intake = new TargetDataE();
+
+    private static UdpReceive udpReceive = Robot.getUdpReceive();
+
+    private static CANSparkMax leftMotor = new CANSparkMax(3, MotorType.kBrushless);
+    private static CANSparkMax rightMotor = new CANSparkMax(2, MotorType.kBrushless);
+
+    private static Teleop teleop = new Teleop();
+
+    private Teleop()
     {
         System.out.println(this.getClass().getName() + ": Started Constructing");
+
         System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
+
+    public static Teleop getInstance()
+    {
+        return teleop;
+    } 
 
     /**
      * Contains all the intializations needed before teleop.
      */
     public void init()
     {
-
+        mainShuffleboard.setDriverControllerSettings();
+        mainShuffleboard.setOperatorControllerSettings();
     }
 
     /**
@@ -39,8 +64,38 @@ public class Teleop
      */
     public void periodic()
     {
-        driverControls();
-        operatorControls();
+        driverController.checkRumbleEvent();
+
+        System.out.println(driverController.getAction(DriverController.AxisAction.kMove));
+        System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
+
+        driverController.getRawButton(Xbox.Button.kStart);
+
+        intake = udpReceive.getIntake();
+        turret = udpReceive.getTurret();
+
+        if(turret.isFreshData())
+        {
+            if(turret.getAngleToTurn() > 1)
+            {
+                System.out.println("turning to the right" + "\t\tangle to turn: " + turret.getAngleToTurn());
+                rightMotor.set(-0.05);
+                leftMotor.set(0.05);
+            }
+            else if(turret.getAngleToTurn() < -1)
+            {
+                System.out.println("turning to the left" +  "\t\tangle to turn: " + turret.getAngleToTurn());
+                rightMotor.set(0.05);
+                leftMotor.set(-0.05);
+            }
+            else
+            {
+                System.out.print("it is off" + "\t\tangle to turn: " + turret.getAngleToTurn());
+                rightMotor.set(0.0);
+                leftMotor.set(0.0);
+            }
+        }
+
     }
 
     /**
