@@ -8,7 +8,7 @@ import frc.components.powercellsupervisor.shooter.Shooter;
 public class Shooting implements Command, Notifies
 {
     private static boolean notification = false;
-    //private static Shooter shooter = Shooter.getInstance();
+    private static Shooter shooter = Shooter.getInstance();
     private static double timeToWait;
     private static boolean isFinished;
 
@@ -19,11 +19,18 @@ public class Shooting implements Command, Notifies
 
     public void init()
     {
+        System.out.println("Initializing Shooter");
+        sendNotification(true);
     }
 
     public void execute()
-    {
-        
+    {   
+        System.out.println("Executing Shooter");
+        shooter.ShooterFSM();
+        if(shooter.isOff())
+        {
+            isFinished = true;
+        }
     }
 
     public boolean isFinished()
@@ -33,11 +40,14 @@ public class Shooting implements Command, Notifies
 
     public void end()
     {
+        System.out.println("Ending Shooter");
+        sendNotification(false);
     }
 
 
     @Override
     public void sendNotification(boolean notification) 
     {
+        shooter.getNotification(notification);
     }
 }

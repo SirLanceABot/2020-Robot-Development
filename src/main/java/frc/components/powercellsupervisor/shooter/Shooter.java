@@ -1,8 +1,11 @@
 package frc.components.powercellsupervisor.shooter;
 
+
+import frc.autonomous.commands.interfaces.Notified;
 import frc.controls.OperatorController;
+import frc.controls.OperatorController.ButtonAction;
 import frc.sensors.LidarLite.LIDAR_Lite;
-public class Shooter 
+public class Shooter implements Notified
 {
   double elevatorPosition = 0;
   private static State currentState = State.Off;
@@ -15,6 +18,7 @@ public class Shooter
   private static double angleToTarget;
   //private static Gate gate = Gate.getInstance();
   private static OperatorController operatorController = OperatorController.getInstance();
+  private static boolean notification = false;
 
   private static Shooter instance = new Shooter();
 
@@ -26,7 +30,7 @@ public class Shooter
       void doAction() 
       {
         System.out.println("State: Off");
-        if(operatorController.getRawButton(2))
+        if(operatorController.getAction(ButtonAction.kShoot) || notification)
         {
           currentState = Transition.findNextState(currentState, Event.VisionAssistButtonPressed);
         }
@@ -240,13 +244,38 @@ public class Shooter
     }
   }
 
-
-  private Shooter() {
+  private Shooter() 
+  {
     System.out.println(this.getClass().getName() + ": Started Constructing");
     System.out.println(this.getClass().getName() + ": Finished Constructing");
   }
 
+  public static Shooter getInstance()
+  {
+    return instance;
+  }
 
+  public static Shooter.State getCurrentState()
+  {
+    return currentState;
+  }
+
+  public Boolean isOff()
+  {
+    if(currentState == State.Off)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  public void getNotification(Boolean notification)
+  {
+    this.notification = notification;
+  }
 
   // ----------------------------------------------------------------------//
   public void ShooterFSM() 
