@@ -1,5 +1,7 @@
 package frc.components.climber;
 
+import frc.robot.Port;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 
@@ -9,7 +11,7 @@ import com.revrobotics.CANSparkMax;
  */
 public class Winch
 {
-    private static CANSparkMax winchMotor = new CANSparkMax(1, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    private static CANSparkMax winchMotor = new CANSparkMax(Port.Motor.CLIMBER_WINCH, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANEncoder winchEncoder = winchMotor.getEncoder();
 
     //TODO: determine actual height constraints.

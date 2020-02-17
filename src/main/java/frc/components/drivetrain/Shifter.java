@@ -1,5 +1,7 @@
 package frc.components.drivetrain;
 
+import frc.robot.Port;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -16,14 +18,7 @@ public class Shifter
         kLowGear, kShiftingUp, kHighGear, kShiftingDown
     };
 
-    // TODO: Change these to the correct port
-    private static final int SHIFTER_SOLENOID_EXTEND_PORT = 3;
-    private static final int SHIFTER_SOLENOID_RETRACT_PORT = 2;
-    // private static final int SHIFTER_SOLENOID_RIGHT_EXTEND_PORT = 2;
-    // private static final int SHIFTER_SOLENOID_RIGHT_RETRACT_PORT = 3;
-
-    private static DoubleSolenoid shifterSolenoid = new DoubleSolenoid(SHIFTER_SOLENOID_EXTEND_PORT, SHIFTER_SOLENOID_RETRACT_PORT);
-    // private static DoubleSolenoid shifterSolenoidRight = new DoubleSolenoid(SHIFTER_SOLENOID_RIGHT_EXTEND_PORT, SHIFTER_SOLENOID_RIGHT_RETRACT_PORT);
+    private static DoubleSolenoid shifterSolenoid = new DoubleSolenoid(Port.Pneumatic.SHIFTER_EXTEND, Port.Pneumatic.SHIFTER_RETRACT);
 
     private ShifterState shifterState = ShifterState.kLowGear; // TODO: Check defaul position
     private static Timer timer = new Timer();

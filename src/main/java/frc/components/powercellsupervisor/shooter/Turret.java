@@ -1,5 +1,7 @@
 package frc.components.powercellsupervisor.shooter;
 
+import frc.robot.Port;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -55,7 +57,6 @@ public class Turret
      */
     static final Gains kGains = new Gains(0.2, 0.0, 0.0, 0.0, 0, 1.0);
 
-    private static final int kMOTOR_ID = 0;
     private static final double kZERO_LOCATION = 0; //TODO: Find out what value is straight ahead
     private static final int kTIMEOUT_MS = 30;
     private static final double kTOTAL_TICKS = 0.0; //TODO: Find out how many total ticks there are
@@ -63,7 +64,7 @@ public class Turret
 
 
     private static NavX navX = NavX.getInstance();
-    private static TalonSRX motor = new TalonSRX(kMOTOR_ID);
+    private static TalonSRX motor = new TalonSRX(Port.Motor.TURRET);
     private static double currentPostion;
     private static boolean isMoving = false;
     private static Turret instance = new Turret();

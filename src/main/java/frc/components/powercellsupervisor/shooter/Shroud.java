@@ -1,5 +1,7 @@
 package frc.components.powercellsupervisor.shooter;
 
+import frc.robot.Port;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -10,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
  */
 public class Shroud
 {
-    private static final int MOTOR_ID = 0;
     private static final int TIMEOUT_MS = 30;
     private static final int UPPER_LIMIT = 100; //TODO: Find out the upper limit
     private static final int LOWER_LIMIT = 0;   //TODO: Find out the lower limit
@@ -22,7 +23,7 @@ public class Shroud
 
     private static double currentAngle;
     private static boolean isMoving = false;
-    private static TalonSRX motor = new TalonSRX(MOTOR_ID);
+    private static TalonSRX motor = new TalonSRX(Port.Motor.SHROUD);
     private static Shroud instance = new Shroud();
 
     private Shroud()

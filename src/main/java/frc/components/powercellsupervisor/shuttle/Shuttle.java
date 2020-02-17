@@ -1,5 +1,7 @@
 package frc.components.powercellsupervisor.shuttle;
 
+import frc.robot.Port;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -260,21 +262,20 @@ public class Shuttle
         }
     }
 
-    private static final int MOTOR_ID = 1; //TOD0: Change to actual motor id
     private static final double TICKS_PER_ROTATION = 4096.0;
 
     private static double currentPosition = 0;
     private static double targetPosition = 0;
     private static boolean initFlag = true;
-    private static CANSparkMax motor = new CANSparkMax(MOTOR_ID, MotorType.kBrushless);
+    private static CANSparkMax motor = new CANSparkMax(Port.Motor.SHUTTLE, MotorType.kBrushless);
     private static CANEncoder encoder = new CANEncoder(motor);
     private static CANPIDController pidController = new CANPIDController(motor);
     //private static double currentPosition;
-    private static DigitalInput sensor1 = new DigitalInput(0);
-    private static DigitalInput sensor2 = new DigitalInput(1);
-    private static DigitalInput sensor3 = new DigitalInput(2);
-    private static DigitalInput sensor4 = new DigitalInput(3);
-    private static DigitalInput sensor5 = new DigitalInput(4);
+    private static DigitalInput sensor1 = new DigitalInput(Port.Sensor.SHUTTLE_1);
+    private static DigitalInput sensor2 = new DigitalInput(Port.Sensor.SHUTTLE_2);
+    private static DigitalInput sensor3 = new DigitalInput(Port.Sensor.SHUTTLE_3);
+    private static DigitalInput sensor4 = new DigitalInput(Port.Sensor.SHUTTLE_4);
+    private static DigitalInput sensor5 = new DigitalInput(Port.Sensor.SHUTTLE_5);
     private static State currentState = State.Off;
     private static DriverController controller = DriverController.getInstance();
     private static Shuttle instance = new Shuttle();

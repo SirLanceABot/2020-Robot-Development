@@ -1,5 +1,7 @@
 package frc.controls;
 
+import frc.robot.Port;
+
 public class OperatorController extends Logitech
 {
     public enum ButtonAction
@@ -27,9 +29,7 @@ public class OperatorController extends Logitech
         }
     }
 
-    private static final int OPERATOR_CONTROLLER_PORT = 1;
-
-    private static OperatorController instance = new OperatorController(OPERATOR_CONTROLLER_PORT);
+    private static OperatorController instance = new OperatorController(Port.Controller.OPERATOR);
 
     private OperatorController(int port)
     {

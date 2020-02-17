@@ -1,5 +1,7 @@
 package frc.components.powercellsupervisor.intake;
 
+import frc.robot.Port;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -17,20 +19,10 @@ public class Wrist
         kUp, kLowering, kDown, kRaising;
     }
 
-    // TODO: Change these to the correct port
-    private static final int WRIST_SOLENOID_EXTEND_PORT = 1;
-    private static final int WRIST_SOLENOID_RETRACT_PORT = 0;
-    // private static final int WRIST_SOLENOID_RIGHT_EXTEND_PORT = 2;
-    // private static final int WRIST_SOLENOID_RIGHT_RETRACT_PORT = 3;
+    private static DigitalInput magneticSensorExtended = new DigitalInput(Port.Sensor.WRIST_EXTEND_LIMIT_SWITCH);
+    private static DigitalInput magneticSensorRetracted = new DigitalInput(Port.Sensor.WRIST_RETRACT_LIMIT_SWITCH);
 
-    //TODO: what are the ports for the digital sensors
-    private static final int WRIST_SOLENOID_EXTENDED_SENSOR_PORT = 0;
-    private static final int WRIST_SOLENOID_RETRACTED_SENSOR_PORT = 1;
-
-    private static DigitalInput magneticSensorExtended = new DigitalInput(WRIST_SOLENOID_EXTENDED_SENSOR_PORT);
-    private static DigitalInput magneticSensorRetracted = new DigitalInput(WRIST_SOLENOID_RETRACTED_SENSOR_PORT);
-
-    private static DoubleSolenoid wristSolenoid = new DoubleSolenoid(WRIST_SOLENOID_EXTEND_PORT, WRIST_SOLENOID_RETRACT_PORT);
+    private static DoubleSolenoid wristSolenoid = new DoubleSolenoid(Port.Pneumatic.INTAKE_EXTEND, Port.Pneumatic.INTAKE_RETRACT);
     // private static DoubleSolenoid wristSolenoidRight = new DoubleSolenoid(WRIST_SOLENOID_RIGHT_EXTEND_PORT, WRIST_SOLENOID_RIGHT_RETRACT_PORT);
 
     private WristState wristState = WristState.kUp;

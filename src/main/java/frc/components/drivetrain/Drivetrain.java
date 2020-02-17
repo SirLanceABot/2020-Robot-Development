@@ -1,5 +1,7 @@
 package frc.components.drivetrain;
 
+import frc.robot.Port;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -7,10 +9,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 public class Drivetrain extends DifferentialDrive
 {
-    private static WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(1);
-    private static WPI_TalonSRX backRightMotor = new WPI_TalonSRX(2);
-    private static WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(3);
-    private static WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(4);
+    private static WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_FRONT_RIGHT);
+    private static WPI_TalonSRX backRightMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_BACK_RIGHT);
+    private static WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_BACK_LEFT);
+    private static WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_FRONT_LEFT);
 
     private static SpeedControllerGroup rightMotors = new SpeedControllerGroup(frontRightMotor, backRightMotor);
     private static SpeedControllerGroup leftMotors = new SpeedControllerGroup(frontLeftMotor, backLeftMotor);

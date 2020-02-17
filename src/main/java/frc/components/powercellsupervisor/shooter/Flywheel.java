@@ -1,5 +1,7 @@
 package frc.components.powercellsupervisor.shooter;
 
+import frc.robot.Port;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -12,8 +14,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 public class Flywheel extends PIDSubsystem
 {
     //----------------------------- Constants --------------------------//
-    private static final int MASTER_MOTOR_ID = 0;
-    private static final int FOLLOWER_MOTOR_ID = 1;
     private static final int TIMEOUT_MS = 30;
     //private static final int VELOCITY_ERROR = 3;
     private static final double PORPORTIONAL = 0.0;
@@ -22,8 +22,8 @@ public class Flywheel extends PIDSubsystem
     private static final double FEEDFORWARD = 0.0;
     //------------------------------------------------------------------//
 
-    private static TalonSRX masterMotor = new TalonSRX(MASTER_MOTOR_ID);
-    private static TalonSRX followerMotor = new TalonSRX(FOLLOWER_MOTOR_ID);
+    private static TalonSRX masterMotor = new TalonSRX(Port.Motor.SHOOTER_MASTER);
+    private static TalonSRX followerMotor = new TalonSRX(Port.Motor.SHOOTER_SLAVE);
     private static boolean isMoving = false;
     private static Flywheel instance = new Flywheel();
 

@@ -1,5 +1,7 @@
 package frc.controls;
 
+import frc.robot.Port;
+
 import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -55,15 +57,13 @@ public class DriverController extends Xbox
         }
     }
 
-    private static final int DRIVER_CONTROLLER_PORT = 0;
-
     private ArrayList<RumbleEvent> rumbleEvents = new ArrayList<RumbleEvent>();
     private int rumbleCounter = 0;
 
     private DriverStation driverStation = DriverStation.getInstance();
 
     // the one and only instance of driver controller
-    private static DriverController instance = new DriverController(DRIVER_CONTROLLER_PORT); 
+    private static DriverController instance = new DriverController(Port.Controller.DRIVER); 
 
     /**
      * Private constructor for driver controller

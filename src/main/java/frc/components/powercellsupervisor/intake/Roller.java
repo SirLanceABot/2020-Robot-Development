@@ -1,5 +1,7 @@
 package frc.components.powercellsupervisor.intake;
 
+import frc.robot.Port;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -11,10 +13,6 @@ import com.revrobotics.CANPIDController;
  */
 public class Roller
 {
-    // motor controller id's
-    private static final int MASTER_MOTOR_ID = 0;
-    // private static final int SLAVE_MOTOR_ID = 1;
-
     // pid controller constants
     private static final double kP = 0.00005; 
     private static final double kI = 0.0000004;
@@ -26,7 +24,9 @@ public class Roller
     private static final double maxRPM = 3000;
 
     // initializing the motors
-    private static CANSparkMax masterMotor = new CANSparkMax(MASTER_MOTOR_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    private static CANSparkMax masterMotor = new CANSparkMax(Port.Motor.INTAKE_CENTER, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    private static CANSparkMax leftSlave = new CANSparkMax(Port.Motor.INTAKE_LEFT, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    private static CANSparkMax rightSlave = new CANSparkMax(Port.Motor.INTAKE_RIGHT, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     // private static CANSparkMax slaveMotor = new CANSparkMax(SLAVE_MOTOR_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
 
     // initializing the encoder and pid controller

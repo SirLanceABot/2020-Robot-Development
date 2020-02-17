@@ -14,7 +14,7 @@ public class Port
         public static final int DRIVETRAIN_FRONT_LEFT =  4;
 
         public static final int INTAKE_CENTER =          5;
-        public static final int INTAKE_LEFT =            6; 
+        public static final int INTAKE_LEFT =            6;
         public static final int INTAKE_RIGHT =           7;
 
         public static final int SHUTTLE =                8;
@@ -28,6 +28,8 @@ public class Port
 
         public static final int CLIMBER_ARM =           13;
         public static final int CLIMBER_WINCH =         14;
+
+        public static final int CONTROL_PANEL =         15; //TODO: declare control panel motor
     }
 
     public class Sensor
@@ -44,6 +46,7 @@ public class Port
         public static final int SHUTTLE_3 = 4;
         public static final int SHUTTLE_4 = 5;
         public static final int SHUTTLE_5 = 6;
+        public static final int SHUTTLE_6 = 7; //TODO: declare 6th shuttle sensor
     }
 
     public class Controller
@@ -54,14 +57,17 @@ public class Port
 
     public class Pneumatic
     {
-        public static final int SHIFTER_EXTEND =  0;
-        public static final int SHIFTER_RETRACT = 1;
+        public static final int SHIFTER_EXTEND =        0;
+        public static final int SHIFTER_RETRACT =       1;
 
-        public static final int INTAKE_EXTEND =   2;
-        public static final int INTAKE_RETRACT =  3;
+        public static final int INTAKE_EXTEND =         2;
+        public static final int INTAKE_RETRACT =        3;
 
-        public static final int CONTROL_PANEL =   4;
+        //TODO: declare control panel pneumatics
+        public static final int CONTROL_PANEL_EXTEND =  4;
+        public static final int CONTROL_PANEL_RETRACT = 5;
 
-        public static final int COOLING =         5;
+        //TODO: declare cooling pneumatics
+        public static final int DRIVERTRAIN_COOLING =   6;
     }
 }
