@@ -57,5 +57,9 @@ public class AutonomousBuilder
         return masterCommandList;
     }
 
+    public static void buildCommandList()
+    {
+        //insert code here to build the command list
+    }
 
 }
