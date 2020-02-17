@@ -33,6 +33,12 @@ public class UdpReceive implements Runnable
     private static String lastDataReceived = "";
     private DatagramSocket socket = null;
 
+    private static final int MAXIMUM_MESSAGE_LENGTH = 1024;
+
+    private static TargetDataB turretNext = new TargetDataB();
+    private static TargetDataE intakeNext = new TargetDataE();
+
+
     public UdpReceive(int port)
     {
         try
@@ -59,30 +65,31 @@ public class UdpReceive implements Runnable
     public void run()
     {
         System.out.println(pId + " packet listener thread started");
-        byte[] buf = new byte[1024];
-        final int bufLength = buf.length; // save original length because length property is changed with usage
-        DatagramPacket packet = new DatagramPacket(buf, bufLength);
+        byte[] bufferMessage = new byte[MAXIMUM_MESSAGE_LENGTH];
+        final int bufferMessageLength = bufferMessage.length; // save original length because length property is changed with usage
+        DatagramPacket packet = new DatagramPacket(bufferMessage, bufferMessageLength);
 
         while (true)
         {
             try
             {
                 // receive request
-                packet.setLength(bufLength);
+                packet.setLength(bufferMessageLength);
                 socket.receive(packet); // always receive the packets
                 byte[] data = packet.getData();
                 lastDataReceived = new String(data, 0, packet.getLength());
-                System.out.println(pId + " >" + lastDataReceived + "<");
+                //System.out.println(pId + " >" + lastDataReceived + "<");
 
+                // INFO: You could have the Turret and Intake be in two different UDP ports and even two different threads
                 if (lastDataReceived.startsWith("Turret "))
                 {
                     String message = new String(lastDataReceived.substring("Turret ".length()));
-                    frc.robot.Robot.turretNext.fromJson(message);  
+                    turretNext.fromJson(message);  
                 }
                 else if (lastDataReceived.startsWith("Intake "))
                 {
                     String message = new String(lastDataReceived.substring("Intake ".length()));
-                    frc.robot.Robot.intakeNext.fromJson(message); 
+                    intakeNext.fromJson(message); 
                 }
                 else
                 {
@@ -101,5 +108,15 @@ public class UdpReceive implements Runnable
             }
         }
         // socket.close();
+    }
+
+    public TargetDataB getTurret()
+    {
+        return turretNext.get();
+    }
+
+    public TargetDataE getIntake()
+    {
+        return intakeNext.get();
     }
 }

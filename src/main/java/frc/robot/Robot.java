@@ -11,6 +11,7 @@ import frc.controls.DriverController;
 import frc.controls.OperatorController;
 import frc.controls.Xbox;
 import frc.shuffleboard.MainShuffleboard;
+import frc.vision.UdpReceive;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -19,22 +20,25 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot
 {
-    private static frc.vision.UdpReceive UDPreceiver;
-    private static Thread UDPreceiverThread;
+    private static UdpReceive udpReceiver = new UdpReceive(5800); // port must match what the RPi is sending on;
+    private static Thread udpReceiverThread = new Thread(udpReceiver, "4237UDPreceive");
     private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
     private DriverController driverController = DriverController.getInstance();
     private OperatorController operatorController = OperatorController.getInstance();
     
-    public static frc.vision.TargetDataB turretNext = new frc.vision.TargetDataB();
-    public static frc.vision.TargetDataB turret = new frc.vision.TargetDataB();
-    public static frc.vision.TargetDataE intakeNext = new frc.vision.TargetDataE();
-    public static frc.vision.TargetDataE intake = new frc.vision.TargetDataE();
+    private static frc.vision.TargetDataB turret = new frc.vision.TargetDataB();
+    private static frc.vision.TargetDataE intake = new frc.vision.TargetDataE();
 
     public static CANSparkMax leftMotor = new CANSparkMax(3, MotorType.kBrushless);
     public static CANSparkMax rightMotor = new CANSparkMax(2, MotorType.kBrushless);
 
-
     private boolean isPreAutonomous = true;
+    
+    public Robot()
+    {
+        udpReceiverThread.start();
+    }
+
     /**
      * This function is run when the robot is first started up and should be used for any initialization code.
      */
@@ -42,14 +46,9 @@ public class Robot extends TimedRobot
     public void robotInit()
     {
         System.out.println("2020-Robot-Development");
-        // start test UDP receiver
-        UDPreceiver = new frc.vision.UdpReceive(5800); // port must match what the RPi is sending on
-        UDPreceiverThread = new Thread(UDPreceiver, "4237UDPreceive");
-        UDPreceiverThread.start();
         leftMotor.restoreFactoryDefaults();
         rightMotor.restoreFactoryDefaults();
         rightMotor.setInverted(true);
-        //Test
     }
 
     /**
@@ -102,8 +101,8 @@ public class Robot extends TimedRobot
 
         driverController.getRawButton(Xbox.Button.kStart);
 
-        intake = intakeNext.get();
-        turret = turretNext.get();
+        intake = udpReceiver.getIntake();
+        turret = udpReceiver.getTurret();
 
         if(turret.isFreshData())
         {

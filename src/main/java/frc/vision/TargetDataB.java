@@ -1,3 +1,5 @@
+package frc.vision;
+
 import com.google.gson.Gson;
 import org.opencv.core.Point;
 import org.opencv.core.Size;
@@ -29,6 +31,8 @@ public class TargetDataB
 
     // These fields are used to track the validity of the data.
     int frameNumber; // Number of the camera frame
+
+    // Variable isFreshData means whether the roboRIO has seen the current data from the Raspberry Pi already.
     boolean isFreshData; // Is the data fresh?
     boolean isTargetFound;
 
@@ -156,7 +160,8 @@ public class TargetDataB
         targetData.isFreshData = isFreshData;
 
         // Indicate that the data is no longer fresh data.
-        isFreshData = false;
+        // It is not until the set() method gets called that isFreshData changes.
+        this.isFreshData = false;
 
         // System.out.println(pId + " " + center.x + " " + center.y);
 
