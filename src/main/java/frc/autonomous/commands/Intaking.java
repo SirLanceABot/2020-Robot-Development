@@ -1,14 +1,19 @@
 package frc.autonomous.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import frc.autonomous.commands.interfaces.*;
+import edu.wpi.first.wpilibj.Timer;
+import frc.components.powercellsupervisor.intake.Intake;
 
-public class Wait implements Command 
+public class Intaking implements Command, Notifies
 {
+    private static boolean notification = false;
+    private static Intake intake = Intake.getInstance();
+
     private static Timer timer = new Timer();
     private static double timeToWait;
     private static boolean isFinished;
-    public Wait(double time)
+
+    public Intaking(double time)
     {
         timeToWait = time;
         isFinished = false;
@@ -19,10 +24,12 @@ public class Wait implements Command
         timer.stop();
         timer.reset();
         timer.start();
+        sendNotification(true);
     }
 
     public void execute()
     {
+        
         if(timer.get() > timeToWait)
         {
             end();
@@ -39,6 +46,14 @@ public class Wait implements Command
         timer.stop();
         timer.reset();
         isFinished = true;
+        sendNotification(false);
+
     }
 
+
+    @Override
+    public void sendNotification(boolean notification) 
+    {
+        intake.getNotification(notification);
+    }
 }

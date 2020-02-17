@@ -1,15 +1,16 @@
 package frc.components.powercellsupervisor.intake;
 
+import frc.autonomous.commands.interfaces.Notified;
 import frc.components.powercellsupervisor.intake.Roller;
 import frc.components.powercellsupervisor.intake.Wrist;
 import frc.controls.DriverController;
-import frc.controls.Xbox;
+import frc.controls.DriverController.ButtonAction;
 
 /**
  * Class to control the Intake subsystem
  * @author Maxwell Li   
  */
-public class Intake
+public class Intake implements Notified
 {
     private enum State 
     {
@@ -20,7 +21,7 @@ public class Intake
             {
 
                 roller.stop();
-                if(driverController.getRawButton(Xbox.Button.kA))
+                if(driverController.getAction(ButtonAction.kIntakeOn) || notification)
                 {
                     currentState = Transition.findNextState(currentState, Event.kIntakeButtonPressed);
                 }
@@ -64,7 +65,7 @@ public class Intake
             void doAction() 
             {
                 roller.intake();
-                if(driverController.getRawButton(Xbox.Button.kA))
+                if(driverController.getAction(ButtonAction.kIntakeOn) || notification)
                 {
                     currentState = Transition.findNextState(currentState, Event.kIntakeButtonPressed);
                 }
@@ -140,6 +141,7 @@ public class Intake
     private static DriverController driverController;
     private static State currentState = State.Off;
     private static final boolean useSensor = true;
+    private static boolean notification = false;
     private static Intake instance = new Intake();
 
     private Intake()
@@ -156,11 +158,14 @@ public class Intake
         return instance;
     }
 
-
     public void runFSM()
     {
         currentState.doAction();
     }
 
+    @Override
+    public void getNotification(Boolean notification) {
 
+        this.notification = notification;
+    }
 }

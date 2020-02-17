@@ -1,4 +1,4 @@
-package frc.autonomous.commands;
+package frc.autonomous.commands.interfaces;
 
 public interface Command
 {
