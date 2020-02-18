@@ -5,9 +5,16 @@ import frc.autonomous.commands.interfaces.Notified;
 import frc.controls.OperatorController;
 import frc.controls.OperatorController.ButtonAction;
 import frc.sensors.LidarLite.LIDAR_Lite;
+import frc.vision.Vision;
+import frc.vision.TargetDataB;
+
 public class Shooter implements Notified
 {
-  double elevatorPosition = 0;
+  //Vision stuff
+  private static Vision vision = Vision.getInstance();
+  private static TargetDataB turretVision = new TargetDataB();
+
+
   private static State currentState = State.Off;
   private static Button lastButtonPressed = null;
   private static Flywheel flywheel = Flywheel.getInstance();
@@ -42,9 +49,13 @@ public class Shooter implements Notified
       {
         System.out.println("State: Searching");
         turret.rotateToWall();
-        //vision function that returns the boolean of if the tape is on the screen or not
-        //if true
-        currentState = Transition.findNextState(currentState, Event.TapeFound);
+        if(turretVision.isFreshData())
+        {
+            if(turretVision.isTargetFound())
+            {
+              currentState = Transition.findNextState(currentState, Event.TapeFound);
+            }
+        }
       }
     },
     Aligning() 
@@ -52,7 +63,7 @@ public class Shooter implements Notified
         void doAction() 
         {
           System.out.println("State: Aligning");
-          //vision code method that will get the relative angle of the
+          turret.alignWithTarget();
         }
       },
     Calculating() 
@@ -74,6 +85,14 @@ public class Shooter implements Notified
         void doAction() 
         {
           System.out.println("State: PreShotCheck");
+          if(turretVision.isTargetFound())
+          {
+            if(Math.abs(turretVision.getAngleToTurn()) < 1.0)
+            {
+              //continue checking speeds and other data
+              currentState = Transition.findNextState(currentState, Event.PreShotCheckPassed);
+            }
+          }
         }
     },
     ShootingOnePowerCell() 

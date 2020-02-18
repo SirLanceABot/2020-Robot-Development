@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.sensors.NavX;
+import frc.vision.TargetDataB;
+import frc.vision.Vision;
 
 
 /**
@@ -62,7 +64,9 @@ public class Turret
     private static final double kTOTAL_TICKS = 0.0; //TODO: Find out how many total ticks there are
 
 
-
+    //Vision stuff
+    private static Vision vision = Vision.getInstance();
+    private static TargetDataB turretVision = new TargetDataB();
     private static NavX navX = NavX.getInstance();
     private static TalonSRX motor = new TalonSRX(Port.Motor.TURRET);
     private static double currentPostion;
@@ -260,6 +264,38 @@ public class Turret
         double currentAngle = navX.getAngleOfPowerPortWall();
 
         rotateTo(targetAngle - currentAngle);
+    }
+
+    /**
+     * @return true when aligned, false when not aligned
+     */
+    public boolean alignWithTarget()
+    {
+        turretVision = vision.getTurret();
+
+        if(turretVision.isFreshData())
+        {
+            if(turretVision.getAngleToTurn() > 1)
+            {
+                System.out.println("turning to the right" + "\t\tangle to turn: " + turretVision.getAngleToTurn());
+                setSpeed(0.5);
+                return false;
+            }
+            else if(turretVision.getAngleToTurn() < -1)
+            {
+                System.out.println("turning to the left" +  "\t\tangle to turn: " + turretVision.getAngleToTurn());
+                setSpeed(-0.5);
+                return false;
+            }
+            else
+            {
+                System.out.print("it is off" + "\t\tangle to turn: " + turretVision.getAngleToTurn());
+                stop();
+                return true;
+            }
+        }
+        return false;
+
     }
 
     public String toString()
