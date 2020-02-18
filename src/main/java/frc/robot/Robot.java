@@ -10,7 +10,7 @@ package frc.robot;
 import frc.controls.DriverController;
 import frc.controls.OperatorController;
 import frc.shuffleboard.MainShuffleboard;
-import frc.vision.UdpReceive;
+import frc.vision.Vision;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -31,29 +31,20 @@ public class Robot extends TimedRobot
         kTest;
     }
 
+    private static Vision vision = Vision.getInstance();
     private static RobotState robotState = RobotState.kNone;
-
     private static Test test = Test.getInstance();
     private static Autonomous autonomous = Autonomous.getInstance();
     private static Disabled disabled = Disabled.getInstance();
     private static Teleop teleop = Teleop.getInstance();
 
-    private static UdpReceive udpReceive = new UdpReceive(5800); // port must match what the RPi is sending on;
-    private static Thread udpReceiverThread = new Thread(udpReceive, "4237UDPreceive");
     private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
-    private DriverController driverController = DriverController.getInstance();
-    private OperatorController operatorController = OperatorController.getInstance();
-
-    private boolean isPreAutonomous = true;
-
-    private static CANSparkMax leftMotor = new CANSparkMax(3, MotorType.kBrushless);
-    private static CANSparkMax rightMotor = new CANSparkMax(2, MotorType.kBrushless);
     
     public Robot()
     {
+        System.out.println(this.getClass().getName() + ": Started Constructing");
         robotState = RobotState.kStartup;
-
-        udpReceiverThread.start();
+        System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
 
     /**
@@ -63,9 +54,6 @@ public class Robot extends TimedRobot
     public void robotInit()
     {
         System.out.println("2020-Robot-Development");
-        leftMotor.restoreFactoryDefaults();
-        rightMotor.restoreFactoryDefaults();
-        rightMotor.setInverted(true);
     }
 
     /**
@@ -165,10 +153,5 @@ public class Robot extends TimedRobot
     public static RobotState getRobotState()
     {
         return robotState;
-    }
-
-    public static UdpReceive getUdpReceive()
-    {
-        return udpReceive;
     }
 }

@@ -35,12 +35,10 @@ public class UdpReceive implements Runnable
 
     private static final int MAXIMUM_MESSAGE_LENGTH = 1024;
 
-    private static TargetDataB turretNext = new TargetDataB();
-    private static TargetDataE intakeNext = new TargetDataE();
-
-
     public UdpReceive(int port)
     {
+        System.out.println(this.getClass().getName() + ": Started Constructing");
+        
         try
         {
             socket = new DatagramSocket(port);
@@ -60,6 +58,8 @@ public class UdpReceive implements Runnable
         // there can be a socket exception if Reuse isn't set.
         // Example: socket = new DatagramSocket(port);
         // Example: socket.setReuseAddress(true);
+
+        System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
 
     public void run()
@@ -68,6 +68,8 @@ public class UdpReceive implements Runnable
         byte[] bufferMessage = new byte[MAXIMUM_MESSAGE_LENGTH];
         final int bufferMessageLength = bufferMessage.length; // save original length because length property is changed with usage
         DatagramPacket packet = new DatagramPacket(bufferMessage, bufferMessageLength);
+
+        Vision.setIsConnected(); // Indicate that this UdpReceive.java is ready.
 
         while (true)
         {
@@ -84,12 +86,12 @@ public class UdpReceive implements Runnable
                 if (lastDataReceived.startsWith("Turret "))
                 {
                     String message = new String(lastDataReceived.substring("Turret ".length()));
-                    turretNext.fromJson(message);  
+                    Vision.turretNext.fromJson(message);  
                 }
                 else if (lastDataReceived.startsWith("Intake "))
                 {
                     String message = new String(lastDataReceived.substring("Intake ".length()));
-                    intakeNext.fromJson(message); 
+                    Vision.intakeNext.fromJson(message); 
                 }
                 else
                 {
@@ -108,15 +110,5 @@ public class UdpReceive implements Runnable
             }
         }
         // socket.close();
-    }
-
-    public TargetDataB getTurret()
-    {
-        return turretNext.get();
-    }
-
-    public TargetDataE getIntake()
-    {
-        return intakeNext.get();
     }
 }

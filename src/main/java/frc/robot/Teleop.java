@@ -3,7 +3,7 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import frc.components.climber.Climber;
+//import frc.components.climber.Climber;
 import frc.components.drivetrain.Drivetrain;
 // import frc.components.powercellsupervisor.PowerCellSupervisor;
 import frc.controls.DriverController;
@@ -14,6 +14,7 @@ import frc.shuffleboard.MainShuffleboard;
 import frc.vision.TargetDataB;
 import frc.vision.TargetDataE;
 import frc.vision.UdpReceive;
+import frc.vision.Vision;
 
 /**
  * Class for controlling the robot during the Teleop period.
@@ -21,17 +22,16 @@ import frc.vision.UdpReceive;
  */
 public class Teleop
 {
-    private static Climber climber = Climber.getInstance();
-    private static Drivetrain drivetrain = Drivetrain.getInstance();
+    //private static Climber climber = Climber.getInstance();
+    //private static Drivetrain drivetrain = Drivetrain.getInstance();
     // private static PowerCellSupervisor powercellsupervisor = PowerCellSupervisor.getInstance();
+    private static Vision vision = Vision.getInstance();
     private static DriverController driverController = DriverController.getInstance();
     private static OperatorController operatorController = OperatorController.getInstance();
     private static MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
 
     private static TargetDataB turret = new TargetDataB();
     private static TargetDataE intake = new TargetDataE();
-
-    private static UdpReceive udpReceive = Robot.getUdpReceive();
 
     private static CANSparkMax leftMotor = new CANSparkMax(3, MotorType.kBrushless);
     private static CANSparkMax rightMotor = new CANSparkMax(2, MotorType.kBrushless);
@@ -41,7 +41,9 @@ public class Teleop
     private Teleop()
     {
         System.out.println(this.getClass().getName() + ": Started Constructing");
-
+        leftMotor.restoreFactoryDefaults();
+        rightMotor.restoreFactoryDefaults();
+        rightMotor.setInverted(true);
         System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
 
@@ -64,29 +66,34 @@ public class Teleop
      */
     public void periodic()
     {
+        if(!Vision.isConnected()) // For the actual robot, we will have an else block to switch to manual mode.
+        {
+            System.out.println("Waiting for a connection.");
+            return;
+        }
         driverController.checkRumbleEvent();
 
-        System.out.println(driverController.getAction(DriverController.AxisAction.kMove));
-        System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
+        // System.out.println(driverController.getAction(DriverController.AxisAction.kMove));
+        // System.out.println(operatorController.getRawAxis(OperatorController.Axis.kXAxis));
 
-        driverController.getRawButton(Xbox.Button.kStart);
+        // driverController.getRawButton(Xbox.Button.kStart);
 
-        intake = udpReceive.getIntake();
-        turret = udpReceive.getTurret();
+        intake = vision.getIntake();
+        turret = vision.getTurret();
 
         if(turret.isFreshData())
         {
             if(turret.getAngleToTurn() > 1)
             {
                 System.out.println("turning to the right" + "\t\tangle to turn: " + turret.getAngleToTurn());
-                rightMotor.set(-0.05);
-                leftMotor.set(0.05);
+                rightMotor.set(-0.1);
+                leftMotor.set(0.1);
             }
             else if(turret.getAngleToTurn() < -1)
             {
                 System.out.println("turning to the left" +  "\t\tangle to turn: " + turret.getAngleToTurn());
-                rightMotor.set(0.05);
-                leftMotor.set(-0.05);
+                rightMotor.set(0.1);
+                leftMotor.set(-0.1);
             }
             else
             {
@@ -108,7 +115,7 @@ public class Teleop
         double intake = driverController.getRawAxis(Xbox.Axis.kLeftTrigger);
         double wrist = driverController.getRawAxis(Xbox.Axis.kRightTrigger);
 
-        drivetrain.westCoastDrive(move, rotate);
+        //drivetrain.westCoastDrive(move, rotate);
 
         if(intake >= 0.5)
         {
