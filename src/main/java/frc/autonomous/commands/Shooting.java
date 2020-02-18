@@ -1,8 +1,6 @@
 package frc.autonomous.commands;
 
 import frc.autonomous.commands.interfaces.*;
-import edu.wpi.first.wpilibj.Timer;
-import frc.components.powercellsupervisor.intake.Intake;
 import frc.components.powercellsupervisor.shooter.Shooter;
 
 public class Shooting implements Command, Notifies
