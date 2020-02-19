@@ -4,10 +4,18 @@ package frc.autonomous.commands;
 import frc.autonomous.commands.interfaces.*;
 import frc.components.drivetrain.Drivetrain;
 
+/**
+ * drives to a point relative to your robot.
+ * The leftmost corner of your driver station is 0,0
+ * straight ahead to the intake is 0 degrees
+ * counter clockwise is positive
+ * clockwise is negative
+ * units are in inches
+ * @author Maxwell Li
+ *  */
 public class DriveTo implements Command
 {
     private static Drivetrain drivetrain = Drivetrain.getInstance();
-    private static double absoluteAngle;
     private static boolean isFinished;
     private static double xPos = 0.0;
     private static double yPos = 0.0;
