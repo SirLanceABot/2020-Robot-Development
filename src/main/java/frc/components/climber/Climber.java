@@ -6,10 +6,6 @@ import frc.components.climber.Arm;
 import frc.components.climber.Winch;
 import frc.controls.DriverController;
 
-// Import material to implement Talons and controls.
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 public class Climber
 {
     private static final String className = new String("[Climber]");
@@ -20,16 +16,11 @@ public class Climber
         System.out.println(className + " : Class Loading");
     }
 
-    // Create private instance variables.
-    private static TalonSRX extensionMotor = new TalonSRX(0);
-    private static TalonSRX winchMotorMaster = new TalonSRX(1);
-    //TODO: verify motor controllers
-    private static Climber instance = new Climber();
-    private static DriverController driverController = DriverController.getInstance();
-
+    
     // Get private instances of the Arm and Winch subclasses.
     private static Winch winch = Winch.getInstance();
     private static Arm arm = Arm.getInstance();
+    private static DriverController driverController = DriverController.getInstance();
 
     // Create constants
     //TODO: verify actual buttons
@@ -37,6 +28,8 @@ public class Climber
     private static final int LOWER_ARM_BUTTON = 1;
     private static final int RAISE_WINCH_BUTTON = 2;
     private static final int LOWER_WINCH_BUTTON = 3;
+
+    private static Climber instance = new Climber();
 
     /**
      * The constructor for the Climber class. 
