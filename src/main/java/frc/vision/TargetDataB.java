@@ -14,6 +14,14 @@ import org.opencv.core.Size;
  */
 public class TargetDataB
 {
+    private static final String className = new String("[TargetDataB]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private static final String pId = new String("[TargetDataB]");
 
     // NOTE: No modifier means visible to both the class and package.
@@ -41,9 +49,13 @@ public class TargetDataB
      */
     public TargetDataB()
     {
+        System.out.println(className + " : Constructor Started");
+
         boundingBoxPts = new Point[4];
         reset();
         frameNumber = 0;
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**

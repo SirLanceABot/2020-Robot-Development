@@ -14,6 +14,14 @@ import com.revrobotics.CANEncoder;
  */
 public class Arm
 {
+    private static final String className = new String("[Arm]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     // Declare and initialize private instance variables.
     private static CANSparkMax armMotor = new CANSparkMax(Port.Motor.CLIMBER_ARM, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANEncoder armEncoder = armMotor.getEncoder();
@@ -28,8 +36,12 @@ public class Arm
      * The constructor for the Arm class. 
      */
     private Arm()
-    { 
+    {
+        System.out.println(className + " : Constructor Started");
+
         armMotor.restoreFactoryDefaults();
+
+        System.out.println(className + ": Constructor Finished"); 
     }
 
     /**

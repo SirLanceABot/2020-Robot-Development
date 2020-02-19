@@ -11,6 +11,14 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public class NavX// extends AHRS
 {
+    private static final String className = new String("[NavX]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private static AHRS ahrs;
     private static double startingAngle; //this will be based on which direction that the robot is facing
     private static double angleOfPowerPortWall = 0.00; //this will also be determined on which direction that the robot is facing
@@ -18,7 +26,8 @@ public class NavX// extends AHRS
 
     protected NavX()
     {
-        System.out.println(this.getClass().getName() + " : constructor started");
+        System.out.println(className + " : Constructor Started");
+
         // Communicate w navX-MXP via the MXP SPI Bus
         // Alternates: I2C.Port.MXP, SerialPort.Port,.kMXP or SerialPort.Port.kUSB
         try{
@@ -27,7 +36,8 @@ public class NavX// extends AHRS
         {
            DriverStation.reportError("Error instantiating the Navx: " + ex.getMessage(), true);
         }
-        System.out.println(this.getClass().getName() + " : constructor finished");
+        
+        System.out.println(className + ": Constructor Finished");
     }
 
     public static NavX getInstance()

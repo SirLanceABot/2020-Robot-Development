@@ -9,6 +9,14 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class Xbox extends Joystick
 {
+    private static final String className = new String("[Xbox]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     public enum Button
     {
         kA(1), kB(2), kX(3), kY(4), kLB(5), kRB(6), kBack(7), kStart(8), kLeftStick(9), kRightStick(10);
@@ -69,6 +77,8 @@ public class Xbox extends Joystick
     {
         super(port);
 
+        System.out.println(className + " : Constructor Started");
+
         // loop to set the defaults for every axis
         for(int index = 0; index <= 5; index++)
         {
@@ -78,6 +88,8 @@ public class Xbox extends Joystick
             axisIsFlipped[index] = DEFAULT_IS_FLIPPED;
             axisScale[index] = DEFAULT_AXIS_SCALE;
         }
+
+        System.out.println(className + ": Constructor Finished");
     }
 
    

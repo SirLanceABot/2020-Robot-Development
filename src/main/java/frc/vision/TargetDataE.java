@@ -12,6 +12,14 @@ import com.google.gson.Gson;
  */
 public class TargetDataE
 {
+    private static final String className = new String("[TargetDataE]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private static final String pId = new String("[TargetDataE]");
 
     // NOTE: No modifier means visible to both the class and package.
@@ -33,8 +41,12 @@ public class TargetDataE
      */
     public TargetDataE()
     {
+        System.out.println(className + " : Constructor Started");
+
         reset();
         frameNumber = 0;
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**

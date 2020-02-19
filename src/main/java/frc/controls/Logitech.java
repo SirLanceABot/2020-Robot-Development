@@ -8,6 +8,14 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class Logitech extends Joystick
 {
+    private static final String className = new String("[Logitech]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     public enum Button
     {
         kTrigger(1), kHandleSide(2), kHandleBottomLeft(3), kHandleBottomRight(4), kHandleTopLeft(5), kHandleTopRight(6), 
@@ -64,6 +72,8 @@ public class Logitech extends Joystick
     {
         super(port);
 
+        System.out.println(className + " : Constructor Started");
+
         for(int index = 0; index <= 3; index++)
             {
                 axisDeadzone[index] = DEFAULT_DEADZONE;
@@ -72,6 +82,8 @@ public class Logitech extends Joystick
                 axisIsFlipped[index] = DEFAULT_IS_FLIPPED;
                 axisScale[index] = DEFAULT_AXIS_SCALE;
             }
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**

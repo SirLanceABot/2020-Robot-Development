@@ -2,6 +2,14 @@ package frc.robot;
 
 public class Autonomous
 {
+    private static final String className = new String("[Autonomous]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private static Autonomous instance = new Autonomous();
 
     /**
@@ -9,9 +17,9 @@ public class Autonomous
      */
     private Autonomous()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+        System.out.println(className + " : Constructor Started");
         
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**

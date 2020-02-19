@@ -15,6 +15,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 
 public class AutonomousTab
 {
+    private static final String className = new String("[AutonomousTab]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     // Create enumerated types for each Box
     //-------------------------------------------------------------------//
     public enum StartingLocation
@@ -155,7 +163,7 @@ public class AutonomousTab
 
     private AutonomousTab()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructor");
+        System.out.println(className + " : Constructor Started");
 
         createStartingLocationBox();
 
@@ -179,7 +187,7 @@ public class AutonomousTab
         goodToGo = createRedLightGreenLightBox();
         goodToGo.setBoolean(false);
 
-        System.out.println(this.getClass().getName() + ": Finished Constructor");
+        System.out.println(className + ": Constructor Finished");
     }
 
     protected static AutonomousTab getInstance()

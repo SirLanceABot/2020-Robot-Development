@@ -18,6 +18,14 @@ import frc.controls.DriverController;
  */
 public class Shuttle
 {
+    private static final String className = new String("[Shuttle]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     /**
      * Enum for the states that the component can operate within
      */
@@ -282,13 +290,15 @@ public class Shuttle
 
     protected Shuttle()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+        System.out.println(className + " : Constructor Started");
+
         motor.restoreFactoryDefaults();
         motor.setSmartCurrentLimit(40);
         setEncoderPosition(0);
         // currentPosition = 0;
         targetPosition = 0;
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     public static Shuttle getInstance()

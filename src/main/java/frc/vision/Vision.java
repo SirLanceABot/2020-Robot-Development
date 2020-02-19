@@ -2,9 +2,14 @@ package frc.vision;
 
 public class Vision
 {
+    private static final String className = new String("[Vision]");
+    
+    // Static Initializer Block
+    static
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+        System.out.println(className + " : Class Loading");
     }
+
     private static boolean isConnected = false;
 
     private static UdpReceive udpReceive = new UdpReceive(5800); // port must match what the RPi is sending on;
@@ -16,8 +21,11 @@ public class Vision
     
     private Vision()
     {
+        System.out.println(className + " : Constructor Started");
+
         udpReceiverThread.start();
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+        
+        System.out.println(className + ": Constructor Finished");
     }
 
     public static Vision getInstance()

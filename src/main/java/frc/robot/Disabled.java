@@ -9,6 +9,14 @@ import frc.vision.Vision;
  */
 public class Disabled
 {
+    private static final String className = new String("[Disabled]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private static boolean threadInitializedMessage = true;
     
     private RobotState robotState;
@@ -21,9 +29,9 @@ public class Disabled
      */
     private Disabled()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+        System.out.println(className + " : Constructor Started");
         
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+        System.out.println(className + ": Constructor Finished");
     }
 
     public static Disabled getInstance()

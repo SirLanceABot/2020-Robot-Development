@@ -11,6 +11,14 @@ import com.revrobotics.CANSparkMax;
  */
 public class Winch
 {
+    private static final String className = new String("[Winch]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private static CANSparkMax winchMotor = new CANSparkMax(Port.Motor.CLIMBER_WINCH, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANEncoder winchEncoder = winchMotor.getEncoder();
 
@@ -26,8 +34,12 @@ public class Winch
      */
     private Winch()
     {
+        System.out.println(className + " : Constructor Started");
+
         winchMotor.restoreFactoryDefaults();
         winchMotor.setSmartCurrentLimit(30);
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**

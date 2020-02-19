@@ -28,6 +28,14 @@ import java.net.SocketTimeoutException;
 
 public class UdpReceive implements Runnable
 {
+    private static final String className = new String("[UdpReceive]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private static final String pId = new String("[UdpReceive]");
 
     private static String lastDataReceived = "";
@@ -37,7 +45,7 @@ public class UdpReceive implements Runnable
 
     public UdpReceive(int port)
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+        System.out.println(className + " : Constructor Started");
         
         try
         {
@@ -59,7 +67,7 @@ public class UdpReceive implements Runnable
         // Example: socket = new DatagramSocket(port);
         // Example: socket.setReuseAddress(true);
 
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+        System.out.println(className + ": Constructor Finished");
     }
 
     public void run()

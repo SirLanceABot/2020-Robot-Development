@@ -4,6 +4,14 @@ import frc.robot.Port;
 
 public class OperatorController extends Logitech
 {
+    private static final String className = new String("[OperatorController]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     public enum ButtonAction
     {
         kShoot(Button.kTrigger);
@@ -34,14 +42,15 @@ public class OperatorController extends Logitech
     private OperatorController(int port)
     {
         super(port);
-        System.out.println(this.getClass().getName() + " : constructor started");
+
+        System.out.println(className + " : Constructor Started");
 
         setAxisSettings(Axis.kXAxis, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
         setAxisSettings(Axis.kYAxis, 0.1, 0.0, 1.0, true, AxisScale.kLinear);
         setAxisSettings(Axis.kZAxis, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
         setAxisSettings(Axis.kSlider, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
 
-        System.out.println(this.getClass().getName() + " : constructor finished");
+        System.out.println(className + ": Constructor Finished");
     }
 
     public static OperatorController getInstance()

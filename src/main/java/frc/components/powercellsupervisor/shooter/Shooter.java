@@ -10,6 +10,14 @@ import frc.vision.TargetDataB;
 
 public class Shooter implements Notified
 {
+  private static final String className = new String("[Shooter]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
   //Vision stuff
   private static Vision vision = Vision.getInstance();
   private static TargetDataB turretVision = new TargetDataB();
@@ -265,8 +273,9 @@ public class Shooter implements Notified
 
   private Shooter() 
   {
-    System.out.println(this.getClass().getName() + ": Started Constructing");
-    System.out.println(this.getClass().getName() + ": Finished Constructing");
+    System.out.println(className + " : Constructor Started");
+
+    System.out.println(className + ": Constructor Finished");
   }
 
   public static Shooter getInstance()

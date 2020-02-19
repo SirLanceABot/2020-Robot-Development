@@ -12,6 +12,14 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Climber
 {
+    private static final String className = new String("[Climber]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     // Create private instance variables.
     private static TalonSRX extensionMotor = new TalonSRX(0);
     private static TalonSRX winchMotorMaster = new TalonSRX(1);
@@ -35,6 +43,9 @@ public class Climber
      */
     private Climber()
     {
+        System.out.println(className + " : Constructor Started");
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**

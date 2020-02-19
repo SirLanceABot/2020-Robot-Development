@@ -12,6 +12,14 @@ import edu.wpi.first.wpilibj.Timer;
 // TODO: Test if the system works with only one solenoid.
 public class Shifter
 {
+    private static final String className = new String("[Shifter]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     // Constants
     private static enum ShifterState
     {
@@ -29,8 +37,9 @@ public class Shifter
 
     private Shifter()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+        System.out.println(className + " : Constructor Started");
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     protected static Shifter getInstance()

@@ -12,6 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 
 public class OperatorControllerTab
 {
+    private static final String className = new String("[OperatorControllerTab]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     /**
      * The AxisObjects class is used to create the objects needed on the Shuffleboard and Network Table.
      */
@@ -39,7 +47,7 @@ public class OperatorControllerTab
 
     private OperatorControllerTab()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructor");
+        System.out.println(className + " : Constructor Started");
 
         createAxisWidgets(OperatorController.Axis.kXAxis, "X Axis", xAxisObjects, 0);
         createAxisWidgets(OperatorController.Axis.kYAxis, "Y Axis", yAxisObjects, 5);
@@ -48,7 +56,7 @@ public class OperatorControllerTab
 
         // TODO: create the other widgets for the other axes
 
-        System.out.println(this.getClass().getName() + ": Finished Constructor");
+        System.out.println(className + ": Constructor Finished");
     }
 
     protected static OperatorControllerTab getInstance()

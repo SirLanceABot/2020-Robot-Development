@@ -13,6 +13,14 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public class DriverController extends Xbox
 {
+    private static final String className = new String("[DriverController]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     public enum ButtonAction
     {
         kIntakeOn(Button.kRB),
@@ -71,7 +79,8 @@ public class DriverController extends Xbox
     private DriverController(int port)
     {
         super(port);
-        System.out.println(this.getClass().getName() + " : constructor started");
+
+        System.out.println(className + " : Constructor Started");
 
         setAxisSettings(Axis.kLeftX, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
         setAxisSettings(Axis.kLeftY, 0.1, 0.0, 1.0, true, AxisScale.kLinear);
@@ -91,7 +100,7 @@ public class DriverController extends Xbox
         createRumbleEvent(2.0, 0.25, 1.0, 1.0);
         createRumbleEvent(1.0, 0.25, 1.0, 1.0);
 
-        System.out.println(this.getClass().getName() + " : constructor finished");
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**

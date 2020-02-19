@@ -17,6 +17,14 @@ import frc.vision.Vision;
  */
 public class Turret
 {
+    private static final String className = new String("[Turret]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     public static class Gains {
         public final double kP;
         public final double kI;
@@ -75,7 +83,8 @@ public class Turret
 
     private Turret()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+        System.out.println(className + " : Constructor Started");
+
         motor.configFactoryDefault();
 		/* Configure Selected Sensor for Talon */
 		motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative//,	// Feedback
@@ -93,8 +102,9 @@ public class Turret
 		// motor.config_kF(kSlotIdx, kGains.kF, kTimeoutMs);
 		// motor.config_kP(kSlotIdx, kGains.kP, kTimeoutMs);
 		// motor.config_kI(kSlotIdx, kGains.kI, kTimeoutMs);
-		// motor.config_kD(kSlotIdx, kGains.kD, kTimeoutMs);
-        System.out.println(this.getClass().getName() + ": Finished Constructing");        
+		// motor.config_kD(kSlotIdx, kGains.kD, kTimeoutMs); 
+        
+        System.out.println(className + ": Constructor Finished");
     }
 
     public static Turret getInstance()

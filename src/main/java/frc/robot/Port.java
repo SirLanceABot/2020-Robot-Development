@@ -6,6 +6,21 @@ package frc.robot;
  */
 public class Port
 {
+    private static final String className = new String("[Port]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
+    public Port()
+    {
+        System.out.println(className + " : Constructor Started");
+
+        System.out.println(className + ": Constructor Finished");
+    }
+
     public class Motor
     {
         public static final int DRIVETRAIN_FRONT_RIGHT = 1;

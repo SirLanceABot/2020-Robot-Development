@@ -10,14 +10,22 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  */
 public class Gate
 {   
+    private static final String className = new String("[Gate]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
 
     private DoubleSolenoid gateSolenoid = new DoubleSolenoid(0, 1);
     private static Gate instance = new Gate();
 
     private Gate()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+        System.out.println(className + " : Constructor Started");
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**

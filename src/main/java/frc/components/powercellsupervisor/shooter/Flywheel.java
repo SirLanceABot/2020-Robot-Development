@@ -13,6 +13,14 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
  */
 public class Flywheel extends PIDSubsystem
 {
+    private static final String className = new String("[Flywheel]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     //----------------------------- Constants --------------------------//
     private static final int TIMEOUT_MS = 30;
     //private static final int VELOCITY_ERROR = 3;
@@ -30,12 +38,15 @@ public class Flywheel extends PIDSubsystem
     private Flywheel()
     {
         super("Flywheel", PORPORTIONAL, INTEGRAL, DERIVATIVE, FEEDFORWARD); //(Name, P, I, D, FF)
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+
+        System.out.println(className + " : Constructor Started");
+
         masterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS); //TODO: Find out port
         followerMotor.follow(masterMotor);
         setAbsoluteTolerance(0.05);
         getPIDController();
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**

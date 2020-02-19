@@ -8,7 +8,15 @@ import javax.naming.ldap.LdapContext;
 
 import edu.wpi.first.wpilibj.I2C;
 
-public class LIDAR_Lite {
+public class LIDAR_Lite 
+{
+	private static final String className = new String("[LIDAR_Lite]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
 
 	private static LIDAR_Lite instance = new LIDAR_Lite(Constants.LIDAR.PORT, Constants.LIDAR.ADDRESS);
 
@@ -23,7 +31,7 @@ public class LIDAR_Lite {
 	}
 
 	public LIDAR_Lite(I2C.Port port, Address deviceAddress, double samplePeriod) {
-		System.out.println("[LIDAR-Lite] starting LIDAR class");
+		System.out.println(className + " : Constructor Started");
 
 		mTimer = new Timer();
 		mDeviceAvailable = false;
@@ -83,6 +91,8 @@ public class LIDAR_Lite {
 			System.out.printf("[LIDAR-Lite] NOT working on port %s, address %s %#2x\n", port, deviceAddress,
 					deviceAddress.value);
 		}
+
+		System.out.println(className + ": Constructor Finished");
 	}
 
 	public static LIDAR_Lite getInstance()

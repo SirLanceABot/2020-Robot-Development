@@ -20,6 +20,14 @@ import frc.shuffleboard.AutonomousTab.AutonomousTabData;
  */
 public class MainShuffleboard
 {
+    private static final String className = new String("[MainShuffleboard]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private AutonomousTab autonomousTab = AutonomousTab.getInstance();
     private DriverControllerTab driverControllerTab = DriverControllerTab.getInstance();
     private OperatorControllerTab operatorControllerTab = OperatorControllerTab.getInstance();
@@ -29,7 +37,9 @@ public class MainShuffleboard
 
     private MainShuffleboard()
     {
+        System.out.println(className + " : Constructor Started");
 
+        System.out.println(className + ": Constructor Finished");
     }
 
     public static MainShuffleboard getInstance()

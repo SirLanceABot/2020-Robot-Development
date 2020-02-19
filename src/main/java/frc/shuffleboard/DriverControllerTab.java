@@ -15,6 +15,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
  */
 public class DriverControllerTab
 {
+    private static final String className = new String("[DriverControllerTab]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     /**
      * The AxisObjects class is used to create the objects needed on the Shuffleboard and Network Table.
      */
@@ -42,7 +50,7 @@ public class DriverControllerTab
 
     private DriverControllerTab()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructor");
+        System.out.println(className + " : Constructor Started");
 
         createAxisWidgets(DriverController.Axis.kLeftX, "Left X", leftXObjects, 0);
         createAxisWidgets(DriverController.Axis.kLeftY, "Left Y", leftYObjects, 5);
@@ -51,7 +59,7 @@ public class DriverControllerTab
 
         // TODO: create the other widgets for the other axes
 
-        System.out.println(this.getClass().getName() + ": Finished Constructor");
+        System.out.println(className + ": Constructor Finished");
     }
 
     protected static DriverControllerTab getInstance()

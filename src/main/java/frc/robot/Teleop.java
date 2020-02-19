@@ -22,6 +22,14 @@ import frc.vision.Vision;
  */
 public class Teleop
 {
+    private static final String className = new String("[Teleop]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     //private static Climber climber = Climber.getInstance();
     //private static Drivetrain drivetrain = Drivetrain.getInstance();
     // private static PowerCellSupervisor powercellsupervisor = PowerCellSupervisor.getInstance();
@@ -40,11 +48,13 @@ public class Teleop
 
     private Teleop()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+        System.out.println(className + " : Constructor Started");
+
         leftMotor.restoreFactoryDefaults();
         rightMotor.restoreFactoryDefaults();
         rightMotor.setInverted(true);
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     public static Teleop getInstance()

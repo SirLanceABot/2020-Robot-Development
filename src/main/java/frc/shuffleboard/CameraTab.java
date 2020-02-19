@@ -8,6 +8,14 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class CameraTab
 {
+    private static final String className = new String("[CameraTab]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     // Camera Tab
     private ShuffleboardTab cameraTab = Shuffleboard.getTab("Camera");
 
@@ -23,9 +31,13 @@ public class CameraTab
 
     private CameraTab()
     {
+        System.out.println(className + " : Constructor Started");
+
         createCameraTab();
         timeRemainingEntry.setString("0:00");
         updateMatchInfo();
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     protected static CameraTab getInstance()

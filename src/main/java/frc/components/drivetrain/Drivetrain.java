@@ -9,6 +9,14 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 public class Drivetrain extends DifferentialDrive
 {
+    private static final String className = new String("[Drivetrain]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private static WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_FRONT_RIGHT);
     private static WPI_TalonSRX backRightMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_BACK_RIGHT);
     private static WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_BACK_LEFT);
@@ -22,6 +30,10 @@ public class Drivetrain extends DifferentialDrive
     private Drivetrain()
     {
         super(leftMotors, rightMotors);
+        
+        System.out.println(className + " : Constructor Started");
+
+
         frontRightMotor.configFactoryDefault();
         frontLeftMotor.configFactoryDefault();
         backRightMotor.configFactoryDefault();
@@ -47,6 +59,8 @@ public class Drivetrain extends DifferentialDrive
 
          //By default the differential drive is inverted so this sets it so that it is not inverted
         setRightSideInverted(false);
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     public static Drivetrain getInstance()

@@ -12,6 +12,14 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
  */
 public class Shroud
 {
+    private static final String className = new String("[Shroud]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private static final int TIMEOUT_MS = 30;
     private static final int UPPER_LIMIT = 100; //TODO: Find out the upper limit
     private static final int LOWER_LIMIT = 0;   //TODO: Find out the lower limit
@@ -28,14 +36,16 @@ public class Shroud
 
     private Shroud()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+        System.out.println(className + " : Constructor Started");
+
         motor.configFactoryDefault();
         motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS); //TODO: Find out port
         motor.configForwardSoftLimitEnable(true);
         motor.configForwardSoftLimitThreshold(UPPER_LIMIT);
         motor.configReverseSoftLimitEnable(true);
         motor.configReverseSoftLimitThreshold(LOWER_LIMIT);
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**

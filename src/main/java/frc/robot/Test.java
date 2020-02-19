@@ -8,6 +8,14 @@ import frc.controls.DriverController;
  */
 public class Test
 {
+    private static final String className = new String("[Test]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     private static DriverController driverController = DriverController.getInstance();
 
     private static Test instance = new Test();
@@ -17,9 +25,9 @@ public class Test
      */
     private Test()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+        System.out.println(className + " : Constructor Started");
         
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+        System.out.println(className + ": Constructor Finished");
     }
 
     public static Test getInstance()
