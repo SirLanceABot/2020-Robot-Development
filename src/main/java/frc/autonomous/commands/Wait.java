@@ -8,6 +8,7 @@ public class Wait implements Command
     private static Timer timer = new Timer();
     private static double timeToWait;
     private static boolean isFinished;
+    
     public Wait(double time)
     {
         timeToWait = time;
