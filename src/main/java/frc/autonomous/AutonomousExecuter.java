@@ -86,7 +86,10 @@ public class AutonomousExecuter
     {
         for(Command command: commands)
         {
-            command.execute();
+            if(!command.isFinished())
+            {
+                command.execute();
+            }
         }
     }
 

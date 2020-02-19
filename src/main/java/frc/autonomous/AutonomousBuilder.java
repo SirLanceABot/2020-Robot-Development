@@ -17,7 +17,8 @@ public class AutonomousBuilder
     
     protected AutonomousBuilder()
     {
-        //masterCommandList.add(new Wait(5.0));
+        addCommandNode(new Wait(5.0));
+        addCommandNode(new Shooting());
     }
 
     /**
