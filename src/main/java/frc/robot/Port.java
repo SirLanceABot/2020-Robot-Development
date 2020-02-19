@@ -14,7 +14,7 @@ public class Port
         System.out.println(className + " : Class Loading");
     }
 
-    public Port()
+    private Port()
     {
         System.out.println(className + " : Constructor Started");
 

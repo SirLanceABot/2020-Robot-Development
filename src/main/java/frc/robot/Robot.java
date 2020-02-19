@@ -7,13 +7,8 @@
 
 package frc.robot;
 
-import frc.controls.DriverController;
-import frc.controls.OperatorController;
-import frc.shuffleboard.MainShuffleboard;
 import frc.vision.Vision;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import frc.shuffleboard.MainShuffleboard;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -44,11 +39,10 @@ public class Robot extends TimedRobot
     private static Autonomous autonomous = Autonomous.getInstance();
     private static Disabled disabled = Disabled.getInstance();
     private static Teleop teleop = Teleop.getInstance();
+    private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
 
     private static RobotState robotState = RobotState.kNone;
 
-    private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
-    
     public Robot()
     {
         System.out.println(className + " : Constructor Started");
