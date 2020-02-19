@@ -1,10 +1,8 @@
 package frc.autonomous.commands;
 
-import javax.lang.model.util.ElementScanner6;
 
 import frc.autonomous.commands.interfaces.*;
 import frc.components.drivetrain.Drivetrain;
-import frc.components.powercellsupervisor.shooter.Shooter;
 
 public class DriveTo implements Command
 {
