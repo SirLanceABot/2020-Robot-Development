@@ -40,11 +40,12 @@ public class Robot extends TimedRobot
     }
 
     private static Vision vision = Vision.getInstance();
-    private static RobotState robotState = RobotState.kNone;
     private static Test test = Test.getInstance();
     private static Autonomous autonomous = Autonomous.getInstance();
     private static Disabled disabled = Disabled.getInstance();
     private static Teleop teleop = Teleop.getInstance();
+
+    private static RobotState robotState = RobotState.kNone;
 
     private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
     
@@ -147,6 +148,8 @@ public class Robot extends TimedRobot
             robotState = RobotState.kDisabledBetweenAutonomousAndTeleop;
         else if (robotState == RobotState.kTeleop)
             robotState = RobotState.kDisabledAfterGame;
+        else if (robotState == RobotState.kTest)
+            robotState = RobotState.kDisabledBeforeGame;
 
         disabled.init();
     }
