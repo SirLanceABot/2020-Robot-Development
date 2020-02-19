@@ -32,6 +32,7 @@ public class MainShuffleboard
     private DriverControllerTab driverControllerTab = DriverControllerTab.getInstance();
     private OperatorControllerTab operatorControllerTab = OperatorControllerTab.getInstance();
     private CameraTab cameraTab = CameraTab.getInstance();
+    private SensorsTab sensorsTab = SensorsTab.getInstance();
 
     private static MainShuffleboard instance = new MainShuffleboard();
 
@@ -83,5 +84,12 @@ public class MainShuffleboard
     public void updateMatchInfo()
     {
        cameraTab.updateMatchInfo();
+    }
+
+    // ------------------------------------------------------------------------------------
+    // SENSORS TAB
+    public void updateSensors()
+    {
+        sensorsTab.updateEncoderValues();
     }
 }

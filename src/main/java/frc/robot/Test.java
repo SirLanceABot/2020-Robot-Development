@@ -7,6 +7,7 @@ import frc.controls.DriverController;
 import frc.controls.Xbox;
 import frc.controls.OperatorController;
 import frc.controls.Logitech;
+import frc.shuffleboard.MainShuffleboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -33,6 +34,7 @@ public class Test
 
     private static DriverController driverController = DriverController.getInstance();
     private static OperatorController operatorController = OperatorController.getInstance();
+    private static MainShuffleboard mainShuffleBoard = MainShuffleboard.getInstance();
 
     private static CANSparkMax leftMotor = new CANSparkMax(3, MotorType.kBrushless);
     private static CANSparkMax rightMotor = new CANSparkMax(2, MotorType.kBrushless);
@@ -64,7 +66,8 @@ public class Test
 
     public void periodic()
     {
-        testVisionUsingDrivetrain();
+        mainShuffleBoard.updateSensors();
+        //testVisionUsingDrivetrain();
     }
 
     public void initializeDrivetrainMotors()

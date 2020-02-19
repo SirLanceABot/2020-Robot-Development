@@ -22,8 +22,10 @@ public class SensorsTab
 
     private Drivetrain drivetrain = Drivetrain.getInstance();
 
-    private NetworkTableEntry leftDriveEntry;
-    private NetworkTableEntry rightDriveEntry;
+    private NetworkTableEntry frontLeftDriveEntry;
+    private NetworkTableEntry frontRightDriveEntry;
+    private NetworkTableEntry backLeftDriveEntry;
+    private NetworkTableEntry backRightDriveEntry;
     
     private static SensorsTab instance = new SensorsTab();
 
@@ -32,8 +34,10 @@ public class SensorsTab
         System.out.println(className + " : Constructor Started");
 
         // Create the text boxes for the Drivetrain encoders
-        leftDriveEntry = createTextBox("Front Left Drive", 0, 0, 0, 4, 2);
-        rightDriveEntry = createTextBox("Front Right Drive", 0, 0, 4, 4, 2);
+        frontLeftDriveEntry = createTextBox("Front Left Drive",   0, 0, 0, 4, 2);
+        frontRightDriveEntry = createTextBox("Front Right Drive", 0, 4, 0, 4, 2);
+        backLeftDriveEntry = createTextBox("Back Left Drive",     0, 0, 2, 4, 2);
+        backRightDriveEntry = createTextBox("Back Right Drive",   0, 4, 2, 4, 2);
 
         System.out.println(className + ": Constructor Finished");
     }
@@ -58,7 +62,9 @@ public class SensorsTab
 
     public void updateEncoderValues()
     {
-        leftDriveEntry.setNumber(drivetrain.getLeftPosition());
-        rightDriveEntry.setNumber(drivetrain.getRightPosition());
+        frontLeftDriveEntry.setNumber(drivetrain.getFrontLeftPosition());
+        frontRightDriveEntry.setNumber(drivetrain.getFrontRightPosition());
+        backLeftDriveEntry.setNumber(drivetrain.getBackLeftPosition());
+        backRightDriveEntry.setNumber(drivetrain.getBackRightPosition());
     }
 }

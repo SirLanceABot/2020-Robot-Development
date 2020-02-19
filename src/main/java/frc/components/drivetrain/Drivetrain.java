@@ -241,6 +241,26 @@ public class Drivetrain extends DifferentialDrive
         + backRightMotor.getSelectedSensorPosition(0)) / 2.0;
     }
 
+    public double getFrontLeftPosition()
+    {
+        return frontLeftMotor.getSelectedSensorPosition(0);
+    }
+
+    public double getFrontRightPosition()
+    {
+        return frontRightMotor.getSelectedSensorPosition(0);
+    }
+
+    public double getBackLeftPosition()
+    {
+        return backLeftMotor.getSelectedSensorPosition(0);
+    }
+
+    public double getBackRightPosition()
+    {
+        return backRightMotor.getSelectedSensorPosition(0);
+    }
+
     public void setLeftPower(double power)
     {
         frontLeftMotor.set(power);
