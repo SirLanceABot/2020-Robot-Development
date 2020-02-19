@@ -19,6 +19,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot
 {
+    private static final String className = new String("[Robot]");
+    
+    // Static Initializer Block
+    static
+    {
+        System.out.println(className + " : Class Loading");
+    }
+
     public enum RobotState
     {
         kNone,
@@ -42,9 +50,11 @@ public class Robot extends TimedRobot
     
     public Robot()
     {
-        System.out.println(this.getClass().getName() + ": Started Constructing");
+        System.out.println(className + " : Constructor Started");
+
         robotState = RobotState.kStartup;
-        System.out.println(this.getClass().getName() + ": Finished Constructing");
+
+        System.out.println(className + ": Constructor Finished");
     }
 
     /**
