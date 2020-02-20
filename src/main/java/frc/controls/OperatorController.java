@@ -14,7 +14,15 @@ public class OperatorController extends Logitech
 
     public enum ButtonAction
     {
-        kShoot(Button.kTrigger);
+        kShoot(Button.kTrigger),
+        kAutoAim(Button.kHandleSide),
+        kTurretOverride(Button.kHandleBottomLeft),
+        kShooterOverride(Button.kInnerTop),
+        kShuttleOverride(Button.kOuterTop),
+        kClimbOverride(Button.kOuterMiddle),
+        kArmUp(Button.kInnerMiddle),
+        kArmDown(Button.kInnerBottom),
+        kWinch(Button.kOuterBottom);
 
         public final Button button;
 
@@ -26,8 +34,10 @@ public class OperatorController extends Logitech
 
     public enum AxisAction
     {
-        kMoveTurret(Axis.kZAxis),
-        kMoveShroud(Axis.kYAxis);
+        kTurret(Axis.kZAxis),
+        kShroud(Axis.kYAxis),
+        kShuttle(Axis.kYAxis),
+        kShooterPower(Axis.kSlider);
 
         public final Axis axis;
 
