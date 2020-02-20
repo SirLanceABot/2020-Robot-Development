@@ -45,7 +45,7 @@ public class Shuttle
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
                 System.out.println("Shuttle State: Off");
-                stop();
+                stopShuttle();
                 if(isFull())
                 {
                     currentState = Transition.findNextState(currentState, Event.ShuttleFull);
@@ -118,7 +118,7 @@ public class Shuttle
                 }
                 else
                 {
-                    stop();
+                    stopShuttle();
                     currentState = Transition.findNextState(currentState, Event.ShuttleEmpty);
                 }
             }
@@ -135,7 +135,7 @@ public class Shuttle
                 System.out.println("Shuttle State: Full");
                 if(isFull())
                 {
-                    stop();
+                    stopShuttle();
                 }
 
 
@@ -274,6 +274,7 @@ public class Shuttle
 
     private static double currentPosition = 0;
     private static double targetPosition = 0;
+    private static double shuttleJogDistance = 100/7.0;
     private static boolean initFlag = true;
     private static CANSparkMax motor = new CANSparkMax(Port.Motor.SHUTTLE, MotorType.kBrushless);
     private static CANEncoder encoder = new CANEncoder(motor);
@@ -284,6 +285,7 @@ public class Shuttle
     private static DigitalInput sensor3 = new DigitalInput(Port.Sensor.SHUTTLE_3);
     private static DigitalInput sensor4 = new DigitalInput(Port.Sensor.SHUTTLE_4);
     private static DigitalInput sensor5 = new DigitalInput(Port.Sensor.SHUTTLE_5);
+    private static DigitalInput sensor6 = new DigitalInput(Port.Sensor.SHUTTLE_6);
     private static State currentState = State.Off;
     private static DriverController controller = DriverController.getInstance();
     private static Shuttle instance = new Shuttle();
@@ -316,9 +318,22 @@ public class Shuttle
         motor.set(0.5);
     }
 
-    private static void stop()
+    private static void stopShuttle()
     {
-        motor.set(0.0);
+        setSpeed(0.0);
+    }
+
+    public void stop()
+    {
+        setSpeed(0.0);
+    }
+
+    public void feedAllPowerCells()
+    {
+        if(!isEmpty())
+        {
+            setSpeed(0.5);
+        }
     }
     
     public static double getEncoderPosition()
@@ -353,7 +368,9 @@ public class Shuttle
             case 5:
                 sensorValue = sensor5.get();
                 break;
-            //TODO: ADD 6TH SENSOR
+            case 6:
+                sensorValue = sensor6.get();
+                break;
         }
 
         return sensorValue;
@@ -410,6 +427,56 @@ public class Shuttle
     private static double inchesToTicks(double inches)
     {
         return inches * TICKS_PER_ROTATION;
+    }
+
+    public void feedTopBall()
+    {
+        if(initFlag)
+        {
+            currentPosition = getEncoderPosition();
+            targetPosition = currentPosition;
+            if(sensor6.get())
+            {
+                targetPosition += shuttleJogDistance;
+            }
+            if(sensor5.get())
+            {
+                targetPosition += shuttleJogDistance * 2;
+            }
+            if(sensor4.get())
+            {
+                targetPosition += shuttleJogDistance * 3;
+            }
+            if(sensor3.get())
+            {
+                targetPosition += shuttleJogDistance * 4;
+            }
+            if(sensor2.get())
+            {
+                targetPosition += shuttleJogDistance * 5;
+            }
+            if(sensor1.get())
+            {
+                targetPosition += shuttleJogDistance * 6;
+            }
+            initFlag = false;
+        }
+
+        currentPosition = getEncoderPosition();     
+
+        if(currentPosition < targetPosition - 3)
+        {
+            motor.set(0.25);
+        }
+        else if(currentPosition > targetPosition + 3)
+        {
+            motor.set(-0.25);
+        }
+        else
+        {
+            System.out.println("No Powercell ready");            
+            initFlag = true;
+        }       
     }
 
     public void runFSM()
