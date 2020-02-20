@@ -55,8 +55,8 @@ public class SensorsTab
     private NetworkTableEntry climberWinchEntry;
 
 
-    private NetworkTableEntry wristSensor1Entry; 
-    private NetworkTableEntry wristSensor2Entry; 
+    private NetworkTableEntry wristExtendedEntry; 
+    private NetworkTableEntry wristRetractedEntry; 
 
     private NetworkTableEntry shuttleSensor1Entry; 
     private NetworkTableEntry shuttleSensor2Entry; 
@@ -94,8 +94,8 @@ public class SensorsTab
 
 
 
-        wristSensor1Entry = createTextBox("Wrist Sensor 1",       0, 18, 5, 4, 2);
-        wristSensor2Entry = createTextBox("Wrist Sensor 2",       0, 23, 5, 4, 2);
+        wristExtendedEntry = createTextBox("Wrist Sensor 1",       0, 18, 5, 4, 2);
+        wristRetractedEntry = createTextBox("Wrist Sensor 2",       0, 23, 5, 4, 2);
 
         shuttleSensor1Entry = createTextBox("Shuttle Sensor 1",   0, 0, 8, 4, 2);
         shuttleSensor2Entry = createTextBox("Shuttle Sensor 2",   0, 4, 8, 4, 2);
@@ -133,31 +133,31 @@ public class SensorsTab
         backLeftDriveEntry.setNumber(drivetrain.getBackLeftPosition());
         backRightDriveEntry.setNumber(drivetrain.getBackRightPosition());
 
-        // centerIntakeEntry.setNumber();
-        // leftIntakeEntry.setNumber();
-        // rightIntakeEntry.setNumber();
+        //centerIntakeEntry.setNumber();
+        //leftIntakeEntry.setNumber();
+        //rightIntakeEntry.setNumber();
 
-        // shuttleEntry.setNumber(shuttle.);
+        shuttleEntry.setNumber(shuttle.getEncoderPosition());
 
-        // shroudEntry.setNumber();
+        shroudEntry.setNumber(shroud.getEncoderPosition());
 
-        // turretEntry.setNumber();
+        turretEntry.setNumber(turret.getEncoderPosition());
 
-        // shooterEntry.setNumber();
+        //shooterEntry.setNumber();
 
-        // climberArmEntry.setNumber();
-        // climberWinchEntry.setNumber();
+        //climberArmEntry.setNumber();
+        //climberWinchEntry.setNumber();
 
 
 
-        // wristSensor1Entry.setNumber();
-        // wristSensor2Entry.setNumber();
+        //wristExtendedEntry.setNumber();
+        //wristRetractedEntry.setNumber();
 
-        // shuttleSensor1Entry.setNumber();
-        // shuttleSensor2Entry.setNumber();
-        // shuttleSensor3Entry.setNumber();
-        // shuttleSensor4Entry.setNumber();
-        // shuttleSensor5Entry.setNumber();
-        // shuttleSensor6Entry.setNumber();
+        //shuttleSensor1Entry.setNumber();
+        //shuttleSensor2Entry.setNumber();
+        //shuttleSensor3Entry.setNumber();
+        //shuttleSensor4Entry.setNumber();
+        //shuttleSensor5Entry.setNumber();
+        //shuttleSensor6Entry.setNumber();
     }
 }
