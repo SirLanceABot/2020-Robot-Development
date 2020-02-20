@@ -31,6 +31,8 @@ public class Shooter implements Notified
   private static LIDAR_Lite lidar = LIDAR_Lite.getInstance();
   private static double distanceToTarget;
   private static double angleToTarget;
+  private static double flywheelSpeed = 0.0;
+  private static double shroudAngle = 0.0;
   //private static Gate gate = Gate.getInstance();
   private static OperatorController operatorController = OperatorController.getInstance();
   private static boolean notification = false;
@@ -71,7 +73,10 @@ public class Shooter implements Notified
         void doAction() 
         {
           System.out.println("State: Aligning");
-          turret.alignWithTarget();
+          if(turret.alignWithTarget())
+          {
+            currentState = Transition.findNextState(currentState, Event.AlignedWithTape);
+          }
         }
       },
     Calculating() 
@@ -79,6 +84,9 @@ public class Shooter implements Notified
       void doAction() 
       {
         System.out.println("State: Calculating");
+        flywheelSpeed = 0.0;
+
+        currentState = Transition.findNextState(currentState, Event.ValuesCalulated);
       }
     },
     SettingTrajectory() 
@@ -86,6 +94,7 @@ public class Shooter implements Notified
         void doAction() 
         {
           System.out.println("State: SettingTrajectory");
+
         }
     },
     PreShotCheck() 
@@ -182,7 +191,7 @@ public class Shooter implements Notified
     // Transition_20(State.Searching,              Event.ShuttleEmpty,                        State.Off),
     // Transition_21(State.Aligning,               Event.VisionAssistButtonPressed,        State.Aligning),
     // Transition_22(State.Aligning,               Event.TapeFound,                        State.Aligning),
-    // Transition_23(State.Aligning,               Event.AlignedWithTape,                  State.Calculating),
+    Transition_23(State.Aligning,               Event.AlignedWithTape,                  State.Calculating),
     // Transition_24(State.Aligning,               Event.ValuesCalulated,                  State.Off),
     // Transition_25(State.Aligning,               Event.TrajectorySet,                    State.Off),
     // Transition_26(State.Aligning,               Event.PreShotCheckPassed,               State.Off),

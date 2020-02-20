@@ -11,6 +11,27 @@ import frc.components.drivetrain.Drivetrain;
  * counter clockwise is positive
  * clockwise is negative
  * units are in inches
+ * 
+ * *********ASSUMES ROBOT IS IN STARTING POSITION******
+ * absolute coordinate system uses the robot as (0,0)
+ * uses the gyro to go to the right point
+ * 0 degrees will always be towards our alliance driver station
+ * 180 is always the opponents driver station
+ * 90 will be our trench
+ * -90 will be the enemy trench
+ * 
+ *                0 Degrees
+ * 
+ *              |***Intake***|
+ *              |            |
+ *   90 Degrees |    Robot   |  -90 Degrees
+ *              |  Starting  |    
+ *              |  Position  |     
+ *              |            |
+ *              ****Shooter****
+ * 
+ * 
+ *                +/-180 Degrees
  * @author Maxwell Li
  *  */
 public class DriveTo implements Command
