@@ -6,13 +6,12 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.components.climber.Climber;
 import frc.components.drivetrain.Drivetrain;
-import frc.components.powercellsupervisor.intake.Intake;
-import frc.components.powercellsupervisor.shooter.Shooter;
-import frc.components.powercellsupervisor.shooter.Shroud;
-import frc.components.powercellsupervisor.shooter.Turret;
-import frc.components.powercellsupervisor.shuttle.Shuttle;
+import frc.components.powercellsupervisor.PowerCellSupervisor;
 
-
+/**
+ * @author Elliot Measel
+ * ShuffleBoard display for all sensors and encoders
+ */
 public class SensorsTab
 {
     private static final String className = new String("[SensorsTab]");
@@ -27,11 +26,7 @@ public class SensorsTab
     private ShuffleboardTab sensorsTab = Shuffleboard.getTab("Sensors");
 
     private Drivetrain drivetrain = Drivetrain.getInstance();
-    private Intake intake = Intake.getInstance();
-    private Shuttle shuttle = Shuttle.getInstance();
-    private Shooter shooter = Shooter.getInstance();
-    private Shroud shroud = Shroud.getInstance();
-    private Turret turret = Turret.getInstance();
+    private PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
     private Climber climber = Climber.getInstance();
 
     private NetworkTableEntry frontLeftDriveEntry;
@@ -137,11 +132,11 @@ public class SensorsTab
         //leftIntakeEntry.setNumber();
         //rightIntakeEntry.setNumber();
 
-        shuttleEntry.setNumber(shuttle.getEncoderPosition());
+        //shuttleEntry.setNumber();
 
-        shroudEntry.setNumber(shroud.getEncoderPosition());
+        //shroudEntry.setNumber();
 
-        turretEntry.setNumber(turret.getEncoderPosition());
+        //turretEntry.setNumber();
 
         //shooterEntry.setNumber();
 
