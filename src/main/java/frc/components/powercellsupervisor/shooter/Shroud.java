@@ -69,9 +69,9 @@ public class Shroud
     /**
      * Stops the motors
      */
-    private void stop()
+    public void stop()
     {
-        motor.set(ControlMode.PercentOutput, 0);
+        setSpeed(0.0);
     }
 
     /**
@@ -144,7 +144,7 @@ public class Shroud
      * 0 degrees is the lower limit (most likely horizontal) TODO: Find the angle of the lower limit and upper limit
      * @param angle in degrees
      */
-    private void moveTo(double angle)
+    public void moveTo(double angle)
     {  
         double targetPosition = angleToTicks(angle);
         double currentPosition = angleToTicks(currentAngle);
@@ -169,7 +169,7 @@ public class Shroud
      * negative to move down
      * @param angle in degrees
      */
-    private void move(double angle)
+    public void move(double angle)
     {
         double absolute_angle = angle + currentAngle;
         moveTo(absolute_angle);
