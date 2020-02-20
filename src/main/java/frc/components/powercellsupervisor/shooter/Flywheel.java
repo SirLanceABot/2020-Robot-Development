@@ -57,31 +57,7 @@ public class Flywheel
         return instance;
     }
 
-    /**
-     * init command needed for the PID control
-     */
-    public void initDefaultCommand()
-    {
 
-    }
-
-    /**
-     * @return returns the value that the PID controller should use
-     */
-    protected double returnPIDInput()
-    {
-        // return masterMotor.getMotorOutputVoltage();
-        return masterMotor.getSelectedSensorVelocity(0); // returns the sensor value that is providing the feedback for the system
-    }
-
-    /**
-    * uses the PID to control the motor
-    */
-    protected void usePIDOutput(double output)
-    {
-        setSpeed(output);// this is where the computed output value fromthe PIDController is applied to the motor
-        setIsMoving(true);
-    }
 
     /**
      * sets the speed of the motor
@@ -89,8 +65,16 @@ public class Flywheel
      */
     private void setSpeed(double speed)
     {
-        masterMotor.set(ControlMode.PercentOutput, speed);
-        setIsMoving(true);
+        if(speed == 0.0)
+        {
+            stop();
+        }
+        else
+        {
+            masterMotor.set(ControlMode.PercentOutput, speed);
+            setIsMoving(true);
+        }
+
     }
 
     /**

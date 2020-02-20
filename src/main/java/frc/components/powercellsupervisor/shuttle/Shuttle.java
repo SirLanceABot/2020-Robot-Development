@@ -383,7 +383,7 @@ public class Shuttle
 
     private static boolean isFull()
     {
-        if(!sensor1.get() && !sensor2.get() && !sensor3.get() && !sensor4.get() && !sensor5.get())
+        if(!sensor1.get() && !sensor2.get() && !sensor3.get() && !sensor4.get() && !sensor5.get() && !sensor6.get())
         {
             return true;
         }
@@ -395,7 +395,7 @@ public class Shuttle
 
     private static boolean isEmpty()
     {
-        if(sensor1.get() && sensor2.get() && sensor3.get() && sensor4.get() && sensor5.get())
+        if(sensor1.get() && sensor2.get() && sensor3.get() && sensor4.get() && sensor5.get() && sensor6.get())
         {
             return true;
         }

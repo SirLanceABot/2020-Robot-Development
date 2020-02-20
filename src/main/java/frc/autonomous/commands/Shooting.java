@@ -24,7 +24,7 @@ public class Shooting implements Command, Notifies
     public void execute()
     {   
         System.out.println("Executing Shooter");
-        shooter.ShooterFSM();
+        shooter.runFSM();
         if(shooter.isOff())
         {
             isFinished = true;

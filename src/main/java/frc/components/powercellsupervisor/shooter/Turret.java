@@ -91,6 +91,10 @@ public class Turret
 											//0, 											// PID ID
                                             //kTIMEOUT_MS
                                             );								// Timeout
+
+        motor.configForwardSoftLimitThreshold(359);
+        motor.configReverseSoftLimitThreshold(1);
+
                                             		/* Set the peak and nominal outputs */
 		// motor.configNominalOutputForward(0, kTimeoutMs);
 		// motor.configNominalOutputReverse(0, kTimeoutMs);

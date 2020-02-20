@@ -14,18 +14,17 @@ public class Shooter implements Notified
 {
   private static final String className = new String("[Shooter]");
     
-    // Static Initializer Block
-    static
-    {
-        System.out.println(className + " : Class Loading");
-    }
+  // Static Initializer Block
+  static
+  {
+    System.out.println(className + " : Class Loading");
+  }
 
   //Vision stuff
   private static Vision vision = Vision.getInstance();
   private static TargetDataB turretVision = new TargetDataB(); 
 
   private static State currentState = State.Off;
-  private static Button lastButtonPressed = null;
   private static Flywheel flywheel = Flywheel.getInstance();
   private static Turret turret = Turret.getInstance();
   private static Shroud shroud = Shroud.getInstance();
@@ -147,12 +146,12 @@ public class Shooter implements Notified
         void doAction() 
         {
           System.out.println("State: UserCorrection");
-          double userXCorrection = operatorController.getRawAxis(Axis.kXAxis);
-          double userYCorrection = operatorController.getRawAxis(Axis.kYAxis);
-          
-          //use these to modify the shooting
           if(operatorController.getAction(ButtonAction.kShoot) || notification)
           {
+            double userXCorrection = operatorController.getRawAxis(Axis.kXAxis);
+            double userYCorrection = operatorController.getRawAxis(Axis.kYAxis);
+            
+            //use these to modify the shooting
             currentState = Transition.findNextState(currentState, Event.ValuesCalulated);
           }
 
@@ -191,11 +190,6 @@ public class Shooter implements Notified
     FirstPowerCellOnTarget,
     FirstPowerCellOffTarget,
     ShuttleEmpty;
-  }
-
-  // ----------------------------------------------------------------------//
-  private enum Button 
-  {
   }
 
   // ----------------------------------------------------------------------//
@@ -348,7 +342,7 @@ public class Shooter implements Notified
   }
 
   // ----------------------------------------------------------------------//
-  public void ShooterFSM() 
+  public void runFSM() 
   {
     currentState.doAction();
   }
