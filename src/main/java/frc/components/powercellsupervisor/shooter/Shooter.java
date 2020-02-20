@@ -2,7 +2,9 @@ package frc.components.powercellsupervisor.shooter;
 
 
 import frc.autonomous.commands.interfaces.Notified;
+import frc.components.powercellsupervisor.shuttle.Shuttle;
 import frc.controls.OperatorController;
+import frc.controls.Logitech.Axis;
 import frc.controls.OperatorController.ButtonAction;
 import frc.sensors.LidarLite.LIDAR_Lite;
 import frc.vision.Vision;
@@ -20,14 +22,14 @@ public class Shooter implements Notified
 
   //Vision stuff
   private static Vision vision = Vision.getInstance();
-  private static TargetDataB turretVision = new TargetDataB();
-
+  private static TargetDataB turretVision = new TargetDataB(); 
 
   private static State currentState = State.Off;
   private static Button lastButtonPressed = null;
   private static Flywheel flywheel = Flywheel.getInstance();
   private static Turret turret = Turret.getInstance();
   private static Shroud shroud = Shroud.getInstance();
+  private static Shuttle shuttle = Shuttle.getInstance();
   private static LIDAR_Lite lidar = LIDAR_Lite.getInstance();
   private static double distanceToTarget;
   private static double angleToTarget;
@@ -47,6 +49,9 @@ public class Shooter implements Notified
       void doAction() 
       {
         System.out.println("State: Off");
+        shuttle.stop();
+        flywheel.stop();
+        shroud.stop();
         if(operatorController.getAction(ButtonAction.kShoot) || notification)
         {
           currentState = Transition.findNextState(currentState, Event.VisionAssistButtonPressed);
@@ -84,8 +89,9 @@ public class Shooter implements Notified
       void doAction() 
       {
         System.out.println("State: Calculating");
+        //need to add calculations after testing
         flywheelSpeed = 0.0;
-
+        shroudAngle = 20.0;
         currentState = Transition.findNextState(currentState, Event.ValuesCalulated);
       }
     },
@@ -94,7 +100,8 @@ public class Shooter implements Notified
         void doAction() 
         {
           System.out.println("State: SettingTrajectory");
-
+          flywheel.run(flywheelSpeed);
+          shroud.moveTo(shroudAngle);
         }
     },
     PreShotCheck() 
@@ -106,10 +113,17 @@ public class Shooter implements Notified
           {
             if(Math.abs(turretVision.getAngleToTurn()) < 1.0)
             {
+              if(flywheel.getRPM() > (flywheelSpeed - 10) && flywheel.getRPM() < (flywheelSpeed + 10))
+              {
+                if(shroud.getCurrentAngle() < (shroudAngle + 1) && shroud.getCurrentAngle() > (shroudAngle - 1))
+                {
+                  currentState = Transition.findNextState(currentState, Event.PreShotCheckPassed);
+                }
+              }
               //continue checking speeds and other data
-              currentState = Transition.findNextState(currentState, Event.PreShotCheckPassed);
             }
           }
+          currentState = Transition.findNextState(currentState, Event.PreShotCheckFailed);
         }
     },
     ShootingOnePowerCell() 
@@ -117,6 +131,15 @@ public class Shooter implements Notified
         void doAction() 
         {
           System.out.println("State: ShootingOneBall");
+          shuttle.feedTopBall();
+          if(operatorController.getAction(frc.controls.OperatorController.ButtonAction.kOnTarget))
+          {
+            currentState = Transition.findNextState(currentState, Event.FirstPowerCellOnTarget);
+          }
+          else if(operatorController.getAction(frc.controls.OperatorController.ButtonAction.kOffTarget))
+          {
+            currentState = Transition.findNextState(currentState, Event.FirstPowerCellOffTarget);
+          }
         }
     },
     UserCorrection() 
@@ -124,6 +147,15 @@ public class Shooter implements Notified
         void doAction() 
         {
           System.out.println("State: UserCorrection");
+          double userXCorrection = operatorController.getRawAxis(Axis.kXAxis);
+          double userYCorrection = operatorController.getRawAxis(Axis.kYAxis);
+          
+          //use these to modify the shooting
+          if(operatorController.getAction(ButtonAction.kShoot) || notification)
+          {
+            currentState = Transition.findNextState(currentState, Event.ValuesCalulated);
+          }
+
         }
     },
     ShootingRestOfShuttle()
@@ -131,6 +163,7 @@ public class Shooter implements Notified
         void doAction() 
         {
           System.out.println("State: ShootingRestOfClip");
+          shuttle.feedAllPowerCells();
         }
     };
 
