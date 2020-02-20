@@ -4,12 +4,14 @@ import frc.robot.Port;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 /**
  * Class for the flywheel that ejects the power cells from the shooter
- * @author Maxwell Li
+ * @author Maxwell Lee
  */
 public class Flywheel extends PIDSubsystem
 {
@@ -24,20 +26,20 @@ public class Flywheel extends PIDSubsystem
     //----------------------------- Constants --------------------------//
     private static final int TIMEOUT_MS = 30;
     //private static final int VELOCITY_ERROR = 3;
-    private static final double PORPORTIONAL = 0.0;
+    private static final double PROPORTIONAL = 0.0;
     private static final double INTEGRAL = 0.0;
     private static final double DERIVATIVE = 0.0;
     private static final double FEEDFORWARD = 0.0;
     //------------------------------------------------------------------//
 
     private static TalonSRX masterMotor = new TalonSRX(Port.Motor.SHOOTER_MASTER);
-    private static TalonSRX followerMotor = new TalonSRX(Port.Motor.SHOOTER_SLAVE);
+    private static VictorSPX followerMotor = new VictorSPX(Port.Motor.SHOOTER_SLAVE);
     private static boolean isMoving = false;
     private static Flywheel instance = new Flywheel();
 
     private Flywheel()
     {
-        super("Flywheel", PORPORTIONAL, INTEGRAL, DERIVATIVE, FEEDFORWARD); //(Name, P, I, D, FF)
+        super("Flywheel", PROPORTIONAL, INTEGRAL, DERIVATIVE, FEEDFORWARD); //(Name, P, I, D, FF)
 
         System.out.println(className + " : Constructor Started");
 
@@ -131,5 +133,9 @@ public class Flywheel extends PIDSubsystem
         usePIDOutput(speedToRun);
     }
 
+    public int getEncoderPosition()
+    {
+        return masterMotor.getSelectedSensorPosition();
+    }
 
 }

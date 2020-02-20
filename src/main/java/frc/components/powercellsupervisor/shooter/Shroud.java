@@ -89,7 +89,7 @@ public class Shroud
      */
     private void setCurrentAngle()
     {
-        currentAngle = ((getCurrentEncoderPosition() - LOWER_LIMIT) / TOTAL_TICKS) * TOTAL_DEGREES;
+        currentAngle = ((getEncoderPosition() - LOWER_LIMIT) / TOTAL_TICKS) * TOTAL_DEGREES;
     }
 
     /**
@@ -113,10 +113,10 @@ public class Shroud
     }
 
     /**
-     * gets the current encoder value
-     * @return the current encoder value
+     * gets the encoder value
+     * @return the encoder value
      */
-    public double getCurrentEncoderPosition()
+    public double getEncoderPosition()
     {
         return motor.getSelectedSensorPosition(0);
     }

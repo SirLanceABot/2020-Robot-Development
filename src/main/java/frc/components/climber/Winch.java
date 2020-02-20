@@ -7,7 +7,7 @@ import com.revrobotics.CANSparkMax;
 
 /**
  * Reels in rope to lift the robot.
- * @author Joey Pietrogallo 1/15/20
+ * @author Joey Pietrogallo
  */
 public class Winch
 {
