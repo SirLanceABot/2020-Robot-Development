@@ -13,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
  * Class for the flywheel that ejects the power cells from the shooter
  * @author Maxwell Lee
  */
-public class Flywheel extends PIDSubsystem
+public class Flywheel
 {
     private static final String className = new String("[Flywheel]");
     
@@ -39,14 +39,11 @@ public class Flywheel extends PIDSubsystem
 
     private Flywheel()
     {
-        super("Flywheel", PROPORTIONAL, INTEGRAL, DERIVATIVE, FEEDFORWARD); //(Name, P, I, D, FF)
 
         System.out.println(className + " : Constructor Started");
 
         masterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS); //TODO: Find out port
         followerMotor.follow(masterMotor);
-        setAbsoluteTolerance(0.05);
-        getPIDController();
 
         System.out.println(className + ": Constructor Finished");
     }
@@ -123,14 +120,20 @@ public class Flywheel extends PIDSubsystem
         return isMoving;
     }
 
+    public double getRPM()
+    {
+        return 0.0; //need to do calculation
+    }
+
     /**
      * Method that should be called to run the flywheel
      * Uses a velocity PID Control for consistency when shooting
-     * @param speedToRun
+     * 
+     * @param speedToRun in RPM
      */
     public void run(double speedToRun)
     {
-        usePIDOutput(speedToRun);
+        setSpeed(speedToRun);
     }
 
     public int getEncoderPosition()
