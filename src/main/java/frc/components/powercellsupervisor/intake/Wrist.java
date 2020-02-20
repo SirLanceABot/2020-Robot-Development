@@ -174,4 +174,15 @@ public class Wrist
         wristSolenoid.set(position);
         // wristSolenoidRight.set(position);
     }
+
+    
+    public static boolean getExtendedSensorValue()
+    {
+        return magneticSensorExtended.get();
+    }
+
+    public static boolean getRetractedSensorValue()
+    {
+        return magneticSensorRetracted.get();
+    }
 }
