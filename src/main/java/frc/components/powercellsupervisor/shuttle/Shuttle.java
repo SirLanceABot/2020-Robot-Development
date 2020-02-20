@@ -326,6 +326,38 @@ public class Shuttle
         //System.out.println("initialized values");
         return encoder.getPosition();
     }
+
+    /**
+     * Returns the value of a sensor.
+     * @param sensor The sensor you want the value from (1-6).
+     * @return <b>sensorValue</b> The value of the sensor (true or false).
+     */
+    public static boolean getSensorValue(int sensor)
+    {
+        boolean sensorValue = true;
+
+        switch(sensor)
+        {
+            case 1:
+                sensorValue = sensor1.get();
+                break;
+            case 2:
+                sensorValue = sensor2.get();
+                break;
+            case 3:
+                sensorValue = sensor3.get();
+                break;
+            case 4:
+                sensorValue = sensor4.get();
+                break;
+            case 5:
+                sensorValue = sensor5.get();
+                break;
+            //TODO: ADD 6TH SENSOR
+        }
+
+        return sensorValue;
+    }
     
     private static void setEncoderPosition(double position)
     {
