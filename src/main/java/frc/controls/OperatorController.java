@@ -22,8 +22,10 @@ public class OperatorController extends Logitech
         kClimbOverride(Button.kOuterMiddle),
         kArmUp(Button.kInnerMiddle),
         kArmDown(Button.kInnerBottom),
-        kWinch(Button.kOuterBottom);
-
+        kWinch(Button.kOuterBottom),
+        kOnTarget(Button.kHandleBottomRight),
+        kOffTarget(Button.kHandleBottomLeft);
+        ;
         public final Button button;
 
         private ButtonAction(Button button)
