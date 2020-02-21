@@ -164,8 +164,33 @@ public class Intake implements Notified
     }
 
     @Override
-    public void getNotification(Boolean notification) {
-
+    public void getNotification(Boolean notification) 
+    {
         this.notification = notification;
+    }
+
+    public static boolean getWristExtendedSensor()
+    {
+        return Wrist.getExtendedSensorValue();
+    }
+
+    public static boolean getWristRetractedSensor()
+    {
+        return Wrist.getRetractedSensorValue();
+    }
+
+    public double getRollerCenterEncoder()
+    {
+        return roller.getCenterEncoderValue();
+    }
+
+    public double getRollerLeftEncoder()
+    {
+        return roller.getLeftEncoderValue();
+    }
+
+    public double getRollerRightEncoder()
+    {
+        return roller.getRightEncoderValue();
     }
 }

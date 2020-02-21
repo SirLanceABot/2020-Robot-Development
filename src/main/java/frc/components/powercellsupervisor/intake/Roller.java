@@ -24,14 +24,16 @@ public class Roller
     private static final double maxRPM = 3000;
 
     // initializing the motors
-    private static CANSparkMax masterMotor = new CANSparkMax(Port.Motor.INTAKE_CENTER, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    private static CANSparkMax leftSlave = new CANSparkMax(Port.Motor.INTAKE_LEFT, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    private static CANSparkMax rightSlave = new CANSparkMax(Port.Motor.INTAKE_RIGHT, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    private static CANSparkMax centerMotor = new CANSparkMax(Port.Motor.INTAKE_CENTER, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    private static CANSparkMax leftMotor = new CANSparkMax(Port.Motor.INTAKE_LEFT, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    private static CANSparkMax rightMotor = new CANSparkMax(Port.Motor.INTAKE_RIGHT, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     // private static CANSparkMax slaveMotor = new CANSparkMax(SLAVE_MOTOR_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
 
     // initializing the encoder and pid controller
-    private static CANEncoder encoder = masterMotor.getEncoder();
-    private static CANPIDController pidController = new CANPIDController(masterMotor);
+    private static CANEncoder centerEncoder = centerMotor.getEncoder();
+    private static CANEncoder leftEncoder = leftMotor.getEncoder();
+    private static CANEncoder rightEncoder = rightMotor.getEncoder();
+    private static CANPIDController pidController = new CANPIDController(centerMotor);
 
     // creating the one instance of the Roller cass
     private static Roller instance = new Roller();
@@ -42,11 +44,11 @@ public class Roller
     private Roller()
     {
         System.out.println(this.getClass().getName() + ": Started Constructing");
-        masterMotor.restoreFactoryDefaults();
+        centerMotor.restoreFactoryDefaults();
         // slaveMotor.restoreFactoryDefaults();
         //slaveMotor.follow(masterMotor);
-        encoder.setPosition(0);
-        masterMotor.setSmartCurrentLimit(40);
+        centerEncoder.setPosition(0);
+        centerMotor.setSmartCurrentLimit(40);
         pidController.setP(kP);
         pidController.setI(kI);
         pidController.setD(kD);
@@ -93,9 +95,19 @@ public class Roller
      * Public method to get value on encoder
      * @return encoder position
      */
-    public double getEncoderValue()
+    public double getCenterEncoderValue()
     {
-        return encoder.getPosition();
+        return centerEncoder.getPosition();
+    }
+
+    public double getLeftEncoderValue()
+    {
+        return leftEncoder.getPosition();
+    }
+
+    public double getRightEncoderValue()
+    {
+        return rightEncoder.getPosition();
     }
 
     /**
@@ -104,7 +116,7 @@ public class Roller
      */
     public double getAmps()
     {
-        return masterMotor.getOutputCurrent();
+        return centerMotor.getOutputCurrent();
     }
 
     /**
@@ -112,7 +124,7 @@ public class Roller
      */
     public void resetEncoderValue()
     {
-        encoder.setPosition(0.0);
+        centerEncoder.setPosition(0.0);
     }
 
     /**
@@ -121,7 +133,7 @@ public class Roller
      */
     public double getEncoderVelocity()
     {
-        return encoder.getVelocity();
+        return centerEncoder.getVelocity();
     }
 
     /**

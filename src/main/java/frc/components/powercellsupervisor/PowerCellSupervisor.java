@@ -1,7 +1,11 @@
 package frc.components.powercellsupervisor;
 
+import frc.components.climber.Climber;
 import frc.components.powercellsupervisor.intake.Intake;
+import frc.components.powercellsupervisor.shooter.Flywheel;
 import frc.components.powercellsupervisor.shooter.Shooter;
+import frc.components.powercellsupervisor.shooter.Shroud;
+import frc.components.powercellsupervisor.shooter.Turret;
 import frc.components.powercellsupervisor.shuttle.Shuttle;
 import frc.controls.DriverController;
 import frc.controls.OperatorController;
@@ -108,6 +112,10 @@ public class PowerCellSupervisor
     private static Shuttle shuttle = Shuttle.getInstance();
     private static Shooter shooter = Shooter.getInstance();
     private static Intake intake = Intake.getInstance();
+    private static Shroud shroud = Shroud.getInstance();
+    private static Turret turret = Turret.getInstance();
+    private static Flywheel flywheel = Flywheel.getInstance();
+    private static Climber climber = Climber.getInstance();
     private static PowerCellSupervisor powerCellSupervisor = new PowerCellSupervisor();
 
     public PowerCellSupervisor()
@@ -120,5 +128,65 @@ public class PowerCellSupervisor
     public static PowerCellSupervisor getInstance()
     {
         return powerCellSupervisor;
+    }
+
+    public boolean getWristSensorExtended()
+    {
+        return Intake.getWristExtendedSensor();
+    }
+
+    public boolean getWristSensorRetracted()
+    {
+        return Intake.getWristRetractedSensor();
+    }
+
+    public boolean getShuttleSensor(int number)
+    {
+        return Shuttle.getSensorValue(number);
+    }
+
+    public double getRollerCenterEncoderValue()
+    {
+        return intake.getRollerCenterEncoder();
+    }
+
+    public double getRollerLeftEncoderValue()
+    {
+        return intake.getRollerLeftEncoder();
+    }
+
+    public double getRollerRightEncoderValue()
+    {
+        return intake.getRollerRightEncoder();
+    }
+
+    public double getShuttleEncoderValue()
+    {
+        return Shuttle.getEncoderPosition();
+    }
+
+    public double getShroudEncoderValue()
+    {
+        return shroud.getEncoderPosition();
+    }
+
+    public double getTurretEncoderValue()
+    {
+        return turret.getEncoderPosition();
+    }
+
+    public double getFlywheelEncoderValue()
+    {
+        return flywheel.getEncoderPosition();
+    }
+
+    public double getClimberArmEncoderValue()
+    {
+        return climber.getArmEncoderPosition();
+    }
+
+    public double getClimberWinchEncoderValue()
+    {
+        return climber.getWinchEncoderPosition();
     }
 }

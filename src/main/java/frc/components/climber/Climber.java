@@ -77,4 +77,14 @@ public class Climber
             winch.stopWinch();
         }
     }
+
+    public double getArmEncoderPosition()
+    {
+        return arm.getEncoderPosition();
+    }
+
+    public double getWinchEncoderPosition()
+    {
+        return winch.getEncoderPosition();
+    }
 }

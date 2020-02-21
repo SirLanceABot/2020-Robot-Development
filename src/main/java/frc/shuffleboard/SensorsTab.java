@@ -25,40 +25,40 @@ public class SensorsTab
     // Create a Shuffleboard Tab
     private ShuffleboardTab sensorsTab = Shuffleboard.getTab("Sensors");
 
-    private Drivetrain drivetrain = Drivetrain.getInstance();
-    private PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
-    private Climber climber = Climber.getInstance();
+    private static Drivetrain drivetrain = Drivetrain.getInstance();
+    private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
+    private static Climber climber = Climber.getInstance();
 
-    private NetworkTableEntry frontLeftDriveEntry;
-    private NetworkTableEntry frontRightDriveEntry;
-    private NetworkTableEntry backLeftDriveEntry;
-    private NetworkTableEntry backRightDriveEntry;
+    private static NetworkTableEntry frontLeftDriveEntry;
+    private static NetworkTableEntry frontRightDriveEntry;
+    private static NetworkTableEntry backLeftDriveEntry;
+    private static NetworkTableEntry backRightDriveEntry;
 
-    private NetworkTableEntry centerIntakeEntry;
-    private NetworkTableEntry leftIntakeEntry;
-    private NetworkTableEntry rightIntakeEntry;
+    private static NetworkTableEntry centerIntakeEntry;
+    private static NetworkTableEntry leftIntakeEntry;
+    private static NetworkTableEntry rightIntakeEntry;
 
-    private NetworkTableEntry shuttleEntry;
+    private static NetworkTableEntry shuttleEntry;
     
-    private NetworkTableEntry shooterEntry;
+    private static NetworkTableEntry shooterEntry;
 
-    private NetworkTableEntry shroudEntry;
+    private static NetworkTableEntry shroudEntry;
 
-    private NetworkTableEntry turretEntry;
+    private static NetworkTableEntry turretEntry;
 
-    private NetworkTableEntry climberArmEntry;
-    private NetworkTableEntry climberWinchEntry;
+    private static NetworkTableEntry climberArmEntry;
+    private static NetworkTableEntry climberWinchEntry;
 
 
-    private NetworkTableEntry wristExtendedEntry; 
-    private NetworkTableEntry wristRetractedEntry; 
+    private static NetworkTableEntry wristExtendedEntry; 
+    private static NetworkTableEntry wristRetractedEntry; 
 
-    private NetworkTableEntry shuttleSensor1Entry; 
-    private NetworkTableEntry shuttleSensor2Entry; 
-    private NetworkTableEntry shuttleSensor3Entry; 
-    private NetworkTableEntry shuttleSensor4Entry; 
-    private NetworkTableEntry shuttleSensor5Entry; 
-    private NetworkTableEntry shuttleSensor6Entry; 
+    private static NetworkTableEntry shuttleSensor1Entry; 
+    private static NetworkTableEntry shuttleSensor2Entry; 
+    private static NetworkTableEntry shuttleSensor3Entry; 
+    private static NetworkTableEntry shuttleSensor4Entry; 
+    private static NetworkTableEntry shuttleSensor5Entry; 
+    private static NetworkTableEntry shuttleSensor6Entry; 
     
     private static SensorsTab instance = new SensorsTab();
 
@@ -145,14 +145,14 @@ public class SensorsTab
 
 
 
-        //wristExtendedEntry.setNumber();
-        //wristRetractedEntry.setNumber();
+        wristExtendedEntry.setBoolean(powerCellSupervisor.getWristSensorExtended());
+        wristRetractedEntry.setBoolean(powerCellSupervisor.getWristSensorExtended());
 
-        //shuttleSensor1Entry.setNumber();
-        //shuttleSensor2Entry.setNumber();
-        //shuttleSensor3Entry.setNumber();
-        //shuttleSensor4Entry.setNumber();
-        //shuttleSensor5Entry.setNumber();
-        //shuttleSensor6Entry.setNumber();
+        shuttleSensor1Entry.setBoolean(powerCellSupervisor.getShuttleSensor(1));
+        shuttleSensor2Entry.setBoolean(powerCellSupervisor.getShuttleSensor(2));
+        shuttleSensor3Entry.setBoolean(powerCellSupervisor.getShuttleSensor(3));
+        shuttleSensor4Entry.setBoolean(powerCellSupervisor.getShuttleSensor(4));
+        shuttleSensor5Entry.setBoolean(powerCellSupervisor.getShuttleSensor(5));
+        shuttleSensor6Entry.setBoolean(powerCellSupervisor.getShuttleSensor(6));
     }
 }
