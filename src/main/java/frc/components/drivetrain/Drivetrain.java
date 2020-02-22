@@ -269,10 +269,30 @@ public class Drivetrain extends DifferentialDrive
         backLeftMotor.set(power);
     }
 
+    /**
+     * FOR USE ONLY IN TEST!
+     * @param speed
+     */
+    @Deprecated
+    public void setLeftSpeedTestOnly(double speed)
+    {
+        setLeftPower(speed);
+    }
+
     public void setRightPower(double power)
     {
         frontRightMotor.set(power);
         backRightMotor.set(power);
+    }
+
+    /**
+     * FOR USE ONLY IN TEST!
+     * @param speed
+     */
+    @Deprecated
+    public void setRightSpeedTestOnly(double speed)
+    {
+        setRightPower(speed);
     }
 
     public void forceShiftUp()

@@ -318,6 +318,16 @@ public class Shuttle
         motor.set(0.5);
     }
 
+    /**
+     * FOR USE ONLY IN TEST!
+     * @param speed
+     */
+    @Deprecated
+    public void setSpeedTestOnly(double speed)
+    {
+        setSpeed(speed);
+    }
+
     private static void stopShuttle()
     {
         setSpeed(0.0);
