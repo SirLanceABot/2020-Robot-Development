@@ -381,9 +381,21 @@ public class Shuttle
         encoder.setPosition(position);
     }
 
-    private static boolean isFull()
+    public static boolean isFull()
     {
         if(!sensor1.get() && !sensor2.get() && !sensor3.get() && !sensor4.get() && !sensor5.get() && !sensor6.get())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static boolean powerCellAtFlywheel()
+    {
+        if(!sensor6.get())
         {
             return true;
         }
