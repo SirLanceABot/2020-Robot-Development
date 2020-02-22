@@ -23,28 +23,28 @@ public class Port
 
     public class Motor
     {
-        public static final int DRIVETRAIN_FRONT_RIGHT = 1;
-        public static final int DRIVETRAIN_BACK_RIGHT =  2;
-        public static final int DRIVETRAIN_BACK_LEFT =   3;
-        public static final int DRIVETRAIN_FRONT_LEFT =  4;
+        public static final int CAN_DRIVETRAIN_FRONT_RIGHT = 1;
+        public static final int CAN_DRIVETRAIN_BACK_RIGHT =  2;
+        public static final int CAN_DRIVETRAIN_BACK_LEFT =   3;
+        public static final int CAN_DRIVETRAIN_FRONT_LEFT =  4;
 
-        public static final int INTAKE_CENTER =          5;
-        public static final int INTAKE_LEFT =            6;
-        public static final int INTAKE_RIGHT =           7;
+        public static final int CAN_INTAKE_CENTER =          5;
+        public static final int CAN_INTAKE_LEFT =            6;
+        public static final int CAN_INTAKE_RIGHT =           7;
 
-        public static final int SHUTTLE =                8;
+        public static final int CAN_SHUTTLE =                8;
 
-        public static final int SHOOTER_MASTER =         9;
-        public static final int SHOOTER_SLAVE =         10;
+        public static final int CAN_SHOOTER_MASTER =         9;
+        public static final int CAN_SHOOTER_SLAVE =         10;
 
-        public static final int SHROUD =                11;
+        public static final int CAN_SHROUD =                11;
 
-        public static final int TURRET =                12;
+        public static final int CAN_TURRET =                12;
 
-        public static final int CLIMBER_ARM =           13;
-        public static final int CLIMBER_WINCH =         14;
+        public static final int CAN_CLIMBER_ARM =           13;
+        public static final int CAN_CLIMBER_WINCH =         14;
 
-        public static final int CONTROL_PANEL =         15; //TODO: declare control panel motor
+        public static final int CAN_CONTROL_PANEL =         15; //TODO: declare control panel motor
     }
 
     public class Sensor

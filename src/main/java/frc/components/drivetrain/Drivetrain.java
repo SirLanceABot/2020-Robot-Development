@@ -19,10 +19,10 @@ public class Drivetrain extends DifferentialDrive
         System.out.println(className + " : Class Loading");
     }
 
-    private static WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_FRONT_RIGHT);
-    private static WPI_TalonSRX backRightMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_BACK_RIGHT);
-    private static WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_BACK_LEFT);
-    private static WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(Port.Motor.DRIVETRAIN_FRONT_LEFT);
+    private static WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(Port.Motor.CAN_DRIVETRAIN_FRONT_RIGHT);
+    private static WPI_TalonSRX backRightMotor = new WPI_TalonSRX(Port.Motor.CAN_DRIVETRAIN_BACK_RIGHT);
+    private static WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(Port.Motor.CAN_DRIVETRAIN_BACK_LEFT);
+    private static WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(Port.Motor.CAN_DRIVETRAIN_FRONT_LEFT);
 
     private static SpeedControllerGroup rightMotors = new SpeedControllerGroup(frontRightMotor, backRightMotor);
     private static SpeedControllerGroup leftMotors = new SpeedControllerGroup(frontLeftMotor, backLeftMotor);

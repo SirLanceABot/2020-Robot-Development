@@ -276,7 +276,7 @@ public class Shuttle
     private static double targetPosition = 0;
     private static double shuttleJogDistance = 100/7.0;
     private static boolean initFlag = true;
-    private static CANSparkMax motor = new CANSparkMax(Port.Motor.SHUTTLE, MotorType.kBrushless);
+    private static CANSparkMax motor = new CANSparkMax(Port.Motor.CAN_SHUTTLE, MotorType.kBrushless);
     private static CANEncoder encoder = new CANEncoder(motor);
     private static CANPIDController pidController = new CANPIDController(motor);
     //private static double currentPosition;

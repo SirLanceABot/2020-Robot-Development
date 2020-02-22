@@ -19,7 +19,7 @@ public class Winch
         System.out.println(className + " : Class Loading");
     }
 
-    private static CANSparkMax winchMotor = new CANSparkMax(Port.Motor.CLIMBER_WINCH, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    private static CANSparkMax winchMotor = new CANSparkMax(Port.Motor.CAN_CLIMBER_WINCH, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANEncoder winchEncoder = winchMotor.getEncoder();
 
     //TODO: determine actual height constraints.

@@ -23,7 +23,7 @@ public class Arm
     }
 
     // Declare and initialize private instance variables.
-    private static CANSparkMax armMotor = new CANSparkMax(Port.Motor.CLIMBER_ARM, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    private static CANSparkMax armMotor = new CANSparkMax(Port.Motor.CAN_CLIMBER_ARM, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANEncoder armEncoder = armMotor.getEncoder();
     private static final int DEFAULT_POSITION = 10; // TODO: find actual default encoder position 
     private static final int ERROR_THRESHOLD = 5; // TODO: find actual threshold we want for the robot

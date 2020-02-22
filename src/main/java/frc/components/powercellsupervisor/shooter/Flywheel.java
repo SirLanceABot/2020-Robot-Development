@@ -30,8 +30,8 @@ public class Flywheel
     private static final double FEEDFORWARD = 0.0;
     //------------------------------------------------------------------//
 
-    private static TalonSRX masterMotor = new TalonSRX(Port.Motor.SHOOTER_MASTER);
-    private static VictorSPX followerMotor = new VictorSPX(Port.Motor.SHOOTER_SLAVE);
+    private static TalonSRX masterMotor = new TalonSRX(Port.Motor.CAN_SHOOTER_MASTER);
+    private static VictorSPX followerMotor = new VictorSPX(Port.Motor.CAN_SHOOTER_SLAVE);
     private static boolean isMoving = false;
     private static Flywheel instance = new Flywheel();
 

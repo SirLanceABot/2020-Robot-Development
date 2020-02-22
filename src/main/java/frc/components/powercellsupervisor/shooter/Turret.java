@@ -76,7 +76,7 @@ public class Turret
     private static Vision vision = Vision.getInstance();
     private static TargetDataB turretVision = new TargetDataB();
     private static NavX navX = NavX.getInstance();
-    private static TalonSRX motor = new TalonSRX(Port.Motor.TURRET);
+    private static TalonSRX motor = new TalonSRX(Port.Motor.CAN_TURRET);
     private static double currentPostion;
     private static boolean isMoving = false;
     private static Turret instance = new Turret();

@@ -31,7 +31,7 @@ public class Shroud
 
     private static double currentAngle;
     private static boolean isMoving = false;
-    private static TalonSRX motor = new TalonSRX(Port.Motor.SHROUD);
+    private static TalonSRX motor = new TalonSRX(Port.Motor.CAN_SHROUD);
     private static Shroud instance = new Shroud();
 
     private Shroud()
