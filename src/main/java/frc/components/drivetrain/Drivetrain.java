@@ -4,10 +4,9 @@ import frc.robot.Port;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import frc.sensors.NavX;
-import frc.shuffleboard.AutonomousTab.StartingLocation;
 
 public class Drivetrain extends DifferentialDrive
 {
@@ -19,10 +18,10 @@ public class Drivetrain extends DifferentialDrive
         System.out.println(className + " : Class Loading");
     }
 
-    private static WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(Port.Motor.CAN_DRIVETRAIN_FRONT_RIGHT);
-    private static WPI_TalonSRX backRightMotor = new WPI_TalonSRX(Port.Motor.CAN_DRIVETRAIN_BACK_RIGHT);
-    private static WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(Port.Motor.CAN_DRIVETRAIN_BACK_LEFT);
-    private static WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(Port.Motor.CAN_DRIVETRAIN_FRONT_LEFT);
+    private static WPI_TalonFX frontRightMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_FRONT_RIGHT);
+    private static WPI_TalonFX backRightMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_BACK_RIGHT);
+    private static WPI_TalonFX backLeftMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_BACK_LEFT);
+    private static WPI_TalonFX frontLeftMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_FRONT_LEFT);
 
     private static SpeedControllerGroup rightMotors = new SpeedControllerGroup(frontRightMotor, backRightMotor);
     private static SpeedControllerGroup leftMotors = new SpeedControllerGroup(frontLeftMotor, backLeftMotor);
