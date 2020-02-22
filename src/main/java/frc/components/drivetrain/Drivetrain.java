@@ -41,6 +41,9 @@ public class Drivetrain extends DifferentialDrive
 
     private static boolean rotationInitFlag = true;
     private static double targetRotation = 0.0;
+    
+    private static Shifter shifter = Shifter.getInstance();
+
     private static Drivetrain instance = new Drivetrain();
 
     private Drivetrain()
@@ -271,5 +274,15 @@ public class Drivetrain extends DifferentialDrive
     {
         frontRightMotor.set(power);
         backRightMotor.set(power);
+    }
+
+    public void forceShiftUp()
+    {
+        shifter.forceShiftUp();
+    }
+
+    public void forceShiftDown()
+    {
+        shifter.forceShiftDown();
     }
 }
