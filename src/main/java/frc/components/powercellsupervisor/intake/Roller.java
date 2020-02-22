@@ -69,7 +69,7 @@ public class Roller
      * Protected method to return the one instance of the Roller
      * @return the Roller
      */
-    protected static Roller getInstance()
+    public static Roller getInstance()
     {
         return instance;
     } 
