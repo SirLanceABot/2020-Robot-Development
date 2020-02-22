@@ -1,6 +1,5 @@
 package frc.components.powercellsupervisor;
 
-import frc.components.climber.Climber;
 import frc.components.powercellsupervisor.intake.Intake;
 import frc.components.powercellsupervisor.shooter.Flywheel;
 import frc.components.powercellsupervisor.shooter.Shooter;
