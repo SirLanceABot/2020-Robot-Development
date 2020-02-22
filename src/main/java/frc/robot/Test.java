@@ -302,10 +302,12 @@ public class Test
      */
     private void testDrivetrainPeriodic()
     {
+        // Button A allows Left Y joystick to drive Left drive motors
         if(driverController.getRawButton(Xbox.Button.kA))
         {
             drivetrain.setLeftPower(driverController.getRawAxis(Xbox.Axis.kLeftY));
         }
+        // Button B allows Left Y joystick to drive Right drive motors
         else if(driverController.getRawButton(Xbox.Button.kB))
         {
             drivetrain.setRightPower(driverController.getRawAxis(Xbox.Axis.kLeftY));
@@ -329,11 +331,13 @@ public class Test
      */
     private void testShifterPeriodic()
     {
+        // Button X Shifts Up the drive gear
         if(driverController.getRawButton(Xbox.Button.kX))
         {
             System.out.println("Force up shifting");
             drivetrain.forceShiftUp();
         }
+        // Button Y Shifts Down the drive gear
         else if(driverController.getRawButton(Xbox.Button.kY))
         {
             System.out.println("Force down shifting");
@@ -370,10 +374,12 @@ public class Test
      */
     private void testRollerPeriodic()
     {
+        // Button X makes the Rollers intake
         if(driverController.getRawButton(Xbox.Button.kX))
         {
             roller.intake();
         }
+        // Button Y makes the Rollers eject
         else if(driverController.getRawButton(Xbox.Button.kY))
         {
             roller.eject();
@@ -397,11 +403,13 @@ public class Test
      */
     private void testWristPeriodic()
     {
+        // Button A raises the Wrist
         if(driverController.getRawButton(Xbox.Button.kA))
         {
             System.out.println("Force wrist up");
             wrist.forceRaise();
         }
+        // Button B lowers the Wrist
         else if(driverController.getRawButton(Xbox.Button.kB))
         {
             System.out.println("Force wrist down");
@@ -422,6 +430,7 @@ public class Test
      */
     private void testFlywheelPeriodic()
     {
+        // Button A runs the Flywheel using the Left Y joystick
         if(driverController.getRawButton(Xbox.Button.kA))
         {
             flywheel.run(driverController.getRawAxis(Xbox.Axis.kLeftY));
@@ -493,6 +502,7 @@ public class Test
      */
     private void testTurretPeriodic()
     {
+        // Button B rotates the Turret using the Left X joystick
         if(driverController.getRawButton(Xbox.Button.kB))
         {
             turret.rotate(driverController.getRawAxis(Xbox.Axis.kLeftX));
@@ -519,3 +529,16 @@ public class Test
 
     }
 }
+
+// TODO: Add test only setSpeeds and test only getInstances
+    /**
+     * FOR USE ONLY IN TEST!
+     * @param speed
+     */
+    /*
+    @Deprecated
+    public void setSpeedTestOnly(double speed)
+    {
+        setSpeed(speed);
+    }
+    */
