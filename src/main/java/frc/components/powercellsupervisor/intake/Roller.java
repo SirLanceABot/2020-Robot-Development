@@ -45,8 +45,15 @@ public class Roller
     {
         System.out.println(this.getClass().getName() + ": Started Constructing");
         centerMotor.restoreFactoryDefaults();
+        leftMotor.restoreFactoryDefaults();
+        rightMotor.restoreFactoryDefaults();
+        leftMotor.follow(centerMotor);
+        rightMotor.follow(centerMotor);
         // slaveMotor.restoreFactoryDefaults();
         //slaveMotor.follow(masterMotor);
+        rightMotor.setInverted(true);
+        centerMotor.setInverted(true);
+        leftMotor.setInverted(false);
         centerEncoder.setPosition(0);
         centerMotor.setSmartCurrentLimit(40);
         pidController.setP(kP);
