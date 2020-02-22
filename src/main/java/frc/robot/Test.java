@@ -302,20 +302,24 @@ public class Test
      */
     private void testDrivetrainPeriodic()
     {
-        // Button A allows Left Y joystick to drive Left drive motors
-        if(driverController.getRawButton(Xbox.Button.kA))
-        {
-            drivetrain.setLeftPower(driverController.getRawAxis(Xbox.Axis.kLeftY));
-        }
-        // Button B allows Left Y joystick to drive Right drive motors
-        else if(driverController.getRawButton(Xbox.Button.kB))
-        {
-            drivetrain.setRightPower(driverController.getRawAxis(Xbox.Axis.kLeftY));
-        }
-        else
-        {
-            drivetrain.stop();
-        }
+        drivetrain.setLeftPower(0.5);
+        drivetrain.setRightPower(0.5);
+        //drivetrain.westCoastDrive(driverController.getAction(DriverController.AxisAction.kMove), driverController.getAction(DriverController.AxisAction.kMove));
+        
+        
+        
+        // if(driverController.getRawButton(Xbox.Button.kA))
+        // {
+        //     drivetrain.setLeftPower(driverController.getRawAxis(Xbox.Axis.kLeftY));
+        // }
+        // else if(driverController.getRawButton(Xbox.Button.kB))
+        // {
+        //     drivetrain.setRightPower(driverController.getRawAxis(Xbox.Axis.kLeftY));
+        // }
+        // else
+        // {
+        //     drivetrain.stop();
+        // }
     }
 
     /**
