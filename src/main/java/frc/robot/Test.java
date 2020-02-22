@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.components.drivetrain.Drivetrain;
 import frc.components.drivetrain.Shifter;
 import frc.components.powercellsupervisor.PowerCellSupervisor;
+import frc.components.powercellsupervisor.intake.Roller;
 import frc.components.powercellsupervisor.shooter.Flywheel;
 import frc.components.powercellsupervisor.shooter.Turret;
 
@@ -60,6 +61,7 @@ public class Test
     private static DriverController driverController = DriverController.getInstance();
     private static Drivetrain drivetrain = Drivetrain.getInstance();
     private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
+    private static Roller roller = Roller.getInstance();
     private static Flywheel flywheel = Flywheel.getInstance();
     private static Turret turret = Turret.getInstance();
 
@@ -298,11 +300,11 @@ public class Test
      */
     private void testDrivetrainPeriodic()
     {
-        if(driverController.getRawButton(Xbox.Button.kA)
+        if(driverController.getRawButton(Xbox.Button.kA))
         {
             drivetrain.setLeftPower(driverController.getRawAxis(Xbox.Axis.kLeftY));
         }
-        else if(driverController.getRawButton(Xbox.Button.kB)
+        else if(driverController.getRawButton(Xbox.Button.kB))
         {
             drivetrain.setRightPower(driverController.getRawAxis(Xbox.Axis.kLeftY));
         }
@@ -366,7 +368,18 @@ public class Test
      */
     private void testRollerPeriodic()
     {
-
+        if(driverController.getRawButton(Xbox.Button.kX))
+        {
+            roller.intake();
+        }
+        else if(driverController.getRawButton(Xbox.Button.kY))
+        {
+            roller.eject();
+        }
+        else
+        {
+            roller.stop();
+        }
     }
 
     /**
