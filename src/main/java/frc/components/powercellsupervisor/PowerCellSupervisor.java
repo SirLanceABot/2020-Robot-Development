@@ -226,4 +226,14 @@ public class PowerCellSupervisor
     {
         return flywheel.getEncoderPosition();
     }
+ 
+    public void forceRaise()
+    {
+        intake.forceRaise();
+    }
+
+    public void forceLower()
+    {
+        intake.forceLower();
+    }
 }
