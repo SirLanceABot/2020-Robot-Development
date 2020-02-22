@@ -164,7 +164,6 @@ public class PowerCellSupervisor
     private static Shroud shroud = Shroud.getInstance();
     private static Turret turret = Turret.getInstance();
     private static Flywheel flywheel = Flywheel.getInstance();
-    private static Climber climber = Climber.getInstance();
     private static PowerCellSupervisor powerCellSupervisor = new PowerCellSupervisor();
 
     public PowerCellSupervisor()
@@ -227,15 +226,5 @@ public class PowerCellSupervisor
     public double getFlywheelEncoderValue()
     {
         return flywheel.getEncoderPosition();
-    }
-
-    public double getClimberArmEncoderValue()
-    {
-        return climber.getArmEncoderPosition();
-    }
-
-    public double getClimberWinchEncoderValue()
-    {
-        return climber.getWinchEncoderPosition();
     }
 }
