@@ -89,15 +89,15 @@ public class SensorsTab
 
 
 
-        wristExtendedEntry = createTextBox("Wrist Sensor 1",       0, 18, 5, 4, 2);
-        wristRetractedEntry = createTextBox("Wrist Sensor 2",       0, 23, 5, 4, 2);
+        wristExtendedEntry = createTextBox("Wrist Sensor 1",      false, 18, 5, 4, 2);
+        wristRetractedEntry = createTextBox("Wrist Sensor 2",     false, 23, 5, 4, 2);
 
-        shuttleSensor1Entry = createTextBox("Shuttle Sensor 1",   0, 0, 8, 4, 2);
-        shuttleSensor2Entry = createTextBox("Shuttle Sensor 2",   0, 4, 8, 4, 2);
-        shuttleSensor3Entry = createTextBox("Shuttle Sensor 3",   0, 8, 8, 4, 2);
-        shuttleSensor4Entry = createTextBox("Shuttle Sensor 4",   0, 12, 8, 4, 2);
-        shuttleSensor5Entry = createTextBox("Shuttle Sensor 5",   0, 16, 8, 4, 2);
-        shuttleSensor6Entry = createTextBox("Shuttle Sensor 6",   0, 20, 8, 4, 2);
+        shuttleSensor1Entry = createTextBox("Shuttle Sensor 1",   false, 0, 8, 4, 2);
+        shuttleSensor2Entry = createTextBox("Shuttle Sensor 2",   false, 4, 8, 4, 2);
+        shuttleSensor3Entry = createTextBox("Shuttle Sensor 3",   false, 8, 8, 4, 2);
+        shuttleSensor4Entry = createTextBox("Shuttle Sensor 4",   false, 12, 8, 4, 2);
+        shuttleSensor5Entry = createTextBox("Shuttle Sensor 5",   false, 16, 8, 4, 2);
+        shuttleSensor6Entry = createTextBox("Shuttle Sensor 6",   false, 20, 8, 4, 2);
 
 
         System.out.println(className + ": Constructor Finished");
@@ -113,6 +113,15 @@ public class SensorsTab
     * <p>Create an entry in the Network Table and add the Text Box to the Shuffleboard Tab
     */
     private NetworkTableEntry createTextBox(String title, Integer defaultValue, int column, int row, int width, int height)
+    {
+        return sensorsTab.add(title, defaultValue)
+            .withWidget(BuiltInWidgets.kTextView)
+            .withPosition(column, row)
+            .withSize(width, height)
+            .getEntry();
+    }
+
+    private NetworkTableEntry createTextBox(String title, Boolean defaultValue, int column, int row, int width, int height)
     {
         return sensorsTab.add(title, defaultValue)
             .withWidget(BuiltInWidgets.kTextView)
@@ -146,7 +155,7 @@ public class SensorsTab
 
 
         wristExtendedEntry.setBoolean(powerCellSupervisor.getWristSensorExtended());
-        wristRetractedEntry.setBoolean(powerCellSupervisor.getWristSensorExtended());
+        wristRetractedEntry.setBoolean(powerCellSupervisor.getWristSensorRetracted());
 
         shuttleSensor1Entry.setBoolean(powerCellSupervisor.getShuttleSensor(1));
         shuttleSensor2Entry.setBoolean(powerCellSupervisor.getShuttleSensor(2));
