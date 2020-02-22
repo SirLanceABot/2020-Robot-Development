@@ -23,6 +23,7 @@ public class Port
 
     public class Motor
     {
+        //TODO: determine CAN ID's on all motors
         public static final int CAN_DRIVETRAIN_FRONT_RIGHT = 1;
         public static final int CAN_DRIVETRAIN_BACK_RIGHT =  2;
         public static final int CAN_DRIVETRAIN_BACK_LEFT =   3;
@@ -88,27 +89,27 @@ public class Port
 
     public class PDP
     {
-        public static final int DRIVETRAIN_FRONT_RIGHT = 1;
-        public static final int DRIVETRAIN_BACK_RIGHT =  2;
-        public static final int DRIVETRAIN_BACK_LEFT =   3;
-        public static final int DRIVETRAIN_FRONT_LEFT =  4;
+        public static final int PDP_DRIVETRAIN_FRONT_RIGHT = 2;
+        public static final int PDP_DRIVETRAIN_BACK_RIGHT =  3;
+        public static final int PDP_DRIVETRAIN_BACK_LEFT =   0;
+        public static final int PDP_DRIVETRAIN_FRONT_LEFT =  1;
 
-        public static final int INTAKE_CENTER =          5;
-        public static final int INTAKE_LEFT =            6;
-        public static final int INTAKE_RIGHT =           7;
+        public static final int PDP_INTAKE_CENTER =          8;
+        public static final int PDP_INTAKE_LEFT =            9;
+        public static final int PDP_INTAKE_RIGHT =           5;
 
-        public static final int SHUTTLE =                8;
+        public static final int PDP_SHUTTLE =               10;
 
-        public static final int SHOOTER_MASTER =         9;
-        public static final int SHOOTER_SLAVE =         10;
+        public static final int PDP_SHOOTER_MASTER =        14;
+        public static final int PDP_SHOOTER_SLAVE =         15;
 
-        public static final int SHROUD =                11;
+        public static final int PDP_SHROUD =                11;
 
-        public static final int TURRET =                12;
+        public static final int PDP_TURRET =                12;
 
-        public static final int CLIMBER_ARM =           13;
-        public static final int CLIMBER_WINCH =         14;
+        public static final int PDP_CLIMBER_ARM =            6;
+        public static final int PDP_CLIMBER_WINCH =         13;
 
-        public static final int CONTROL_PANEL =         15; 
+        public static final int PDP_CONTROL_PANEL =          4; 
     }
 }
