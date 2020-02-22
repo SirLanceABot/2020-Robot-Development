@@ -9,6 +9,7 @@ import frc.components.powercellsupervisor.shooter.Turret;
 import frc.components.powercellsupervisor.shuttle.Shuttle;
 import frc.controls.DriverController;
 import frc.controls.OperatorController;
+import frc.controls.OperatorController.ButtonAction;
 
 public class PowerCellSupervisor
 {
@@ -28,7 +29,22 @@ public class PowerCellSupervisor
             public void doAction()
             {
                 System.out.println("State: Off");
-
+                if(Shuttle.powerCellAtFlywheel())
+                {
+                    currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
+                }
+                else if(Shuttle.isFull())
+                {
+                    currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
+                }
+                else if(operatorController.getAction(ButtonAction.kShoot) || operatorController.getAction(ButtonAction.kAutoAim))
+                {
+                    currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
+                }
+                else if(driverController.getAction(DriverController.ButtonAction.kIntakeOn))
+                {
+                    currentState = Transition.findNextState(currentState, Event.Intaking);
+                }
             }
         },
         IntakeControlled()
@@ -39,6 +55,22 @@ public class PowerCellSupervisor
                 System.out.println("State: Intake Controlled");
                 shuttle.runFSM();
                 intake.runFSM();
+                if(Shuttle.powerCellAtFlywheel())
+                {
+                    currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
+                }
+                else if(Shuttle.isFull())
+                {
+                    currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
+                }
+                else if(operatorController.getAction(ButtonAction.kShoot) || operatorController.getAction(ButtonAction.kAutoAim))
+                {
+                    currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
+                }
+                else if(driverController.getAction(DriverController.ButtonAction.kIntakeOn))
+                {
+                    currentState = Transition.findNextState(currentState, Event.Intaking);
+                }
             }
         },
         ShooterControlled()
@@ -49,6 +81,22 @@ public class PowerCellSupervisor
                 System.out.println("State: Shooter Controlled");
                 shuttle.runFSM();
                 shooter.runFSM();
+                if(Shuttle.powerCellAtFlywheel())
+                {
+                    currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
+                }
+                else if(Shuttle.isFull())
+                {
+                    currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
+                }
+                else if(operatorController.getAction(ButtonAction.kShoot) || operatorController.getAction(ButtonAction.kAutoAim))
+                {
+                    currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
+                }
+                else if(driverController.getAction(DriverController.ButtonAction.kIntakeOn))
+                {
+                    currentState = Transition.findNextState(currentState, Event.Intaking);
+                }
             }
         };
 
@@ -107,6 +155,7 @@ public class PowerCellSupervisor
         }
     }
 
+    private static State currentState = State.NeitherControlled;
     private static DriverController driverController = DriverController.getInstance();
     private static OperatorController operatorController = OperatorController.getInstance();
     private static Shuttle shuttle = Shuttle.getInstance();
