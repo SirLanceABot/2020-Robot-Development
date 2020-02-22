@@ -193,14 +193,4 @@ public class Intake implements Notified
     {
         return roller.getRightEncoderValue();
     }
-
-    public void forceRaise()
-    {
-        wrist.forceRaise();
-    }
-
-    public void forceLower()
-    {
-        wrist.forceLower();
-    }
 }
