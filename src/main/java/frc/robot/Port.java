@@ -24,10 +24,10 @@ public class Port
     public class Motor
     {
         //TODO: determine CAN ID's on all motors
-        public static final int CAN_DRIVETRAIN_FRONT_RIGHT = 1;
-        public static final int CAN_DRIVETRAIN_BACK_RIGHT =  2;
-        public static final int CAN_DRIVETRAIN_BACK_LEFT =   3;
-        public static final int CAN_DRIVETRAIN_FRONT_LEFT =  4;
+        public static final int CAN_DRIVETRAIN_FRONT_LEFT =  1;
+        public static final int CAN_DRIVETRAIN_BACK_LEFT =   2;
+        public static final int CAN_DRIVETRAIN_BACK_RIGHT =  3;
+        public static final int CAN_DRIVETRAIN_FRONT_RIGHT = 4;
 
         public static final int CAN_INTAKE_CENTER =          5;
         public static final int CAN_INTAKE_LEFT =            6;
