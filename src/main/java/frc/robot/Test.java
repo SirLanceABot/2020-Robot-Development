@@ -16,6 +16,7 @@ import frc.components.drivetrain.Drivetrain;
 import frc.components.drivetrain.Shifter;
 import frc.components.powercellsupervisor.PowerCellSupervisor;
 import frc.components.powercellsupervisor.shooter.Flywheel;
+import frc.components.powercellsupervisor.shooter.Turret;
 
 /**
  * @author Elliot Measel
@@ -60,6 +61,7 @@ public class Test
     private static Drivetrain drivetrain = Drivetrain.getInstance();
     private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
     private static Flywheel flywheel = Flywheel.getInstance();
+    private static Turret turret = Turret.getInstance();
 
     private static Test instance = new Test();
 
@@ -476,7 +478,14 @@ public class Test
      */
     private void testTurretPeriodic()
     {
-
+        if(driverController.getRawButton(Xbox.Button.kB))
+        {
+            turret.rotate(driverController.getRawAxis(Xbox.Axis.kLeftX));
+        }
+        else
+        {
+            turret.rotateTo(turret.getCurrentAngle());
+        }
     }
 
     /**
