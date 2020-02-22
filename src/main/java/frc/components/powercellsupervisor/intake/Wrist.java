@@ -38,7 +38,7 @@ public class Wrist
         System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
 
-    protected static Wrist getInstance()
+    public static Wrist getInstance()
     {
         return instance;
     }
