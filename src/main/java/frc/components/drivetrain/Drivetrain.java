@@ -266,7 +266,7 @@ public class Drivetrain extends DifferentialDrive
     public void setLeftPower(double power)
     {
         frontLeftMotor.set(power);
-        //backLeftMotor.set(power);
+        backLeftMotor.set(power);
     }
 
     /**
@@ -282,7 +282,7 @@ public class Drivetrain extends DifferentialDrive
     public void setRightPower(double power)
     {
         frontRightMotor.set(power);
-        //backRightMotor.set(power);
+        backRightMotor.set(power);
     }
 
     /**

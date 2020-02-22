@@ -302,9 +302,9 @@ public class Test
      */
     private void testDrivetrainPeriodic()
     {
-        drivetrain.setLeftPower(0.5);
-        drivetrain.setRightPower(0.5);
-        //drivetrain.westCoastDrive(driverController.getAction(DriverController.AxisAction.kMove), driverController.getAction(DriverController.AxisAction.kMove));
+        //drivetrain.setLeftPower(0.1);
+        //drivetrain.setRightPower(0.1);
+        drivetrain.westCoastDrive(driverController.getAction(DriverController.AxisAction.kMove), driverController.getAction(DriverController.AxisAction.kRotate));
         
         
         
