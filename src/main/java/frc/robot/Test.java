@@ -12,6 +12,10 @@ import frc.shuffleboard.MainShuffleboard;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.components.drivetrain.Drivetrain;
+import frc.components.drivetrain.Shifter;
+import frc.components.powercellsupervisor.PowerCellSupervisor;
+
 /**
  * @author Elliot Measel
  * class for the test mode on the robot
@@ -27,18 +31,33 @@ public class Test
         System.out.println(className + " : Class Loading");
     }
 
-    private static Vision vision = Vision.getInstance();
+    // Elliot's testing
+    // private static Vision vision = Vision.getInstance();
 
-    private static TargetDataB turret = new TargetDataB();
-    private static TargetDataE intake = new TargetDataE();
+    // private static TargetDataB turret = new TargetDataB();
+    // private static TargetDataE intake = new TargetDataE();
+
+    // private static DriverController driverController = DriverController.getInstance();
+    // private static OperatorController operatorController = OperatorController.getInstance();
+    // private static MainShuffleboard mainShuffleBoard = MainShuffleboard.getInstance();
+
+    // private static CANSparkMax leftMotor = new CANSparkMax(3, MotorType.kBrushless);
+    // private static CANSparkMax rightMotor = new CANSparkMax(2, MotorType.kBrushless);
+
+    // Darren's testing testing 1 2
+    private enum Test_Options
+    {
+        CLIMBER,
+        DRIVETRAIN,
+        INTAKE,
+        SHOOTER,
+        SHUTTLE
+    }
+    private static Test_Options TEST_OPTION = Test_Options.DRIVETRAIN; // The test that you want to conduct
 
     private static DriverController driverController = DriverController.getInstance();
-    private static OperatorController operatorController = OperatorController.getInstance();
-    private static MainShuffleboard mainShuffleBoard = MainShuffleboard.getInstance();
-
-    private static CANSparkMax leftMotor = new CANSparkMax(3, MotorType.kBrushless);
-    private static CANSparkMax rightMotor = new CANSparkMax(2, MotorType.kBrushless);
-    
+    private static Drivetrain drivetrain = Drivetrain.getInstance();
+    private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
 
     private static Test instance = new Test();
 
@@ -48,8 +67,7 @@ public class Test
     private Test()
     {
         System.out.println(className + " : Constructor Started");
-        
-        initializeDrivetrainMotors();
+    
 
         System.out.println(className + ": Constructor Finished");
     }
@@ -61,55 +79,109 @@ public class Test
 
     public void init()
     {
-
+        // Choose the components you want to test by uncommenting their init method call
+        if(TEST_OPTION == Test_Options.CLIMBER) // Climber test
+        {
+            testArmInit();
+            testClimberInit();
+            testWinchInit();
+        }
+        else if(TEST_OPTION == Test_Options.DRIVETRAIN) // Drivetrain test
+        {
+            testDrivetrainInit();
+            testShifterInit();
+        }
+        else if(TEST_OPTION == Test_Options.INTAKE) // Intake test
+        {
+            testIntakeInit();
+            testRollerInit();
+            testWristInit();
+        }
+        else if(TEST_OPTION == Test_Options.SHOOTER) // Shooter test
+        {
+            testFlywheelInit();
+            testGateInit();
+            testShooterInit();
+            testShroudInit();
+            testTurretInit();
+        }
+        else if(TEST_OPTION == Test_Options.SHUTTLE) // Shuttle test
+        {
+            testShuttleInit();
+        }
+        
     }
 
     public void periodic()
     {
-        mainShuffleBoard.updateSensors();
-        //testVisionUsingDrivetrain();
-    }
+        // mainShuffleBoard.updateSensors();
+        // testVisionUsingDrivetrain();
 
-    public void initializeDrivetrainMotors()
-    {
-        leftMotor.restoreFactoryDefaults();
-        rightMotor.restoreFactoryDefaults();
-        rightMotor.setInverted(true);
-    }
-
-    public void testVisionUsingDrivetrain()
-    {
-        if(!Vision.isConnected()) // For the actual robot, we will have an else block to switch to manual mode.
+        // Choose the components you want to test by uncommenting their periodic method call
+        if(TEST_OPTION == Test_Options.CLIMBER) // Climber test
         {
-            System.out.println("Waiting for a connection.");
-            return;
+            testArmPeriodic();
+            testClimberPeriodic();
+            testWinchPeriodic();
         }
+        else if(TEST_OPTION == Test_Options.DRIVETRAIN) // Drivetrain test
+        {
+            testDrivetrainPeriodic();
+            testShifterPeriodic();
+        }
+        else if(TEST_OPTION == Test_Options.INTAKE) // Intake test
+        {
+            testIntakePeriodic();
+            testRollerPeriodic();
+            testWristPeriodic();
+        }
+        else if(TEST_OPTION == Test_Options.SHOOTER) // Shooter test
+        {
+            testFlywheelPeriodic();
+            testGatePeriodic();
+            testShooterPeriodic();
+            testShroudPeriodic();
+            testTurretPeriodic();
+        }
+        else if(TEST_OPTION == Test_Options.SHUTTLE) // Shuttle test
+        {
+            testShuttlePeriodic();
+        }
+    }
 
-        intake = vision.getIntake();
-        turret = vision.getTurret();
+    // public void testVisionUsingDrivetrain()
+    // {
+    //     if(!Vision.isConnected()) // For the actual robot, we will have an else block to switch to manual mode.
+    //     {
+    //         System.out.println("Waiting for a connection.");
+    //         return;
+    //     }
+
+    //     intake = vision.getIntake();
+    //     turret = vision.getTurret();
       
-        if(turret.isFreshData())
-        {
-            if(turret.getAngleToTurn() > 1)
-            {
-                System.out.println("turning to the right" + "\t\tangle to turn: " + turret.getAngleToTurn());
-                rightMotor.set(-0.1);
-                leftMotor.set(0.1);
-            }
-            else if(turret.getAngleToTurn() < -1)
-            {
-                System.out.println("turning to the left" +  "\t\tangle to turn: " + turret.getAngleToTurn());
-                rightMotor.set(0.1);
-                leftMotor.set(-0.1);
-            }
-            else
-            {
-                System.out.print("it is off" + "\t\tangle to turn: " + turret.getAngleToTurn());
-                rightMotor.set(0.0);
-                leftMotor.set(0.0);
-            }
-        }
-    }
+    //     if(turret.isFreshData())
+    //     {
+    //         if(turret.getAngleToTurn() > 1)
+    //         {
+    //             System.out.println("turning to the right" + "\t\tangle to turn: " + turret.getAngleToTurn());
+    //             rightMotor.set(-0.1);
+    //             leftMotor.set(0.1);
+    //         }
+    //         else if(turret.getAngleToTurn() < -1)
+    //         {
+    //             System.out.println("turning to the left" +  "\t\tangle to turn: " + turret.getAngleToTurn());
+    //             rightMotor.set(0.1);
+    //             leftMotor.set(-0.1);
+    //         }
+    //         else
+    //         {
+    //             System.out.print("it is off" + "\t\tangle to turn: " + turret.getAngleToTurn());
+    //             rightMotor.set(0.0);
+    //             leftMotor.set(0.0);
+    //         }
+    //     }
+    // }
 
     /**
      * Deals with the driver controls.
@@ -135,29 +207,282 @@ public class Test
 
     private void operatorControls()
     {
-        double turret = operatorController.getRawAxis(Logitech.Axis.kZAxis);
-        boolean shoot = operatorController.getRawButton(Logitech.Button.kTrigger);
+        // double turret = operatorController.getRawAxis(Logitech.Axis.kZAxis);
+        // boolean shoot = operatorController.getRawButton(Logitech.Button.kTrigger);
 
-        if(turret >= 0.5)
-        {
-            // Call up powercellsupervisor to turn the turret right
-        }
-        else if(turret <= -0.5)
-        {
-            // Call up powercellsupervisor to turn the turret left
-        }
-        else
-        {
-            // Call up powercellsupervisor to stop the turret
-        }
+        // if(turret >= 0.5)
+        // {
+        //     // Call up powercellsupervisor to turn the turret right
+        // }
+        // else if(turret <= -0.5)
+        // {
+        //     // Call up powercellsupervisor to turn the turret left
+        // }
+        // else
+        // {
+        //     // Call up powercellsupervisor to stop the turret
+        // }
         
-        if(shoot)
+        // if(shoot)
+        // {
+        //     // Call up powercellsupervisor to shoot the ball
+        // }
+        // else
+        // {
+        //     // Call up powercellsupervisor to turn off the flywheel
+        // }
+    }
+
+    /**
+     * An Initialization method for testing the Arm.
+     */
+    private void testArmInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Arm.
+     */
+    private void testArmPeriodic()
+    {
+
+    }
+
+    /**
+     * An Initialization method for testing the Climber.
+     */
+    private void testClimberInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Climber.
+     */
+    private void testClimberPeriodic()
+    {
+
+    }
+
+    /**
+     * An Initialization method for testing the Winch.
+     */
+    private void testWinchInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Winch.
+     */
+    private void testWinchPeriodic()
+    {
+
+    }
+
+    /**
+     * An Initialization method for testing the Drivetrain.
+     */
+    private void testDrivetrainInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Drivetrain.
+     */
+    private void testDrivetrainPeriodic()
+    {
+        if(driverController.getRawButton(Xbox.Button.kA)
         {
-            // Call up powercellsupervisor to shoot the ball
+            drivetrain.setLeftPower(driverController.getRawAxis(Xbox.Axis.kLeftY));
+        }
+        else if(driverController.getRawButton(Xbox.Button.kB)
+        {
+            drivetrain.setRightPower(driverController.getRawAxis(Xbox.Axis.kLeftY));
         }
         else
         {
-            // Call up powercellsupervisor to turn off the flywheel
+            drivetrain.stop();
         }
+    }
+
+    /**
+     * An Initialization method for testing the Shifter.
+     */
+    private void testShifterInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Shifter.
+     */
+    private void testShifterPeriodic()
+    {
+        if(driverController.getRawButton(Xbox.Button.kX))
+        {
+            System.out.println("Force up shifting");
+            drivetrain.forceShiftUp();
+        }
+        else if(driverController.getRawButton(Xbox.Button.kY))
+        {
+            System.out.println("Force down shifting");
+            drivetrain.forceShiftDown();
+        }
+    }
+
+    /**
+     * An Initialization method for testing the Intake.
+     */
+    private void testIntakeInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Intake.
+     */
+    private void testIntakePeriodic()
+    {
+
+    }
+
+    /**
+     * An Initialization method for testing the Roller.
+     */
+    private void testRollerInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Roller.
+     */
+    private void testRollerPeriodic()
+    {
+
+    }
+
+    /**
+     * An Initialization method for testing the Wrist.
+     */
+    private void testWristInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Wrist.
+     */
+    private void testWristPeriodic()
+    {
+        if(driverController.getRawButton(Xbox.Button.kA))
+        {
+            System.out.println("Force wrist up");
+            powerCellSupervisor.forceRaise();
+        }
+        else if(driverController.getRawButton(Xbox.Button.kB))
+        {
+            System.out.println("Force wrist down");
+            powerCellSupervisor.forceLower();
+        }
+    }
+
+    /**
+     * An Initialization method for testing the Flywheel.
+     */
+    private void testFlywheelInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Flywheel.
+     */
+    private void testFlywheelPeriodic()
+    {
+
+    }
+
+    /**
+     * An Initialization method for testing the Gate.
+     */
+    private void testGateInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Gate.
+     */
+    private void testGatePeriodic()
+    {
+
+    }
+
+    /**
+     * An Initialization method for testing the Shooter.
+     */
+    private void testShooterInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Shooter.
+     */
+    private void testShooterPeriodic()
+    {
+
+    }
+
+    /**
+     * An Initialization method for testing the Shroud.
+     */
+    private void testShroudInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Shroud.
+     */
+    private void testShroudPeriodic()
+    {
+
+    }
+
+    /**
+     * Amethod for testing the Turret.
+     */
+    private void testTurretInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Turret.
+     */
+    private void testTurretPeriodic()
+    {
+
+    }
+
+    /**
+     * An Initialization method for testing the Shuttle.
+     */
+    private void testShuttleInit()
+    {
+        
+    }
+
+    /**
+     * A Periodic method for testing the Shuttle.
+     */
+    private void testShuttlePeriodic()
+    {
+
     }
 }
