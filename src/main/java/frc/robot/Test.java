@@ -16,6 +16,7 @@ import frc.components.drivetrain.Drivetrain;
 import frc.components.drivetrain.Shifter;
 import frc.components.powercellsupervisor.PowerCellSupervisor;
 import frc.components.powercellsupervisor.intake.Roller;
+import frc.components.powercellsupervisor.intake.Wrist;
 import frc.components.powercellsupervisor.shooter.Flywheel;
 import frc.components.powercellsupervisor.shooter.Turret;
 
@@ -62,6 +63,7 @@ public class Test
     private static Drivetrain drivetrain = Drivetrain.getInstance();
     private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
     private static Roller roller = Roller.getInstance();
+    private static Wrist wrist = Wrist.getInstance();
     private static Flywheel flywheel = Flywheel.getInstance();
     private static Turret turret = Turret.getInstance();
 
@@ -398,12 +400,12 @@ public class Test
         if(driverController.getRawButton(Xbox.Button.kA))
         {
             System.out.println("Force wrist up");
-            powerCellSupervisor.forceRaise();
+            wrist.forceRaise();
         }
         else if(driverController.getRawButton(Xbox.Button.kB))
         {
             System.out.println("Force wrist down");
-            powerCellSupervisor.forceLower();
+            wrist.forceLower();
         }
     }
 
