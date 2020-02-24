@@ -39,7 +39,8 @@ public class Flywheel
     {
 
         System.out.println(className + " : Constructor Started");
-
+        masterMotor.configFactoryDefault();
+        followerMotor.configFactoryDefault();
         masterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS);
         followerMotor.follow(masterMotor);
 

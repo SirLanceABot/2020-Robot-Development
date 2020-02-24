@@ -37,7 +37,6 @@ public class Shroud
     private Shroud()
     {
         System.out.println(className + " : Constructor Started");
-
         motor.configFactoryDefault();
         motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS); //TODO: Find out port
         motor.configForwardSoftLimitEnable(true);
