@@ -105,7 +105,7 @@ public class Flywheel
 
     public double getRPM()
     {
-        return 0.0; //need to do calculation
+        return getEncoderPosition() / 4096.0;
     }
 
     /**

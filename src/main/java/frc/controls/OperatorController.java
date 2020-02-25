@@ -60,7 +60,7 @@ public class OperatorController extends Logitech
         setAxisSettings(Axis.kXAxis, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
         setAxisSettings(Axis.kYAxis, 0.1, 0.0, 1.0, true, AxisScale.kLinear);
         setAxisSettings(Axis.kZAxis, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
-        setAxisSettings(Axis.kSlider, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
+        setAxisSettings(Axis.kSlider, 0.1, 0.0, 1.0, true, AxisScale.kLinear);
 
         System.out.println(className + ": Constructor Finished");
     }

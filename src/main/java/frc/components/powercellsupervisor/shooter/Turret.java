@@ -120,7 +120,7 @@ public class Turret
      * Private function that handles all of the setting of motor speed
      * @param speed
      */
-    private void setSpeed(double speed)
+    public void setSpeed(double speed)
     {
         motor.set(ControlMode.PercentOutput, speed);
         setCurrentPosition(getEncoderPosition());
@@ -130,7 +130,7 @@ public class Turret
     /**
      * Stops the motors
      */
-    private void stop()
+    public void stop()
     {
         motor.set(ControlMode.PercentOutput, 0.0);
         setCurrentPosition(getEncoderPosition());

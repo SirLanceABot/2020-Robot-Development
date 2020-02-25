@@ -4,8 +4,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.naming.ldap.LdapContext;
-
 import edu.wpi.first.wpilibj.I2C;
 
 public class LIDAR_Lite 

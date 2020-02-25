@@ -19,6 +19,7 @@ import frc.components.powercellsupervisor.intake.Roller;
 import frc.components.powercellsupervisor.intake.Wrist;
 import frc.components.powercellsupervisor.shooter.Flywheel;
 import frc.components.powercellsupervisor.shooter.Turret;
+import frc.components.powercellsupervisor.shuttle.Shuttle;
 
 /**
  * @author Elliot Measel
@@ -57,10 +58,12 @@ public class Test
         SHOOTER,
         SHUTTLE
     }
-    private static Test_Options TEST_OPTION = Test_Options.DRIVETRAIN; // The test that you want to conduct
+    private static Test_Options TEST_OPTION = Test_Options.SHOOTER; // The test that you want to conduct
 
+    private static OperatorController operatorController = OperatorController.getInstance();
     private static DriverController driverController = DriverController.getInstance();
     private static Drivetrain drivetrain = Drivetrain.getInstance();
+    private static Shuttle shuttle = Shuttle.getInstance();
     private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
     private static Roller roller = Roller.getInstance();
     private static Wrist wrist = Wrist.getInstance();
@@ -108,7 +111,7 @@ public class Test
         else if(TEST_OPTION == Test_Options.SHOOTER) // Shooter test
         {
             testFlywheelInit();
-            testGateInit();
+            //testGateInit();
             testShooterInit();
             testShroudInit();
             testTurretInit();
@@ -146,14 +149,15 @@ public class Test
         else if(TEST_OPTION == Test_Options.SHOOTER) // Shooter test
         {
             testFlywheelPeriodic();
-            testGatePeriodic();
-            testShooterPeriodic();
-            testShroudPeriodic();
+            //testGatePeriodic();
+            // testShooterPeriodic();
+            //testShroudPeriodic();
             testTurretPeriodic();
+            testShuttlePeriodic();
         }
         else if(TEST_OPTION == Test_Options.SHUTTLE) // Shuttle test
         {
-            testShuttlePeriodic();
+            
         }
     }
 
@@ -434,10 +438,12 @@ public class Test
      */
     private void testFlywheelPeriodic()
     {
+        System.out.println(flywheel.getEncoderPosition());
         // Button A runs the Flywheel using the Left Y joystick
-        if(driverController.getRawButton(Xbox.Button.kA))
+        if(operatorController.getAction(OperatorController.AxisAction.kShooterPower) > 0.25)
         {
-            flywheel.run(driverController.getRawAxis(Xbox.Axis.kLeftY));
+            
+            flywheel.run(operatorController.getAction(OperatorController.AxisAction.kShooterPower));
         }
         else
         {
@@ -507,13 +513,13 @@ public class Test
     private void testTurretPeriodic()
     {
         // Button B rotates the Turret using the Left X joystick
-        if(driverController.getRawButton(Xbox.Button.kB))
+        if(Math.abs(operatorController.getAction(OperatorController.AxisAction.kTurret)) > 0.1)
         {
-            turret.rotate(driverController.getRawAxis(Xbox.Axis.kLeftX));
+            turret.setSpeed(operatorController.getAction(OperatorController.AxisAction.kTurret));
         }
         else
         {
-            turret.rotateTo(turret.getCurrentAngle());
+            turret.stop();
         }
     }
 
@@ -530,7 +536,7 @@ public class Test
      */
     private void testShuttlePeriodic()
     {
-
+        shuttle.runFSM();
     }
 }
 

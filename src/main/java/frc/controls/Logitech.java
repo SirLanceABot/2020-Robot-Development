@@ -95,14 +95,16 @@ public class Logitech extends Joystick
     {
         double value = super.getRawAxis(axis);
 
-        if(axis == Axis.kSlider.value)
-        {
-            value = (value + 1.0) / 2.0;  // scales slider so it goes from 0 to 1 instead of -1 to 1
-        }
         if(axisIsFlipped[axis])
         {
             value *= -1;
         }
+
+        if(axis == Axis.kSlider.value)
+        {
+            value = (value + 1.0) / 2.0;  // scales slider so it goes from 0 to 1 instead of -1 to 1
+        }
+
         if(Math.abs(value) <= axisDeadzone[axis])
         {
             value = 0.0;

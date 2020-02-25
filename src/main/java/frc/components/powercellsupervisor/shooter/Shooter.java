@@ -6,7 +6,7 @@ import frc.components.powercellsupervisor.shuttle.Shuttle;
 import frc.controls.OperatorController;
 import frc.controls.Logitech.Axis;
 import frc.controls.OperatorController.ButtonAction;
-import frc.sensors.LidarLite.LIDAR_Lite;
+//import frc.sensors.LidarLite.LIDAR_Lite;
 import frc.vision.Vision;
 import frc.vision.TargetDataB;
 
@@ -29,7 +29,7 @@ public class Shooter implements Notified
   private static Turret turret = Turret.getInstance();
   private static Shroud shroud = Shroud.getInstance();
   private static Shuttle shuttle = Shuttle.getInstance();
-  private static LIDAR_Lite lidar = LIDAR_Lite.getInstance();
+  //private static LIDAR_Lite lidar = LIDAR_Lite.getInstance();
   private static double distanceToTarget;
   private static double angleToTarget;
   private static double flywheelSpeed = 0.0;
