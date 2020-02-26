@@ -42,6 +42,7 @@ public class Flywheel
         masterMotor.configFactoryDefault();
         followerMotor.configFactoryDefault();
         masterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS);
+        
         followerMotor.follow(masterMotor);
 
         System.out.println(className + ": Constructor Finished");
@@ -105,7 +106,7 @@ public class Flywheel
 
     public double getRPM()
     {
-        return getEncoderPosition() / 4096.0;
+        return masterMotor.getSelectedSensorVelocity();
     }
 
     /**
@@ -121,7 +122,7 @@ public class Flywheel
 
     public int getEncoderPosition()
     {
-        return masterMotor.getSelectedSensorPosition();
+        return masterMotor.getSensorCollection().getQuadraturePosition();
     }
 
 }

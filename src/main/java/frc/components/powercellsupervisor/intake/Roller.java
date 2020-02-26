@@ -149,7 +149,8 @@ public class Roller
      */
     private void setSpeed(double speed)
     {
-        double rpmSpeed = speed * maxRPM;
-        pidController.setReference(rpmSpeed, ControlType.kVelocity);
+        centerMotor.set(speed);
+        //double rpmSpeed = speed * maxRPM;
+        //pidController.setReference(rpmSpeed, ControlType.kVelocity);
     }
 }

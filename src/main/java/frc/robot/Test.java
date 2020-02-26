@@ -5,6 +5,7 @@ import frc.vision.TargetDataE;
 import frc.vision.Vision;
 import frc.controls.DriverController;
 import frc.controls.Xbox;
+import frc.controls.OperatorController.ButtonAction;
 import frc.controls.OperatorController;
 import frc.controls.Logitech;
 import frc.shuffleboard.MainShuffleboard;
@@ -12,9 +13,12 @@ import frc.shuffleboard.MainShuffleboard;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Direction;
 import frc.components.drivetrain.Drivetrain;
 import frc.components.drivetrain.Shifter;
 import frc.components.powercellsupervisor.PowerCellSupervisor;
+import frc.components.powercellsupervisor.intake.Intake;
 import frc.components.powercellsupervisor.intake.Roller;
 import frc.components.powercellsupervisor.intake.Wrist;
 import frc.components.powercellsupervisor.shooter.Flywheel;
@@ -69,6 +73,9 @@ public class Test
     private static Wrist wrist = Wrist.getInstance();
     private static Flywheel flywheel = Flywheel.getInstance();
     private static Turret turret = Turret.getInstance();
+    private static Intake intake = Intake.getInstance();
+    private static Relay led = new Relay(0);
+
 
     private static Test instance = new Test();
 
@@ -152,8 +159,13 @@ public class Test
             //testGatePeriodic();
             // testShooterPeriodic();
             //testShroudPeriodic();
-            testTurretPeriodic();
-            testShuttlePeriodic();
+            //testTurretPeriodic();
+            //testShuttlePeriodic();
+            //intake.runFSM();
+            //led.setDirection(Relay.Direction.kForward);
+            led.set(Relay.Value.kForward);
+
+
         }
         else if(TEST_OPTION == Test_Options.SHUTTLE) // Shuttle test
         {
@@ -365,8 +377,8 @@ public class Test
      * A Periodic method for testing the Intake.
      */
     private void testIntakePeriodic()
-    {
-
+    {   
+        intake.runFSM();
     }
 
     /**
@@ -438,7 +450,7 @@ public class Test
      */
     private void testFlywheelPeriodic()
     {
-        System.out.println(flywheel.getEncoderPosition());
+        System.out.println(flywheel.getRPM());
         // Button A runs the Flywheel using the Left Y joystick
         if(operatorController.getAction(OperatorController.AxisAction.kShooterPower) > 0.25)
         {
@@ -512,8 +524,13 @@ public class Test
      */
     private void testTurretPeriodic()
     {
+        if(operatorController.getAction(ButtonAction.kAutoAim))
+        {
+            turret.alignWithTarget();
+            System.out.println("Aligned with target");
+        }
         // Button B rotates the Turret using the Left X joystick
-        if(Math.abs(operatorController.getAction(OperatorController.AxisAction.kTurret)) > 0.1)
+        else if(Math.abs(operatorController.getAction(OperatorController.AxisAction.kTurret)) > 0.1)
         {
             turret.setSpeed(operatorController.getAction(OperatorController.AxisAction.kTurret));
         }

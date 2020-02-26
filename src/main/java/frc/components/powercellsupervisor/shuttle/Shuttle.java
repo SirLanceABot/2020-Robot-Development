@@ -69,7 +69,7 @@ public class Shuttle
                 if(initFlag)
                 {
                     currentPosition = getEncoderPosition();
-                    targetPosition = currentPosition + (100/7.0);
+                    targetPosition = currentPosition + (115/7.0);
                     initFlag = false;
                 }
 

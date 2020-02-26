@@ -19,7 +19,7 @@ public class Intake implements Notified
             @Override
             void doAction() 
             {
-
+                System.out.println("Intake State: Off");
                 roller.stop();
                 if(driverController.getAction(ButtonAction.kIntakeOn) || notification)
                 {
@@ -36,10 +36,12 @@ public class Intake implements Notified
             @Override
             void doAction()
             {
+                System.out.println("Intake State: Lowering");
+
                 roller.stop();
                 wrist.lower();
 
-                if(wrist.isDown(useSensor))
+                if(wrist.isDown(false))
                 {
                     currentState = Transition.findNextState(currentState, Event.kLowered);
                 }
@@ -50,10 +52,12 @@ public class Intake implements Notified
             @Override
             void doAction()
             {
+                System.out.println("Intake State: Raising");
+
                 roller.stop();
                 wrist.raise();
                 
-                if(wrist.isUp(useSensor))
+                if(wrist.isUp(false))
                 {
                     currentState = Transition.findNextState(currentState, Event.kRaised);
                 }
@@ -64,6 +68,8 @@ public class Intake implements Notified
             @Override
             void doAction() 
             {
+                System.out.println("Intake State: Intaking");
+
                 roller.intake();
                 if(driverController.getAction(ButtonAction.kIntakeOn) || notification)
                 {
