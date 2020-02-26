@@ -49,13 +49,13 @@ public class TargetDataB
      */
     public TargetDataB()
     {
-        System.out.println(className + " : Constructor Started");
+        //System.out.println(className + " : Constructor Started");
 
         boundingBoxPts = new Point[4];
         reset();
         frameNumber = 0;
 
-        System.out.println(className + ": Constructor Finished");
+        //System.out.println(className + ": Constructor Finished");
     }
 
     /**
