@@ -155,7 +155,8 @@ public class Test
         }
         else if(TEST_OPTION == Test_Options.SHOOTER) // Shooter test
         {
-            testFlywheelPeriodic();
+            flywheel.run(5000);
+            //testFlywheelPeriodic();
             //testGatePeriodic();
             // testShooterPeriodic();
             //testShroudPeriodic();
@@ -450,11 +451,10 @@ public class Test
      */
     private void testFlywheelPeriodic()
     {
-        System.out.println(flywheel.getRPM());
+        //System.out.println(flywheel.getRPM());
         // Button A runs the Flywheel using the Left Y joystick
         if(operatorController.getAction(OperatorController.AxisAction.kShooterPower) > 0.25)
         {
-            
             flywheel.run(operatorController.getAction(OperatorController.AxisAction.kShooterPower));
         }
         else

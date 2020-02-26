@@ -41,12 +41,12 @@ public class TargetDataE
      */
     public TargetDataE()
     {
-        System.out.println(className + " : Constructor Started");
+        //System.out.println(className + " : Constructor Started");
 
         reset();
         frameNumber = 0;
 
-        System.out.println(className + ": Constructor Finished");
+        //System.out.println(className + ": Constructor Finished");
     }
 
     /**

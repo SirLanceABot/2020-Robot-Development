@@ -24,10 +24,11 @@ public class Flywheel
     //----------------------------- Constants --------------------------//
     private static final int TIMEOUT_MS = 30;
     //private static final int VELOCITY_ERROR = 3;
-    private static final double PROPORTIONAL = 0.0;
-    private static final double INTEGRAL = 0.0;
+    private static final double PROPORTIONAL = 0.5;
+    private static final double INTEGRAL = 0.001;
     private static final double DERIVATIVE = 0.0;
-    private static final double FEEDFORWARD = 0.0;
+    private static final double FEEDFORWARD = 0.00;
+    private static final double TICK_TO_RPM = (1 / 100.0) * (1/4096.0) * (18/32.0) * (1000/1.0) * (60/1.0);
     //------------------------------------------------------------------//
 
     private static TalonSRX masterMotor = new TalonSRX(Port.Motor.CAN_SHOOTER_MASTER);
@@ -44,6 +45,11 @@ public class Flywheel
         masterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS);
         
         followerMotor.follow(masterMotor);
+
+        masterMotor.config_kF(0, FEEDFORWARD, TIMEOUT_MS);
+		masterMotor.config_kP(0, PROPORTIONAL, TIMEOUT_MS);
+		masterMotor.config_kI(0, INTEGRAL, TIMEOUT_MS);
+		masterMotor.config_kD(0, DERIVATIVE, TIMEOUT_MS);
 
         System.out.println(className + ": Constructor Finished");
     }
@@ -106,7 +112,7 @@ public class Flywheel
 
     public double getRPM()
     {
-        return masterMotor.getSelectedSensorVelocity();
+        return masterMotor.getSelectedSensorVelocity() * TICK_TO_RPM;
     }
 
     /**
@@ -117,7 +123,9 @@ public class Flywheel
      */
     public void run(double speedToRun)
     {
-        setSpeed(speedToRun);
+        masterMotor.set(ControlMode.Velocity, speedToRun / TICK_TO_RPM);
+        System.out.println(getRPM());
+        //setSpeed(speedToRun);
     }
 
     public int getEncoderPosition()
