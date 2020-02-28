@@ -289,16 +289,16 @@ public class Turret
 
         if(turretVision.isFreshData())
         {
-            if(turretVision.getAngleToTurn() > 0.5)
+            if(turretVision.getAngleToTurn() > 0.25)
             {
                 System.out.println("turning to the right" + "\t\tangle to turn: " + turretVision.getAngleToTurn());
-                setSpeed(0.1);
+                setSpeed(0.09);
                 return false;
             }
-            else if(turretVision.getAngleToTurn() < -0.5)
+            else if(turretVision.getAngleToTurn() < -0.25)
             {
                 System.out.println("turning to the left" +  "\t\tangle to turn: " + turretVision.getAngleToTurn());
-                setSpeed(-0.1);
+                setSpeed(-0.09);
                 return false;
             }
             else

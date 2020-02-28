@@ -47,13 +47,13 @@ public class Roller
         centerMotor.restoreFactoryDefaults();
         leftMotor.restoreFactoryDefaults();
         rightMotor.restoreFactoryDefaults();
-        leftMotor.follow(centerMotor);
-        rightMotor.follow(centerMotor);
+        //leftMotor.follow(centerMotor);
+        //rightMotor.follow(centerMotor);
         // slaveMotor.restoreFactoryDefaults();
         //slaveMotor.follow(masterMotor);
-        rightMotor.setInverted(true);
+        rightMotor.setInverted(false);
         centerMotor.setInverted(true);
-        leftMotor.setInverted(false);
+        leftMotor.setInverted(true);
         centerEncoder.setPosition(0);
         centerMotor.setSmartCurrentLimit(40);
         pidController.setP(kP);
@@ -149,7 +149,9 @@ public class Roller
      */
     private void setSpeed(double speed)
     {
-        centerMotor.set(speed);
+        centerMotor.set(speed / 2.0);
+        leftMotor.set(speed);
+        rightMotor.set(speed);
         //double rpmSpeed = speed * maxRPM;
         //pidController.setReference(rpmSpeed, ControlType.kVelocity);
     }

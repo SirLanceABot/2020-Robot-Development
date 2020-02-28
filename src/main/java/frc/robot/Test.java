@@ -155,14 +155,15 @@ public class Test
         }
         else if(TEST_OPTION == Test_Options.SHOOTER) // Shooter test
         {
-            flywheel.run(5000);
-            //testFlywheelPeriodic();
+            intake.runFSM();
+            testDrivetrainPeriodic();
+            //flywheel.run(5000);
+            testFlywheelPeriodic();
             //testGatePeriodic();
             // testShooterPeriodic();
             //testShroudPeriodic();
-            //testTurretPeriodic();
-            //testShuttlePeriodic();
-            //intake.runFSM();
+            testTurretPeriodic();
+            testShuttlePeriodic();
             //led.setDirection(Relay.Direction.kForward);
             led.set(Relay.Value.kForward);
 

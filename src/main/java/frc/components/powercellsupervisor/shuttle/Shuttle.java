@@ -69,16 +69,16 @@ public class Shuttle
                 if(initFlag)
                 {
                     currentPosition = getEncoderPosition();
-                    targetPosition = currentPosition + (115/7.0);
+                    targetPosition = currentPosition + (115/12.0);
                     initFlag = false;
                 }
 
                 currentPosition = getEncoderPosition();
-                if(!sensor5.get())
+                if(!sensor6.get())
                 {
                     System.out.println("Powercell at Flywheel");
-                    currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                     initFlag = true;
+                    currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
                 if(isFull())
                 {
@@ -128,7 +128,7 @@ public class Shuttle
             @Override
             void doAction() 
             {
-                if(!sensor5.get())
+                if(!sensor6.get())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
@@ -161,7 +161,7 @@ public class Shuttle
             @Override
             void doAction()
             {
-                if(!sensor5.get())
+                if(!sensor6.get())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       

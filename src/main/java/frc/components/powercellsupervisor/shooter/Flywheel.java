@@ -123,9 +123,9 @@ public class Flywheel
      */
     public void run(double speedToRun)
     {
-        masterMotor.set(ControlMode.Velocity, speedToRun / TICK_TO_RPM);
+        //masterMotor.set(ControlMode.Velocity, speedToRun / TICK_TO_RPM);
         System.out.println(getRPM());
-        //setSpeed(speedToRun);
+        setSpeed(speedToRun);
     }
 
     public int getEncoderPosition()
