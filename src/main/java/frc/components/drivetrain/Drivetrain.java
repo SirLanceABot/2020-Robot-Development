@@ -1,5 +1,6 @@
 package frc.components.drivetrain;
 
+import frc.components.motor.MyVictorSPX;
 import frc.robot.Port;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -26,6 +27,8 @@ public class Drivetrain extends DifferentialDrive
     private static WPI_TalonFX backRightMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_BACK_RIGHT);
     private static WPI_TalonFX backLeftMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_BACK_LEFT);
     private static WPI_TalonFX frontLeftMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_FRONT_LEFT);
+
+    //private static MyTalonFX fr = new MyTalonFX(Port.Motor.CAN_DRIVETRAIN_FRONT_RIGHT);
 
     private static SpeedControllerGroup rightMotors = new SpeedControllerGroup(frontRightMotor, backRightMotor);
     private static SpeedControllerGroup leftMotors = new SpeedControllerGroup(frontLeftMotor, backLeftMotor);
@@ -107,6 +110,7 @@ public class Drivetrain extends DifferentialDrive
     private static void configTalon(WPI_TalonFX motor, boolean inverted, NeutralMode neutralMode, boolean forwardSoftLimit, boolean reverseSoftLimit,
                                     double peakStatorCurrent, double peakSupplyCurrent, double peakCurrentDuration, double continousCurrentLimit, double openLoopRamp)
     {
+        motor.configFactoryDefault();
         motor.setInverted(inverted);
         motor.setNeutralMode(neutralMode);
         motor.configForwardSoftLimitEnable(forwardSoftLimit);
@@ -114,8 +118,6 @@ public class Drivetrain extends DifferentialDrive
         motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 25, 1.0));
         motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
         motor.configOpenloopRamp(openLoopRamp);
-
-
     }
 
     public static Drivetrain getInstance()
