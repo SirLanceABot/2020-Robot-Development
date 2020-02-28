@@ -3,7 +3,7 @@ package frc.components.motor;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-public class MyVictorSPX implements Motor
+public class MyVictorSPX extends Motor
 {
     private WPI_VictorSPX motor;
 

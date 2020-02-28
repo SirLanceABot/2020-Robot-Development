@@ -3,7 +3,7 @@ package frc.components.motor;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class MySparkMax implements Motor
+public class MySparkMax extends Motor
 {
     private CANSparkMax motor;
 

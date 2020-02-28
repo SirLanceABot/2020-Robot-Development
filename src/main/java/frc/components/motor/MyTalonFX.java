@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
-public class MyTalonFX implements Motor
+public class MyTalonFX extends Motor
 {
     private WPI_TalonFX motor;
 
