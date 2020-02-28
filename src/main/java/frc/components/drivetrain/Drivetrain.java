@@ -6,6 +6,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+
 import frc.sensors.NavX;
 
 public class Drivetrain extends DifferentialDrive
@@ -63,6 +67,25 @@ public class Drivetrain extends DifferentialDrive
         backRightMotor.setInverted(true);
         backLeftMotor.setInverted(false);
 
+        frontRightMotor.setNeutralMode(NeutralMode.Brake);
+        frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+        backRightMotor.setNeutralMode(NeutralMode.Brake);
+        backLeftMotor.setNeutralMode(NeutralMode.Brake);
+
+        frontRightMotor.configReverseSoftLimitEnable(false);
+        frontLeftMotor.configReverseSoftLimitEnable(false);
+        backRightMotor.configReverseSoftLimitEnable(false);
+        backLeftMotor.configReverseSoftLimitEnable(false);
+
+        frontRightMotor.configForwardSoftLimitEnable(false);
+        frontLeftMotor.configForwardSoftLimitEnable(false);
+        backRightMotor.configForwardSoftLimitEnable(false);
+        backLeftMotor.configForwardSoftLimitEnable(false);
+
+        
+
+
+
 		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
 		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
 		backRightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
@@ -79,6 +102,20 @@ public class Drivetrain extends DifferentialDrive
         setRightSideInverted(false);
 
         System.out.println(className + ": Constructor Finished");
+    }
+
+    private static void configTalon(WPI_TalonFX motor, boolean inverted, NeutralMode neutralMode, boolean forwardSoftLimit, boolean reverseSoftLimit,
+                                    double peakStatorCurrent, double peakSupplyCurrent, double peakCurrentDuration, double continousCurrentLimit, double openLoopRamp)
+    {
+        motor.setInverted(inverted);
+        motor.setNeutralMode(neutralMode);
+        motor.configForwardSoftLimitEnable(forwardSoftLimit);
+        motor.configReverseSoftLimitEnable(reverseSoftLimit);
+        motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 25, 1.0));
+        motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
+        motor.configOpenloopRamp(openLoopRamp);
+
+
     }
 
     public static Drivetrain getInstance()
