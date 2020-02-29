@@ -35,14 +35,14 @@ public class Shifter
 
     private static Shifter instance = new Shifter();
 
-    private Shifter()
+    public Shifter()
     {
         System.out.println(className + " : Constructor Started");
 
         System.out.println(className + ": Constructor Finished");
     }
 
-    protected static Shifter getInstance()
+    public static Shifter getInstance()
     {
         return instance;
     }

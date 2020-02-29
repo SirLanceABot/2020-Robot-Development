@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.sensors.NavX;
 
 public class Drivetrain extends DifferentialDrive
@@ -27,6 +27,8 @@ public class Drivetrain extends DifferentialDrive
     private static WPI_TalonFX backRightMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_BACK_RIGHT);
     private static WPI_TalonFX backLeftMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_BACK_LEFT);
     private static WPI_TalonFX frontLeftMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_FRONT_LEFT);
+    private static DoubleSolenoid coolantSolenoid = new DoubleSolenoid(Port.Pneumatic.DRIVERTRAIN_COOLING_ON, Port.Pneumatic.DRIVERTRAIN_COOLING_OFF);
+
 
     //private static MyTalonFX fr = new MyTalonFX(Port.Motor.CAN_DRIVETRAIN_FRONT_RIGHT);
 
@@ -87,7 +89,7 @@ public class Drivetrain extends DifferentialDrive
 
         
 
-
+        stopCoolingMotors();
 
 		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
 		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
@@ -123,6 +125,16 @@ public class Drivetrain extends DifferentialDrive
     public static Drivetrain getInstance()
     {
         return instance;
+    }
+
+    public void coolMotors()
+    {
+        coolantSolenoid.set(DoubleSolenoid.Value.kForward);   
+    }
+
+    public void stopCoolingMotors()
+    {
+        coolantSolenoid.set(DoubleSolenoid.Value.kReverse);   
     }
 
     public void westCoastDrive(double move, double rotate)

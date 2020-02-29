@@ -72,6 +72,7 @@ public class Test
     private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
     private static Roller roller = Roller.getInstance();
     private static Wrist wrist = Wrist.getInstance();
+    private static Shifter shifter = Shifter.getInstance();
     private static Flywheel flywheel = Flywheel.getInstance();
     private static Turret turret = Turret.getInstance();
     private static Intake intake = Intake.getInstance();
@@ -156,19 +157,29 @@ public class Test
         }
         else if(TEST_OPTION == Test_Options.SHOOTER) // Shooter test
         {
-            led.set(Relay.Value.kForward);
-            intake.runFSM();
+
             //testDrivetrainPeriodic();
             //flywheel.run(5000);
             //testFlywheelPeriodic();
             //testGatePeriodic();
             // testShooterPeriodic();
             //testShroudPeriodic();
-            testTurretPeriodic();
-            testShuttlePeriodic();
-            shuttle.runFSM();
-            shooter.runFSM();
+            
+            //led.set(Relay.Value.kForward);
+            //intake.runFSM();
+            //testTurretPeriodic();
+            //testShuttlePeriodic();
+            //shuttle.runFSM();
+            //shooter.runFSM();
             //led.setDirection(Relay.Direction.kForward);
+            if(driverController.getRawButton(1))
+            {
+                drivetrain.coolMotors();
+            }
+            else if(driverController.getRawButton(2))
+            {
+                drivetrain.stopCoolingMotors();
+            }
 
 
         }

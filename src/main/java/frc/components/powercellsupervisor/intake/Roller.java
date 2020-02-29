@@ -82,6 +82,13 @@ public class Roller
         setSpeed(1.0);
     }
 
+    public void intakeUsingOuter()
+    {
+        rightMotor.set(1.0);
+        centerMotor.set(0.2);
+        leftMotor.set(1.0);
+    }
+
     /**
      * Public method to make the roller spit out balls
      */
@@ -96,6 +103,21 @@ public class Roller
     public void stop()
     {
         setSpeed(0.0);
+    }
+
+    public double getCenterRollerAmps()
+    {
+        return centerMotor.getOutputCurrent();
+    }
+
+    public double getLeftRollerAmps()
+    {
+        return leftMotor.getOutputCurrent();
+    }
+
+    public double getRightRollerAmps()
+    {
+        return rightMotor.getOutputCurrent();
     }
 
     /**
@@ -152,7 +174,9 @@ public class Roller
         centerMotor.set(speed / 2.0);
         leftMotor.set(speed);
         rightMotor.set(speed);
+        //System.out.println(centerMotor.getOutputCurrent());
         //double rpmSpeed = speed * maxRPM;
         //pidController.setReference(rpmSpeed, ControlType.kVelocity);
     }
+
 }

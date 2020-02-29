@@ -1,5 +1,6 @@
 package frc.components.powercellsupervisor.intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.autonomous.commands.interfaces.Notified;
 import frc.components.powercellsupervisor.intake.Roller;
 import frc.components.powercellsupervisor.intake.Wrist;
@@ -63,12 +64,40 @@ public class Intake implements Notified
                 }
             }
         },
+        TurningOn()
+        {
+            boolean initFlag = true;
+            @Override
+            void doAction() 
+            {
+                System.out.println("Turning On");
+                if(initFlag)
+                {
+                    stopTimer();
+                    resetTimer();
+                    startTimer();
+                    initFlag = false;
+                }
+                
+                else if(getTimer() > 1)
+                {
+                    currentState = Transition.findNextState(currentState, Event.kTurnedOn);
+                    initFlag = true;
+                }
+                roller.intake();
+            }
+        },
         Intaking()
         {
             @Override
             void doAction() 
             {
                 System.out.println("Intake State: Intaking");
+
+                if(roller.getCenterRollerAmps() > 10)
+                {
+                    currentState = Transition.findNextState(currentState, Event.kPinched);
+                }
 
                 roller.intake();
                 if(driverController.getAction(ButtonAction.kIntakeOn) || notification)
@@ -80,6 +109,21 @@ public class Intake implements Notified
                     currentState = Transition.findNextState(currentState, Event.kNoPress);
                 }            
             }
+        },            
+        Pinched()
+        {
+            @Override
+            void doAction() 
+            {
+                System.out.println("Pinched");
+                roller.intakeUsingOuter();           
+                
+                if(roller.getLeftRollerAmps() < 7.5 && roller.getRightRollerAmps() < 7.5)
+                {
+                    currentState = Transition.findNextState(currentState, Event.kNotPinched);
+                }
+            }
+
         };
         
         abstract void doAction();
@@ -89,7 +133,7 @@ public class Intake implements Notified
 
     private enum Event
     {
-        kIntakeButtonPressed, kNoPress, kLowered, kRaised;
+        kIntakeButtonPressed, kNoPress, kLowered, kRaised, kTurnedOn, kPinched, kNotPinched;
     }
 
       // ----------------------------------------------------------------------//
@@ -108,14 +152,22 @@ public class Intake implements Notified
         
         Transition_L_01(State.Lowering,                 Event.kNoPress,                         State.Off),
         Transition_L_02(State.Lowering,                 Event.kIntakeButtonPressed,             State.Lowering),
-        Transition_L_03(State.Lowering,                 Event.kLowered,                         State.Intaking),
+        Transition_L_03(State.Lowering,                 Event.kLowered,                         State.TurningOn),
         Transition_L_04(State.Lowering,                 Event.kRaised,                          State.Off),
+
+        Transition_T_01(State.TurningOn,                Event.kTurnedOn,                        State.Intaking),
+
         //TODO: Find out if we want to have the driver hold the button, or tap to toggle 
         //This will be achieved in states I 01 and I 02.
         Transition_I_01(State.Intaking,                 Event.kNoPress,                         State.Off),
         Transition_I_02(State.Intaking,                 Event.kIntakeButtonPressed,             State.Intaking),
         Transition_I_03(State.Intaking,                 Event.kLowered,                         State.Intaking),
-        Transition_I_04(State.Intaking,                 Event.kRaised,                          State.Off);
+        Transition_I_04(State.Intaking,                 Event.kRaised,                          State.Off),
+        Transition_I_05(State.Intaking,                 Event.kPinched,                         State.Pinched),
+
+
+        Transition_P_01(State.Pinched,                  Event.kNotPinched,                        State.Intaking);
+
 
         private final State currentState;
         private final Event event;
@@ -142,6 +194,7 @@ public class Intake implements Notified
         }
     }
 
+    private static Timer timer = new Timer();
     private static Roller roller;
     private static Wrist wrist;
     private static DriverController driverController;
@@ -155,6 +208,7 @@ public class Intake implements Notified
         System.out.println(this.getClass().getName() + ": Started Constructing");
         roller = Roller.getInstance();
         wrist = Wrist.getInstance();
+
         driverController = DriverController.getInstance();
         System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
@@ -167,6 +221,26 @@ public class Intake implements Notified
     public void runFSM()
     {
         currentState.doAction();
+    }
+
+    public static void startTimer()
+    {
+        timer.start();
+    }
+
+    public static void stopTimer()
+    {
+        timer.stop();
+    }
+
+    public static void resetTimer()
+    {
+        timer.reset();
+    }
+
+    public static double getTimer()
+    {
+        return timer.get();
     }
 
     @Override

@@ -32,7 +32,7 @@ public class Wrist
 
     private static Wrist instance = new Wrist();
 
-    private Wrist()
+    public Wrist()
     {
         System.out.println(this.getClass().getName() + ": Started Constructing");
         System.out.println(this.getClass().getName() + ": Finished Constructing");

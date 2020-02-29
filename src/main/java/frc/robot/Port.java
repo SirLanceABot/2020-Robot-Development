@@ -78,18 +78,20 @@ public class Port
 
     public class Pneumatic
     {
-        public static final int SHIFTER_EXTEND        = 0;
-        public static final int SHIFTER_RETRACT       = 1;
+        public static final int SHIFTER_EXTEND        = 4;
+        public static final int SHIFTER_RETRACT       = 5;
 
         public static final int INTAKE_EXTEND         = 2;
         public static final int INTAKE_RETRACT        = 3;
 
         //TODO: declare control panel pneumatics
-        public static final int CONTROL_PANEL_EXTEND  = 4;
-        public static final int CONTROL_PANEL_RETRACT = 5;
+        public static final int CONTROL_PANEL_EXTEND  = 6;
+        public static final int CONTROL_PANEL_RETRACT = 7;
 
         //TODO: declare cooling pneumatics
-        public static final int DRIVERTRAIN_COOLING   = 6;
+        public static final int DRIVERTRAIN_COOLING_ON   = 0;
+        public static final int DRIVERTRAIN_COOLING_OFF   = 1;
+
     }
 
     public class PDP

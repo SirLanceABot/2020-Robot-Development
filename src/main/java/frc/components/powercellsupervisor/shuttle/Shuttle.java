@@ -276,6 +276,7 @@ public class Shuttle
     private static double targetPosition = 0;
     private static double shuttleJogDistance = 100/7.0;
     private static boolean initFlag = true;
+    private static boolean initOnePos = true;
     private static CANSparkMax motor = new CANSparkMax(Port.Motor.CAN_SHUTTLE, MotorType.kBrushless);
     private static CANEncoder encoder = new CANEncoder(motor);
     private static CANPIDController pidController = new CANPIDController(motor);
@@ -453,7 +454,7 @@ public class Shuttle
 
     public void feedTopBall()
     {
-        if(initFlag)
+        if(initOnePos)
         {
             currentPosition = getEncoderPosition();
             targetPosition = currentPosition;
@@ -481,24 +482,16 @@ public class Shuttle
             {
                 targetPosition += shuttleJogDistance * 6;
             }
-            initFlag = false;
+            initOnePos = false;
         }
 
         currentPosition = getEncoderPosition();     
 
-        if(currentPosition < targetPosition - 3)
+        if(currentPosition < targetPosition )
         {
             motor.set(0.25);
         }
-        else if(currentPosition > targetPosition + 3)
-        {
-            motor.set(-0.25);
-        }
-        else
-        {
-            System.out.println("No Powercell ready");            
-            initFlag = true;
-        }       
+     
     }
 
     public void runFSM()
