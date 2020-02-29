@@ -44,7 +44,7 @@ public class Shuttle
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
-                System.out.println("Shuttle State: Off");
+                //System.out.println("Shuttle State: Off");
                 stopShuttle();
                 if(isFull())
                 {
@@ -69,7 +69,7 @@ public class Shuttle
                 if(initFlag)
                 {
                     currentPosition = getEncoderPosition();
-                    targetPosition = currentPosition + (115/12.0);
+                    targetPosition = currentPosition + (100/12.0);
                     initFlag = false;
                 }
 
@@ -87,7 +87,7 @@ public class Shuttle
                     initFlag = true;
                 }       
 
-                System.out.println("Shuttle State: MovingOnePosition" + "\tTargetPosition: " + targetPosition + "\tCurrent Pos: " + currentPosition);
+                //System.out.println("Shuttle State: MovingOnePosition" + "\tTargetPosition: " + targetPosition + "\tCurrent Pos: " + currentPosition);
 
                 if(currentPosition < targetPosition - 3)
                 {
@@ -111,10 +111,10 @@ public class Shuttle
             @Override
             void doAction() 
             {
-                System.out.println("Shuttle State: Unloading");
+                //System.out.println("Shuttle State: Unloading");
                 if(!isEmpty())
                 {
-                    setSpeed(0.50); //TODO: Find the right feed speed
+                    setSpeed(0.25); //TODO: Find the right feed speed
                 }
                 else
                 {
@@ -132,7 +132,7 @@ public class Shuttle
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
-                System.out.println("Shuttle State: Full");
+                //System.out.println("Shuttle State: Full");
                 if(isFull())
                 {
                     stopShuttle();
@@ -165,7 +165,7 @@ public class Shuttle
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
-                System.out.println("Shuttle State: Empty");
+                //System.out.println("Shuttle State: Empty");
                 if(!sensor1.get())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
@@ -221,7 +221,7 @@ public class Shuttle
         // TRANSITION_F_2(State.Full,                      Event.ShuttleEmpty,                         State.Off),
         // TRANSITION_F_3(State.Full,                      Event.ShuttleFull,                          State.Off),
         // TRANSITION_F_4(State.Full,                      Event.NoPowerCellReadyToShuttle,            State.Off),
-        // TRANSITION_F_5(State.Full,                      Event.PowerCellAtFlywheel,                  State.Off),
+        TRANSITION_F_5(State.Full,                      Event.PowerCellAtFlywheel,                  State.Full),
         TRANSITION_F_6(State.Full,                      Event.ReadyToFeed,                          State.UnloadingShuttle),
 
         TRANSITION_E_1(State.Empty,                     Event.PowerCellReadyToShuttle,              State.MovingOnePosition);
@@ -415,7 +415,7 @@ public class Shuttle
         }
     }
 
-    private static boolean isEmpty()
+    public static boolean isEmpty()
     {
         if(sensor1.get() && sensor2.get() && sensor3.get() && sensor4.get() && sensor5.get() && sensor6.get())
         {
@@ -457,27 +457,27 @@ public class Shuttle
         {
             currentPosition = getEncoderPosition();
             targetPosition = currentPosition;
-            if(sensor6.get())
+            if(!sensor6.get())
             {
                 targetPosition += shuttleJogDistance;
             }
-            if(sensor5.get())
+            else if(!sensor5.get())
             {
                 targetPosition += shuttleJogDistance * 2;
             }
-            if(sensor4.get())
+            else if(!sensor4.get())
             {
                 targetPosition += shuttleJogDistance * 3;
             }
-            if(sensor3.get())
+            else if(!sensor3.get())
             {
                 targetPosition += shuttleJogDistance * 4;
             }
-            if(sensor2.get())
+            else if(!sensor2.get())
             {
                 targetPosition += shuttleJogDistance * 5;
             }
-            if(sensor1.get())
+            else if(!sensor1.get())
             {
                 targetPosition += shuttleJogDistance * 6;
             }

@@ -22,6 +22,7 @@ import frc.components.powercellsupervisor.intake.Intake;
 import frc.components.powercellsupervisor.intake.Roller;
 import frc.components.powercellsupervisor.intake.Wrist;
 import frc.components.powercellsupervisor.shooter.Flywheel;
+import frc.components.powercellsupervisor.shooter.Shooter;
 import frc.components.powercellsupervisor.shooter.Turret;
 import frc.components.powercellsupervisor.shuttle.Shuttle;
 
@@ -74,6 +75,7 @@ public class Test
     private static Flywheel flywheel = Flywheel.getInstance();
     private static Turret turret = Turret.getInstance();
     private static Intake intake = Intake.getInstance();
+    private static Shooter shooter = Shooter.getInstance();
     private static Relay led = new Relay(0);
 
 
@@ -86,7 +88,6 @@ public class Test
     {
         System.out.println(className + " : Constructor Started");
     
-
         System.out.println(className + ": Constructor Finished");
     }
 
@@ -155,17 +156,19 @@ public class Test
         }
         else if(TEST_OPTION == Test_Options.SHOOTER) // Shooter test
         {
+            led.set(Relay.Value.kForward);
             intake.runFSM();
-            testDrivetrainPeriodic();
+            //testDrivetrainPeriodic();
             //flywheel.run(5000);
-            testFlywheelPeriodic();
+            //testFlywheelPeriodic();
             //testGatePeriodic();
             // testShooterPeriodic();
             //testShroudPeriodic();
             testTurretPeriodic();
             testShuttlePeriodic();
+            shuttle.runFSM();
+            shooter.runFSM();
             //led.setDirection(Relay.Direction.kForward);
-            led.set(Relay.Value.kForward);
 
 
         }
@@ -173,6 +176,7 @@ public class Test
         {
             
         }
+
     }
 
     // public void testVisionUsingDrivetrain()
@@ -525,15 +529,15 @@ public class Test
      */
     private void testTurretPeriodic()
     {
-        if(operatorController.getAction(ButtonAction.kAutoAim))
-        {
-            turret.alignWithTarget();
-            System.out.println("Aligned with target");
-        }
+        // if(operatorController.getAction(ButtonAction.kAutoAim))
+        // {
+        //     turret.alignWithTarget();
+        //     System.out.println("Aligned with target");
+        // }
         // Button B rotates the Turret using the Left X joystick
-        else if(Math.abs(operatorController.getAction(OperatorController.AxisAction.kTurret)) > 0.1)
+        if(Math.abs(operatorController.getAction(OperatorController.AxisAction.kTurret)) > 0.2)
         {
-            turret.setSpeed(operatorController.getAction(OperatorController.AxisAction.kTurret));
+            turret.setSpeed(operatorController.getAction(OperatorController.AxisAction.kTurret) / 2.0);
         }
         else
         {

@@ -48,10 +48,10 @@ public class Shooter implements Notified
       void doAction() 
       {
         System.out.println("State: Off");
-        shuttle.stop();
+        // shuttle.stop();
         flywheel.stop();
         shroud.stop();
-        if(operatorController.getAction(ButtonAction.kShoot) || notification)
+        if(operatorController.getAction(ButtonAction.kAutoAim) || notification)
         {
           currentState = Transition.findNextState(currentState, Event.VisionAssistButtonPressed);
         }
@@ -62,9 +62,10 @@ public class Shooter implements Notified
       void doAction() 
       {
         System.out.println("State: Searching");
-        turret.rotateToWall();
+        //turret.rotateToWall();
         if(turretVision.isFreshData())
         {
+            System.out.println(turretVision.isTargetFound());
             if(turretVision.isTargetFound())
             {
               currentState = Transition.findNextState(currentState, Event.TapeFound);
@@ -89,7 +90,7 @@ public class Shooter implements Notified
       {
         System.out.println("State: Calculating");
         //need to add calculations after testing
-        flywheelSpeed = 0.0;
+        flywheelSpeed = 5800.0;
         shroudAngle = 20.0;
         currentState = Transition.findNextState(currentState, Event.ValuesCalulated);
       }
@@ -99,25 +100,27 @@ public class Shooter implements Notified
         void doAction() 
         {
           System.out.println("State: SettingTrajectory");
-          flywheel.run(flywheelSpeed);
-          shroud.moveTo(shroudAngle);
+          flywheel.run(1.00);
+          //shroud.moveTo(shroudAngle);
+          currentState = Transition.findNextState(currentState, Event.TrajectorySet);
+
         }
     },
     PreShotCheck() 
     {
         void doAction() 
         {
-          System.out.println("State: PreShotCheck");
+          System.out.println("State: PreShotCheck  " + "Speed: " + flywheel.getRPM());
           if(turretVision.isTargetFound())
           {
             if(Math.abs(turretVision.getAngleToTurn()) < 1.0)
             {
-              if(flywheel.getRPM() > (flywheelSpeed - 10) && flywheel.getRPM() < (flywheelSpeed + 10))
+              if(flywheel.getRPM() > (flywheelSpeed - 100) && flywheel.getRPM() < (flywheelSpeed + 100))
               {
-                if(shroud.getCurrentAngle() < (shroudAngle + 1) && shroud.getCurrentAngle() > (shroudAngle - 1))
-                {
+                // if(shroud.getCurrentAngle() < (shroudAngle + 1) && shroud.getCurrentAngle() > (shroudAngle - 1))
+                // {
                   currentState = Transition.findNextState(currentState, Event.PreShotCheckPassed);
-                }
+                // }
               }
               //continue checking speeds and other data
             }
@@ -163,6 +166,11 @@ public class Shooter implements Notified
         {
           System.out.println("State: ShootingRestOfClip");
           shuttle.feedAllPowerCells();
+
+          if(shuttle.isEmpty())
+          {
+            currentState = Transition.findNextState(currentState, Event.ShuttleEmpty);
+          }
         }
     };
 
@@ -344,6 +352,8 @@ public class Shooter implements Notified
   // ----------------------------------------------------------------------//
   public void runFSM() 
   {
+    turretVision.set(Vision.turretNext);
+    // turretVision.get();
     currentState.doAction();
   }
 }

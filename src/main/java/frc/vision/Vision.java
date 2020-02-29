@@ -14,8 +14,8 @@ public class Vision
 
     private static UdpReceive udpReceive = new UdpReceive(5800); // port must match what the RPi is sending on;
     private static Thread udpReceiverThread = new Thread(udpReceive, "4237UDPreceive");
-    static TargetDataB turretNext = new TargetDataB();
-    static TargetDataE intakeNext = new TargetDataE();
+    public static TargetDataB turretNext = new TargetDataB();
+    public static TargetDataE intakeNext = new TargetDataE();
 
     private static Vision instance = new Vision();
     
