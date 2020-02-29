@@ -40,6 +40,7 @@ public class Arm
         System.out.println(className + " : Constructor Started");
 
         armMotor.restoreFactoryDefaults();
+        armMotor.setInverted(true);
 
         System.out.println(className + ": Constructor Finished"); 
     }
@@ -75,7 +76,7 @@ public class Arm
      * Sets the speed of the extensionMotor.
      * @param speed The speed at which the Arm extends. Values are from -1 to 1.
      */
-    private void setExtensionSpeed(double speed)
+    public void setExtensionSpeed(double speed)
     {
         armMotor.set(speed);
     }

@@ -4,6 +4,7 @@ import frc.robot.Port;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 /**
  * Reels in rope to lift the robot.
@@ -38,6 +39,7 @@ public class Winch
 
         winchMotor.restoreFactoryDefaults();
         winchMotor.setSmartCurrentLimit(30);
+        winchMotor.setIdleMode(IdleMode.kBrake);
 
         System.out.println(className + ": Constructor Finished");
     }
@@ -65,7 +67,7 @@ public class Winch
      * Sets the speed of winchMotor.
      * @param speed The speed at which the winch spools the rope. Values are from -1 to 1.
      */
-    private void setWinchSpeed(double speed)
+    public void setWinchSpeed(double speed)
     {
         winchMotor.set(speed);
     }

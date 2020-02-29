@@ -15,6 +15,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Direction;
+import frc.components.climber.Arm;
+import frc.components.climber.Winch;
 import frc.components.drivetrain.Drivetrain;
 import frc.components.drivetrain.Shifter;
 import frc.components.powercellsupervisor.PowerCellSupervisor;
@@ -63,7 +65,7 @@ public class Test
         SHOOTER,
         SHUTTLE
     }
-    private static Test_Options TEST_OPTION = Test_Options.SHOOTER; // The test that you want to conduct
+    private static Test_Options TEST_OPTION = Test_Options.CLIMBER; // The test that you want to conduct
 
     private static OperatorController operatorController = OperatorController.getInstance();
     private static DriverController driverController = DriverController.getInstance();
@@ -77,6 +79,8 @@ public class Test
     private static Turret turret = Turret.getInstance();
     private static Intake intake = Intake.getInstance();
     private static Shooter shooter = Shooter.getInstance();
+    private static Arm arm = Arm.getInstance();
+    private static Winch winch = Winch.getInstance();
     private static Relay led = new Relay(0);
 
 
@@ -103,7 +107,7 @@ public class Test
         if(TEST_OPTION == Test_Options.CLIMBER) // Climber test
         {
             testArmInit();
-            testClimberInit();
+            // testClimberInit();
             testWinchInit();
         }
         else if(TEST_OPTION == Test_Options.DRIVETRAIN) // Drivetrain test
@@ -141,7 +145,7 @@ public class Test
         if(TEST_OPTION == Test_Options.CLIMBER) // Climber test
         {
             testArmPeriodic();
-            testClimberPeriodic();
+            // testClimberPeriodic();
             testWinchPeriodic();
         }
         else if(TEST_OPTION == Test_Options.DRIVETRAIN) // Drivetrain test
@@ -287,7 +291,18 @@ public class Test
      */
     private void testArmPeriodic()
     {
-
+        if(driverController.getRawButton(DriverController.Button.kA))
+        {
+            arm.setExtensionSpeed(0.25);
+        }
+        else if(driverController.getRawButton(DriverController.Button.kB))
+        {
+            arm.setExtensionSpeed(-0.25);
+        }
+        else
+        {
+            arm.setExtensionSpeed(0.0);
+        }
     }
 
     /**
@@ -319,7 +334,18 @@ public class Test
      */
     private void testWinchPeriodic()
     {
-
+        if(driverController.getRawButton(DriverController.Button.kX))
+        {
+            winch.setWinchSpeed(1.0);
+        }
+        else if(driverController.getRawButton(DriverController.Button.kY))
+        {
+            winch.setWinchSpeed(-1.0);
+        }
+        else
+        {
+            winch.setWinchSpeed(0.0);
+        }
     }
 
     /**
