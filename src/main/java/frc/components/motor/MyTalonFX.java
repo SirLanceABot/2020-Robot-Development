@@ -1,6 +1,8 @@
 package frc.components.motor;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -15,6 +17,7 @@ public class MyTalonFX extends Motor
         motor.configFactoryDefault();
     }
 
+    @Override
     public void setInverted(boolean isInverted)
     {
         motor.setInverted(isInverted);
@@ -25,9 +28,39 @@ public class MyTalonFX extends Motor
         motor.configReverseSoftLimitEnable(isEnabled);
     }
 
+    public void setReverseSoftLimitThreshold(int threshold)
+    {
+        motor.configReverseSoftLimitThreshold(threshold);
+    }
+
+    public void setReverseHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
+    {
+        if (isEnabled && isNormallyOpen)
+            motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+        else if(isEnabled && !isNormallyOpen)
+            motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        else
+            motor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+    }
+
     public void setForwardSoftLimitEnabled(boolean isEnabled)
     {
         motor.configForwardSoftLimitEnable(isEnabled);
+    }
+
+    public void setForwardSoftLimitThreshold(int threshold)
+    {
+        motor.configForwardSoftLimitThreshold(threshold);
+    }
+
+    public void setForwardHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
+    {
+        if (isEnabled && isNormallyOpen)
+            motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+        else if(isEnabled && !isNormallyOpen)
+            motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        else
+            motor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
     }
 
     public void setNeutralMode(MyNeutralMode mode)
@@ -53,8 +86,8 @@ public class MyTalonFX extends Motor
         motor.configOpenloopRamp(seconds);
     }
 
-    public void getSuper()
+    public WPI_TalonFX getSuper()
     {
-        
+        return motor;
     }
 }

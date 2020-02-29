@@ -1,6 +1,8 @@
 package frc.components.motor;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class MyVictorSPX extends Motor
@@ -13,6 +15,7 @@ public class MyVictorSPX extends Motor
         motor.configFactoryDefault();
     }
 
+    @Override
     public void setInverted(boolean isInverted)
     {
         motor.setInverted(isInverted);
@@ -23,9 +26,29 @@ public class MyVictorSPX extends Motor
         motor.configReverseSoftLimitEnable(isEnabled);
     }
 
+    public void setReverseSoftLimitThreshold(int threshold)
+    {
+        motor.configReverseSoftLimitThreshold(threshold);
+    }
+
+    public void setReverseHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
+    {
+        
+    }
+
     public void setForwardSoftLimitEnabled(boolean isEnabled)
     {
         motor.configForwardSoftLimitEnable(isEnabled);
+    }
+
+    public void setForwardSoftLimitThreshold(int threshold)
+    {
+        motor.configForwardSoftLimitThreshold(threshold);
+    }
+
+    public void setForwardHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
+    {
+        
     }
 
     public void setNeutralMode(MyNeutralMode mode)
@@ -51,8 +74,8 @@ public class MyVictorSPX extends Motor
         motor.configOpenloopRamp(seconds);
     }
 
-    public void getSuper()
+    public WPI_VictorSPX getSuper()
     {
-        
+        return motor;
     }
 }

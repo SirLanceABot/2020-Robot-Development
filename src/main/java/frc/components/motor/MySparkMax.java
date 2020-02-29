@@ -13,6 +13,7 @@ public class MySparkMax extends Motor
         motor.restoreFactoryDefaults();
     }
 
+    @Override
     public void setInverted(boolean isInverted)
     {
         motor.setInverted(isInverted);
@@ -23,9 +24,29 @@ public class MySparkMax extends Motor
         
     }
 
+    public void setReverseSoftLimitThreshold(int threshold)
+    {
+        
+    }
+
+    public void setReverseHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
+    {
+        
+    }
+
     public void setForwardSoftLimitEnabled(boolean isEnabled)
     {
 
+    }
+
+    public void setForwardSoftLimitThreshold(int threshold)
+    {
+       
+    }
+
+    public void setForwardHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
+    {
+        
     }
 
     public void setNeutralMode(MyNeutralMode mode)
@@ -48,8 +69,8 @@ public class MySparkMax extends Motor
 
     }
 
-    public void getSuper()
+    public CANSparkMax getSuper()
     {
-
+        return motor;
     }
 }

@@ -15,6 +15,7 @@ public class MyTalonSRX extends Motor
         motor.configFactoryDefault();
     }
 
+    @Override
     public void setInverted(boolean isInverted)
     {
         motor.setInverted(isInverted);
@@ -25,9 +26,29 @@ public class MyTalonSRX extends Motor
         motor.configReverseSoftLimitEnable(isEnabled);
     }
 
+    public void setReverseSoftLimitThreshold(int threshold)
+    {
+        motor.configReverseSoftLimitThreshold(threshold);
+    }
+
+    public void setReverseHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
+    {
+        
+    }
+
     public void setForwardSoftLimitEnabled(boolean isEnabled)
     {
         motor.configForwardSoftLimitEnable(isEnabled);
+    }
+
+    public void setForwardSoftLimitThreshold(int threshold)
+    {
+        motor.configForwardSoftLimitThreshold(threshold);
+    }
+
+    public void setForwardHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
+    {
+       
     }
 
     public void setNeutralMode(MyNeutralMode mode)
@@ -53,8 +74,8 @@ public class MyTalonSRX extends Motor
         motor.configOpenloopRamp(seconds);
     }
 
-    public void getSuper()
+    public WPI_TalonSRX getSuper()
     {
-        
+        return motor;
     }
 }
