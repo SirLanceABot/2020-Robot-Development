@@ -16,8 +16,6 @@ public class LIDAR_Lite
         System.out.println(className + " : Class Loading");
     }
 
-	private static LIDAR_Lite instance = new LIDAR_Lite(Constants.LIDAR.PORT, Constants.LIDAR.ADDRESS);
-
 	/**
 	 * Last parameter for integrationRate not specified.
 	 * 
@@ -81,21 +79,18 @@ public class LIDAR_Lite
 			GetLaserPower(); // as found; 0x6a default
 			int LaserPower = 0x6a;  // new value to set; some lasers don't like this changed
 		 	if (mLIDAR.write(Register.LASER_POWER.value, LaserPower))
-			 	System.out.printf("[LIDAR-Lite] write ;aser power failed line %s\n", Id.__LINE__());
+			 	System.out.printf("[LIDAR-Lite] write laser power failed line %s\n", Id.__LINE__());
 			GetLaserPower(); // read it back
 
+			System.out.println("Lidar Distance: " + GetDistance());
+			System.out.println("Laser Power: " + GetLaserPower());
 			StartPeriodic(mSamplePeriod);
 		} else {
-			System.out.printf("[LIDAR-Lite] NOT working on port %s, address %s %#2x\n", port, deviceAddress,
+			System.out.printf("ERROR: [LIDAR-Lite] NOT working on port %s, address %s %#2x\n", port, deviceAddress,
 					deviceAddress.value);
 		}
 
 		System.out.println(className + ": Constructor Finished");
-	}
-
-	public static LIDAR_Lite getInstance()
-	{
-		return instance;
 	}
 
 	private void StartPeriodic(double period) {
