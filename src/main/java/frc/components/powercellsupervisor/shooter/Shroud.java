@@ -24,7 +24,7 @@ public class Shroud
     }
 
     private static final int TIMEOUT_MS = 30;
-    private static final int UPPER_LIMIT = 320; //TODO: Find out the upper limit
+    private static final int UPPER_LIMIT = 125; //TODO: Find out the upper limit
     private static final int LOWER_LIMIT = 0;   //TODO: Find out the lower limit
     private static final int TRENCH_SHOT = 70;
     private static final int CLOSE_SHOT = 10;
@@ -42,15 +42,16 @@ public class Shroud
         System.out.println(className + " : Constructor Started");
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Brake);
-        //motor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
+        motor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
         motor.setInverted(true); // TODO: Test this
-        //motor.setSensorPhase(true);
-        //motor.configForwardSoftLimitThreshold(UPPER_LIMIT);
-        //motor.configForwardSoftLimitEnable(true);
-        // motor.configFeedbackNotContinuous(false, 10);
+        motor.setSensorPhase(true);
+        motor.configForwardSoftLimitThreshold(UPPER_LIMIT);
+        motor.configForwardSoftLimitEnable(true);
+        //motor.configFeedbackNotContinuous(false, 10);
         motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
         motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
         
+        motor.setSelectedSensorPosition(0);
         motor.configClearPositionOnLimitR(true, 10);
         System.out.println(className + ": Constructor Finished");
     }
@@ -79,6 +80,11 @@ public class Shroud
     public void stop()
     {
         setSpeed(0.0);
+    }
+
+    public double getEncoder()
+    {
+        return(motor.getSelectedSensorPosition());
     }
 
     /**

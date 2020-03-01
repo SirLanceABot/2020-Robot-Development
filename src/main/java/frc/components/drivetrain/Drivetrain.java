@@ -72,10 +72,10 @@ public class Drivetrain extends DifferentialDrive
         backRightMotor.setInverted(true);
         backLeftMotor.setInverted(false);
 
-        frontRightMotor.setNeutralMode(NeutralMode.Brake);
-        frontLeftMotor.setNeutralMode(NeutralMode.Brake);
-        backRightMotor.setNeutralMode(NeutralMode.Brake);
-        backLeftMotor.setNeutralMode(NeutralMode.Brake);
+        frontRightMotor.setNeutralMode(NeutralMode.Coast);
+        frontLeftMotor.setNeutralMode(NeutralMode.Coast);
+        backRightMotor.setNeutralMode(NeutralMode.Coast);
+        backLeftMotor.setNeutralMode(NeutralMode.Coast);
 
         frontRightMotor.configReverseSoftLimitEnable(false);
         frontLeftMotor.configReverseSoftLimitEnable(false);

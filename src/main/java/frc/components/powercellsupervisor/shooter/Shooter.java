@@ -52,7 +52,7 @@ public class Shooter implements Notified
         // shuttle.stop();
     
         flywheel.stop();
-        //shroud.setSpeed(-0.33);
+        shroud.setSpeed(-0.33);
         if(operatorController.getAction(ButtonAction.kAutoAim) || notification)
         {
           currentState = Transition.findNextState(currentState, Event.VisionAssistButtonPressed);

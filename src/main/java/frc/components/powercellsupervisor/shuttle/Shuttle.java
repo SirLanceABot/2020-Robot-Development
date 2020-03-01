@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import frc.controls.OperatorController;
 import frc.controls.DriverController;
 /**
@@ -41,7 +42,8 @@ public class Shuttle
                 {
                     currentState = Transition.findNextState(currentState, Event.ReadyToFeed);
                 }
-                if(!sensor6.get())
+                //if(!sensor6.get())
+                if(!getSensor6())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
@@ -74,7 +76,8 @@ public class Shuttle
                 }
 
                 currentPosition = getEncoderPosition();
-                if(!sensor6.get())
+                //if(!sensor6.get())
+                if(!getSensor6())
                 {
                     System.out.println("Powercell at Flywheel");
                     initFlag = true;
@@ -128,7 +131,8 @@ public class Shuttle
             @Override
             void doAction() 
             {
-                if(!sensor6.get())
+                //if(!sensor6.get())
+                if(!getSensor6())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
@@ -161,7 +165,8 @@ public class Shuttle
             @Override
             void doAction()
             {
-                if(!sensor6.get())
+                //if(!sensor6.get())
+                if(!getSensor6())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
@@ -274,9 +279,11 @@ public class Shuttle
 
     private static double currentPosition = 0;
     private static double targetPosition = 0;
-    private static double shuttleJogDistance = 100/7.0;
+    private static double shuttleJogDistance = 100/8.0;
     private static boolean initFlag = true;
     private static boolean initOnePos = true;
+    private static boolean sensorFlag = true;
+    private static double sensor6Pos = 0.0;
     private static CANSparkMax motor = new CANSparkMax(Port.Motor.CAN_SHUTTLE, MotorType.kBrushless);
     private static CANEncoder encoder = new CANEncoder(motor);
     private static CANPIDController pidController = new CANPIDController(motor);
@@ -318,6 +325,38 @@ public class Shuttle
     {
         motor.set(0.5);
     }
+
+    private static boolean getSensor6()
+    {
+        if(sensor6.get())
+        {
+            sensorFlag = true;
+            //System.out.println("Not detected");
+            return true;
+        }
+        else
+        {
+            if(sensorFlag)
+            {
+                //System.out.println("Value Initialized");
+                sensor6Pos = getEncoderPosition();
+                sensorFlag = false;
+                return true;
+            }
+            else if(sensor6Pos - getEncoderPosition() < -13)
+            {
+                //System.out.println("Distance Traveled  " + (sensor6Pos - getEncoderPosition()));
+                return false;
+            }
+            else
+            {
+                //System.out.println("Not Far Enough" + (sensor6Pos - getEncoderPosition()));
+                return true;
+            }
+        }
+
+    }
+
 
     /**
      * FOR USE ONLY IN TEST!
@@ -380,7 +419,9 @@ public class Shuttle
                 sensorValue = sensor5.get();
                 break;
             case 6:
-                sensorValue = sensor6.get();
+                //sensorValue = sensor6.get();
+                sensorValue = getSensor6();
+
                 break;
         }
 
@@ -394,7 +435,7 @@ public class Shuttle
 
     public static boolean isFull()
     {
-        if(!sensor1.get() && !sensor2.get() && !sensor3.get() && !sensor4.get() && !sensor5.get() && !sensor6.get())
+        if(!sensor1.get() && !sensor2.get() && !sensor3.get() && !sensor4.get() && !sensor5.get() && !getSensor6())//!sensor6.get())
         {
             return true;
         }
@@ -406,7 +447,8 @@ public class Shuttle
 
     public static boolean powerCellAtFlywheel()
     {
-        if(!sensor6.get())
+        //if(!sensor6.get())
+        if(!getSensor6())
         {
             return true;
         }
@@ -418,7 +460,7 @@ public class Shuttle
 
     public static boolean isEmpty()
     {
-        if(sensor1.get() && sensor2.get() && sensor3.get() && sensor4.get() && sensor5.get() && sensor6.get())
+        if(sensor1.get() && sensor2.get() && sensor3.get() && sensor4.get() && sensor5.get() && getSensor6())//sensor6.get())
         {
             return true;
         }

@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Relay.Direction;
 import frc.components.climber.Arm;
 import frc.components.climber.Winch;
@@ -84,6 +85,8 @@ public class Test
     private static Arm arm = Arm.getInstance();
     private static Winch winch = Winch.getInstance();
     private static Relay led = new Relay(0);
+    private static boolean timerFlag = true;
+    private static Timer timer = new Timer();
 
 
     private static Test instance = new Test();
@@ -140,6 +143,12 @@ public class Test
 
     public void periodic()
     {
+        if(timerFlag)
+        {
+            timer.reset();
+            timer.start();
+            timerFlag = false;
+        }
         // mainShuffleBoard.updateSensors();
         // testVisionUsingDrivetrain();
 
@@ -149,6 +158,7 @@ public class Test
             testArmPeriodic();
             // testClimberPeriodic();
             testWinchPeriodic();
+            testDrivetrainPeriodic();
         }
         else if(TEST_OPTION == Test_Options.DRIVETRAIN) // Drivetrain test
         {
@@ -164,7 +174,7 @@ public class Test
         else if(TEST_OPTION == Test_Options.SHOOTER) // Shooter test
         {
 
-            testDrivetrainPeriodic();
+            //testDrivetrainPeriodic();
             //flywheel.run(5000);
             //testFlywheelPeriodic();
             //testGatePeriodic();
@@ -173,15 +183,17 @@ public class Test
             
             //flywheel.run(6000);
             //System.out.println(operatorController.getAction(OperatorController.AxisAction.kShroud));
-
+            System.out.println(shroud.getEncoder());
             shroud.setSpeed(operatorController.getAction(OperatorController.AxisAction.kShroud) / 2.0);
 
-            
-            testTurretPeriodic();
-            led.set(Relay.Value.kForward);
-            intake.runFSM();
-            shuttle.runFSM();
-            shooter.runFSM();
+            //flywheel.run(1.0);
+
+            //System.out.println("RPM: " + Math.round(flywheel.getRPM()) + '\t' + "Time: " + timer.get());
+            //testTurretPeriodic();
+            //led.set(Relay.Value.kForward);
+            //intake.runFSM();
+            //shuttle.runFSM();
+            //shooter.runFSM();
 
             // if(driverController.getRawButton(1))
             // {
@@ -301,7 +313,7 @@ public class Test
     {
         if(driverController.getRawButton(DriverController.Button.kA))
         {
-            arm.setExtensionSpeed(0.25);
+            arm.setExtensionSpeed(1.00);
         }
         else if(driverController.getRawButton(DriverController.Button.kB))
         {
