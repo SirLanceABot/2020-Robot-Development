@@ -48,10 +48,11 @@ public class Shooter implements Notified
     {
       void doAction() 
       {
-        System.out.println("State: Off");
+        //System.out.println("State: Off");
         // shuttle.stop();
+    
         flywheel.stop();
-        shroud.stop();
+        //shroud.setSpeed(-0.33);
         if(operatorController.getAction(ButtonAction.kAutoAim) || notification)
         {
           currentState = Transition.findNextState(currentState, Event.VisionAssistButtonPressed);
@@ -62,7 +63,7 @@ public class Shooter implements Notified
     {
       void doAction() 
       {
-        System.out.println("State: Searching");
+        //System.out.println("State: Searching");
         //turret.rotateToWall();
         if(turretVision.isFreshData())
         {
@@ -78,7 +79,7 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
-          System.out.println("State: Aligning");
+          //System.out.println("State: Aligning");
           if(turret.alignWithTarget())
           {
             currentState = Transition.findNextState(currentState, Event.AlignedWithTape);
@@ -89,7 +90,7 @@ public class Shooter implements Notified
     {
       void doAction() 
       {
-        System.out.println("State: Calculating");
+        //System.out.println("State: Calculating");
         //need to add calculations after testing
         flywheelSpeed = 5300.0;
         shroudAngle = 20.0;
@@ -100,8 +101,8 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
-          System.out.println("State: SettingTrajectory");
-          flywheel.run(1.00);
+          //System.out.println("State: SettingTrajectory");
+          flywheel.run(flywheelSpeed);
           //shroud.moveTo(shroudAngle);
           currentState = Transition.findNextState(currentState, Event.TrajectorySet);
 
@@ -111,16 +112,16 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
-          System.out.println("State: PreShotCheck  " + "Speed: " + flywheel.getRPM());
+          //System.out.println("State: PreShotCheck  " + "Speed: " + flywheel.getRPM());
           if(turretVision.isTargetFound())
           {
             if(Math.abs(turretVision.getAngleToTurn()) < 1.0)
             {
-              if(flywheel.getRPM() > (flywheelSpeed - 100) && flywheel.getRPM() < (flywheelSpeed + 100))
+              if(flywheel.getRPM() > (flywheelSpeed - 50) && flywheel.getRPM() < (flywheelSpeed + 50))
               {
                 // if(shroud.getCurrentAngle() < (shroudAngle + 1) && shroud.getCurrentAngle() > (shroudAngle - 1))
                 // {
-                  flywheel.run(.75);
+                  //flywheel.run(flywheelSpeed);
                   currentState = Transition.findNextState(currentState, Event.PreShotCheckPassed);
                 // }
               }
@@ -134,7 +135,7 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
-          System.out.println("State: ShootingOneBall");
+          //System.out.println("State: ShootingOneBall");
           shuttle.feedTopBall();
           if(operatorController.getAction(frc.controls.OperatorController.ButtonAction.kOnTarget))
           {
@@ -150,7 +151,7 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
-          System.out.println("State: UserCorrection");
+          //System.out.println("State: UserCorrection");
           if(operatorController.getAction(ButtonAction.kShoot) || notification)
           {
             double userXCorrection = operatorController.getRawAxis(Axis.kXAxis);
@@ -166,7 +167,7 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
-          System.out.println("State: ShootingRestOfClip");
+          //System.out.println("State: ShootingRestOfClip");
           shuttle.feedAllPowerCells();
 
           if(shuttle.isEmpty())
@@ -356,6 +357,7 @@ public class Shooter implements Notified
   {
     turretVision.set(Vision.turretNext);
     // turretVision.get();
+    System.out.println(flywheel.getRPM());
     currentState.doAction();
   }
 }

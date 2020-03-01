@@ -24,9 +24,9 @@ public class Flywheel
     //----------------------------- Constants --------------------------//
     private static final int TIMEOUT_MS = 30;
     //private static final int VELOCITY_ERROR = 3;
-    private static final double PROPORTIONAL = 0.5;
-    private static final double INTEGRAL = 0.0000;
-    private static final double DERIVATIVE = 0.00000;
+    private static final double PROPORTIONAL = 0.8;
+    private static final double INTEGRAL = 0.000065;
+    private static final double DERIVATIVE = 0.0000001;
     private static final double FEEDFORWARD = 0.00;
     private static final double TICK_TO_RPM = (1 / 100.0) * (1/4096.0) * (18/32.0) * (1000/1.0) * (60/1.0);
     //------------------------------------------------------------------//

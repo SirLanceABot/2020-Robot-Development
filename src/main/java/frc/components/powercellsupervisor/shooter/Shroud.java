@@ -42,11 +42,11 @@ public class Shroud
         System.out.println(className + " : Constructor Started");
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Brake);
-        motor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
+        //motor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
         motor.setInverted(true); // TODO: Test this
-        motor.setSensorPhase(true);
-        motor.configForwardSoftLimitThreshold(UPPER_LIMIT);
-        motor.configForwardSoftLimitEnable(true);
+        //motor.setSensorPhase(true);
+        //motor.configForwardSoftLimitThreshold(UPPER_LIMIT);
+        //motor.configForwardSoftLimitEnable(true);
         // motor.configFeedbackNotContinuous(false, 10);
         motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
         motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
@@ -67,7 +67,7 @@ public class Shroud
      * the one method that sets the speed of the motor
      * @param speed
      */
-    private void setSpeed(double speed)
+    public void setSpeed(double speed)
     {
         motor.set(ControlMode.PercentOutput, speed);
         setCurrentAngle();
@@ -181,4 +181,9 @@ public class Shroud
         double absolute_angle = angle + currentAngle;
         moveTo(absolute_angle);
     }
+
+    // protected boolean getLimitSwitchPressed()
+    // {
+    //     return motor.rever// .getSensorCollection().get
+    // }
 }

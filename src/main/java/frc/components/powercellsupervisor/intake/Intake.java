@@ -20,7 +20,7 @@ public class Intake implements Notified
             @Override
             void doAction() 
             {
-                System.out.println("Intake State: Off");
+                //System.out.println("Intake State: Off");
                 roller.stop();
                 if(driverController.getAction(ButtonAction.kIntakeOn) || notification)
                 {
@@ -37,7 +37,7 @@ public class Intake implements Notified
             @Override
             void doAction()
             {
-                System.out.println("Intake State: Lowering");
+                //System.out.println("Intake State: Lowering");
 
                 roller.stop();
                 wrist.lower();
@@ -53,7 +53,7 @@ public class Intake implements Notified
             @Override
             void doAction()
             {
-                System.out.println("Intake State: Raising");
+                //System.out.println("Intake State: Raising");
 
                 roller.stop();
                 wrist.raise();
@@ -70,7 +70,7 @@ public class Intake implements Notified
             @Override
             void doAction() 
             {
-                System.out.println("Turning On");
+                //System.out.println("Turning On");
                 if(initFlag)
                 {
                     stopTimer();
@@ -92,7 +92,7 @@ public class Intake implements Notified
             @Override
             void doAction() 
             {
-                System.out.println("Intake State: Intaking");
+                //System.out.println("Intake State: Intaking");
 
                 if(roller.getCenterRollerAmps() > 10)
                 {
@@ -115,7 +115,7 @@ public class Intake implements Notified
             @Override
             void doAction() 
             {
-                System.out.println("Pinched");
+                //System.out.println("Pinched");
                 roller.intakeUsingOuter();           
                 
                 if(roller.getLeftRollerAmps() < 7.5 && roller.getRightRollerAmps() < 7.5)
@@ -159,8 +159,8 @@ public class Intake implements Notified
 
         //TODO: Find out if we want to have the driver hold the button, or tap to toggle 
         //This will be achieved in states I 01 and I 02.
-        Transition_I_01(State.Intaking,                 Event.kNoPress,                         State.Intaking),
-        Transition_I_02(State.Intaking,                 Event.kIntakeButtonPressed,             State.Off),
+        Transition_I_01(State.Intaking,                 Event.kNoPress,                         State.Off),
+        Transition_I_02(State.Intaking,                 Event.kIntakeButtonPressed,             State.Intaking),
         Transition_I_03(State.Intaking,                 Event.kLowered,                         State.Intaking),
         Transition_I_04(State.Intaking,                 Event.kRaised,                          State.Off),
         Transition_I_05(State.Intaking,                 Event.kPinched,                         State.Pinched),
