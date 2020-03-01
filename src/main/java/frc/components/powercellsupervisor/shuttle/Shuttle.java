@@ -36,17 +36,17 @@ public class Shuttle
             @Override
             void doAction() 
             {   
+                stopShuttle();
                 if(OperatorController.getInstance().getRawButton(1)) //assign the correct button
                 {
                     currentState = Transition.findNextState(currentState, Event.ReadyToFeed);
                 }
-                if(!sensor5.get())
+                if(!sensor6.get())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
                 //System.out.println("Shuttle State: Off");
-                stopShuttle();
-                if(isFull())
+                else if(isFull())
                 {
                     currentState = Transition.findNextState(currentState, Event.ShuttleFull);
                 }       
@@ -114,7 +114,7 @@ public class Shuttle
                 //System.out.println("Shuttle State: Unloading");
                 if(!isEmpty())
                 {
-                    setSpeed(0.25); //TODO: Find the right feed speed
+                    setSpeed(0.50); //TODO: Find the right feed speed
                 }
                 else
                 {

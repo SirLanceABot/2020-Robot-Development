@@ -159,8 +159,8 @@ public class Intake implements Notified
 
         //TODO: Find out if we want to have the driver hold the button, or tap to toggle 
         //This will be achieved in states I 01 and I 02.
-        Transition_I_01(State.Intaking,                 Event.kNoPress,                         State.Off),
-        Transition_I_02(State.Intaking,                 Event.kIntakeButtonPressed,             State.Intaking),
+        Transition_I_01(State.Intaking,                 Event.kNoPress,                         State.Intaking),
+        Transition_I_02(State.Intaking,                 Event.kIntakeButtonPressed,             State.Off),
         Transition_I_03(State.Intaking,                 Event.kLowered,                         State.Intaking),
         Transition_I_04(State.Intaking,                 Event.kRaised,                          State.Off),
         Transition_I_05(State.Intaking,                 Event.kPinched,                         State.Pinched),

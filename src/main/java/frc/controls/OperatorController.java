@@ -38,7 +38,7 @@ public class OperatorController extends Logitech
     {
         kTurret(Axis.kZAxis),
         kShroud(Axis.kYAxis),
-        kShuttle(Axis.kYAxis),
+        //kShuttle(Axis.kYAxis),
         kShooterPower(Axis.kSlider);
 
         public final Axis axis;

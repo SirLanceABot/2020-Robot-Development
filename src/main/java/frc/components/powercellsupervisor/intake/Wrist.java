@@ -51,7 +51,7 @@ public class Wrist
         if(wristState == WristState.kDown || wristState == WristState.kLowering)
         {
             timer.reset();
-            setPneumatics(DoubleSolenoid.Value.kReverse);
+            setPneumatics(DoubleSolenoid.Value.kForward);
             wristState = WristState.kRaising;
             timer.start();
         }
@@ -93,7 +93,7 @@ public class Wrist
         if(wristState == WristState.kUp || wristState == WristState.kRaising)
         {
             timer.reset();
-            setPneumatics(DoubleSolenoid.Value.kForward);
+            setPneumatics(DoubleSolenoid.Value.kReverse);
             wristState = WristState.kLowering;
             timer.start();
         }
@@ -132,7 +132,7 @@ public class Wrist
      */
     public void forceRaise()
     {
-        setPneumatics(DoubleSolenoid.Value.kReverse);
+        setPneumatics(DoubleSolenoid.Value.kForward);
         wristState = WristState.kUp;
     }
 
@@ -141,7 +141,7 @@ public class Wrist
      */
     public void forceLower()
     {
-        setPneumatics(DoubleSolenoid.Value.kForward);
+        setPneumatics(DoubleSolenoid.Value.kReverse);
         wristState = WristState.kDown;
     }
 
@@ -165,8 +165,8 @@ public class Wrist
 
     /**
      * Sets the pneumatics position of the Wrist on the Intake system.
-     * <p>DoubleSolenoid.Value.kReverse raises the Wrist.
-     * <p>DoubleSolenoid.Value.kForward lowers the Wirst.
+     * <p>DoubleSolenoid.Value.kForward raises the Wrist.
+     * <p>DoubleSolenoid.Value.kReverse lowers the Wirst.
      * @param position The position of the cylinder.
      */
     private static void setPneumatics(DoubleSolenoid.Value position)

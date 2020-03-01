@@ -91,7 +91,7 @@ public class Shooter implements Notified
       {
         System.out.println("State: Calculating");
         //need to add calculations after testing
-        flywheelSpeed = 5800.0;
+        flywheelSpeed = 5300.0;
         shroudAngle = 20.0;
         currentState = Transition.findNextState(currentState, Event.ValuesCalulated);
       }
@@ -120,6 +120,7 @@ public class Shooter implements Notified
               {
                 // if(shroud.getCurrentAngle() < (shroudAngle + 1) && shroud.getCurrentAngle() > (shroudAngle - 1))
                 // {
+                  flywheel.run(.75);
                   currentState = Transition.findNextState(currentState, Event.PreShotCheckPassed);
                 // }
               }

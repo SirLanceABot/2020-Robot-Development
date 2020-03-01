@@ -25,6 +25,7 @@ import frc.components.powercellsupervisor.intake.Roller;
 import frc.components.powercellsupervisor.intake.Wrist;
 import frc.components.powercellsupervisor.shooter.Flywheel;
 import frc.components.powercellsupervisor.shooter.Shooter;
+import frc.components.powercellsupervisor.shooter.Shroud;
 import frc.components.powercellsupervisor.shooter.Turret;
 import frc.components.powercellsupervisor.shuttle.Shuttle;
 
@@ -75,6 +76,7 @@ public class Test
     private static Roller roller = Roller.getInstance();
     private static Wrist wrist = Wrist.getInstance();
     private static Shifter shifter = Shifter.getInstance();
+    private static Shroud shroud = Shroud.getInstance();
     private static Flywheel flywheel = Flywheel.getInstance();
     private static Turret turret = Turret.getInstance();
     private static Intake intake = Intake.getInstance();
@@ -166,24 +168,34 @@ public class Test
             //flywheel.run(5000);
             //testFlywheelPeriodic();
             //testGatePeriodic();
-            // testShooterPeriodic();
+            //testShooterPeriodic();
             //testShroudPeriodic();
             
-            //led.set(Relay.Value.kForward);
-            //intake.runFSM();
+            //flywheel.run(6000);
+            if(Math.abs(operatorController.getAction(OperatorController.AxisAction.kShroud)) > 0.2)
+            {
+                shroud.setSpeed(operatorController.getAction(OperatorController.AxisAction.kShroud) / 2.0);
+            }
+            else
+            {
+                shroud.stop();
+            }
+            
             //testTurretPeriodic();
-            //testShuttlePeriodic();
-            //shuttle.runFSM();
-            //shooter.runFSM();
-            //led.setDirection(Relay.Direction.kForward);
-            if(driverController.getRawButton(1))
-            {
-                drivetrain.coolMotors();
-            }
-            else if(driverController.getRawButton(2))
-            {
-                drivetrain.stopCoolingMotors();
-            }
+            // led.set(Relay.Value.kForward);
+            // intake.runFSM();
+            // shuttle.runFSM();
+            // shooter.runFSM();
+
+            // if(driverController.getRawButton(1))
+            // {
+            //     shifter.forceShiftUp();
+            //     //drivetrain.coolMotors();
+            // }
+            // else if(driverController.getRawButton(2))
+            // {
+            //     shifter.forceShiftDown();
+            // }
 
 
         }

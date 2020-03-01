@@ -89,7 +89,6 @@ public class Drivetrain extends DifferentialDrive
 
         
 
-        stopCoolingMotors();
 
 		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
 		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
@@ -129,12 +128,12 @@ public class Drivetrain extends DifferentialDrive
 
     public void coolMotors()
     {
-        coolantSolenoid.set(DoubleSolenoid.Value.kForward);   
+        coolantSolenoid.set(DoubleSolenoid.Value.kReverse);   
     }
 
     public void stopCoolingMotors()
     {
-        coolantSolenoid.set(DoubleSolenoid.Value.kReverse);   
+        coolantSolenoid.set(DoubleSolenoid.Value.kForward);   
     }
 
     public void westCoastDrive(double move, double rotate)
