@@ -6,6 +6,8 @@ import frc.robot.Port;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANEncoder;
 
 /**
@@ -41,6 +43,11 @@ public class Arm
 
         armMotor.restoreFactoryDefaults();
         armMotor.setInverted(true);
+        armMotor.setIdleMode(IdleMode.kBrake);
+        armMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+        armMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        armMotor.setSoftLimit(SoftLimitDirection.kForward, 120);
+        armMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
 
         System.out.println(className + ": Constructor Finished"); 
     }

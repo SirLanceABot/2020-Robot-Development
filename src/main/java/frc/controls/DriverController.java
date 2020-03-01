@@ -88,7 +88,7 @@ public class DriverController extends Xbox
         setAxisSettings(Axis.kRightX, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
         setAxisSettings(Axis.kRightY, 0.1, 0.0, 1.0, true, AxisScale.kLinear);
 
-        setAxisSettings(Axis.kLeftTrigger, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
+        setAxisSettings(Axis.kLeftTrigger, 0.1, 0.0, 0.5, false, AxisScale.kLinear);
         setAxisSettings(Axis.kRightTrigger, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
 
         createRumbleEvent(60.0, 1.0, 0.5, 0.5);

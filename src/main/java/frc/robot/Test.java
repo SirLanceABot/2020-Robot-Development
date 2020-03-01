@@ -67,7 +67,7 @@ public class Test
         SHOOTER,
         SHUTTLE
     }
-    private static Test_Options TEST_OPTION = Test_Options.SHOOTER; // The test that you want to conduct
+    private static Test_Options TEST_OPTION = Test_Options.CLIMBER; // The test that you want to conduct
 
     private static OperatorController operatorController = OperatorController.getInstance();
     private static DriverController driverController = DriverController.getInstance();
@@ -303,7 +303,7 @@ public class Test
      */
     private void testArmInit()
     {
-        
+        arm.setEncoderPosition(0);
     }
 
     /**
@@ -313,16 +313,17 @@ public class Test
     {
         if(driverController.getRawButton(DriverController.Button.kA))
         {
-            arm.setExtensionSpeed(1.00);
+            arm.setExtensionSpeed(Math.abs(driverController.getRawAxis(DriverController.Axis.kLeftTrigger)));
         }
         else if(driverController.getRawButton(DriverController.Button.kB))
         {
-            arm.setExtensionSpeed(-0.25);
+            arm.setExtensionSpeed(-0.10);
         }
         else
         {
             arm.setExtensionSpeed(0.0);
         }
+        System.out.println("Arm = " + arm.getEncoderPosition());
     }
 
     /**
