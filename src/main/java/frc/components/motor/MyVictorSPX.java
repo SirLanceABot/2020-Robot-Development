@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 
 public class MyVictorSPX extends Motor
 {
@@ -33,7 +34,12 @@ public class MyVictorSPX extends Motor
 
     public void setReverseHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
     {
-        
+        // if (isEnabled && isNormallyOpen)
+        //     motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, );
+        // else if(isEnabled && !isNormallyOpen)
+        //     motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, );
+        // else
+        //     motor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, );
     }
 
     public void setForwardSoftLimitEnabled(boolean isEnabled)
@@ -48,7 +54,12 @@ public class MyVictorSPX extends Motor
 
     public void setForwardHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
     {
-        
+        if (isEnabled && isNormallyOpen)
+            motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+        else if(isEnabled && !isNormallyOpen)
+            motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        else
+            motor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
     }
 
     public void setNeutralMode(MyNeutralMode mode)

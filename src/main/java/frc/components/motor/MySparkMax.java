@@ -51,7 +51,7 @@ public class MySparkMax extends Motor
 
     public void setNeutralMode(MyNeutralMode mode)
     {
-
+        
     }
 
     public void setStatorCurrentLimit(boolean isEnabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime)
