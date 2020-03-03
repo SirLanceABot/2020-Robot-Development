@@ -67,7 +67,7 @@ public class Test
         SHOOTER,
         SHUTTLE
     }
-    private static Test_Options TEST_OPTION = Test_Options.CLIMBER; // The test that you want to conduct
+    private static Test_Options TEST_OPTION = Test_Options.SHOOTER; // The test that you want to conduct
 
     private static OperatorController operatorController = OperatorController.getInstance();
     private static DriverController driverController = DriverController.getInstance();
@@ -174,7 +174,7 @@ public class Test
         else if(TEST_OPTION == Test_Options.SHOOTER) // Shooter test
         {
 
-            //testDrivetrainPeriodic();
+            testDrivetrainPeriodic();
             //flywheel.run(5000);
             //testFlywheelPeriodic();
             //testGatePeriodic();
@@ -183,17 +183,17 @@ public class Test
             
             //flywheel.run(6000);
             //System.out.println(operatorController.getAction(OperatorController.AxisAction.kShroud));
-            System.out.println(shroud.getEncoder());
-            shroud.setSpeed(operatorController.getAction(OperatorController.AxisAction.kShroud) / 2.0);
+            //System.out.println(shroud.getEncoder());
+            //shroud.setSpeed(operatorController.getAction(OperatorController.AxisAction.kShroud) / 2.0);
 
             //flywheel.run(1.0);
 
             //System.out.println("RPM: " + Math.round(flywheel.getRPM()) + '\t' + "Time: " + timer.get());
-            //testTurretPeriodic();
-            //led.set(Relay.Value.kForward);
-            //intake.runFSM();
-            //shuttle.runFSM();
-            //shooter.runFSM();
+            testTurretPeriodic();
+            led.set(Relay.Value.kForward);
+            intake.runFSM();
+            shuttle.runFSM();
+            shooter.runFSM();
 
             // if(driverController.getRawButton(1))
             // {

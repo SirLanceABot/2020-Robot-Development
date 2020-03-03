@@ -41,6 +41,8 @@ public class Shuttle
             @Override
             void doAction() 
             {   
+                System.out.println("Shuttle State: Off");
+
                 stopShuttle();
                 if(OperatorController.getInstance().getRawButton(1)) //assign the correct button
                 {
@@ -51,7 +53,6 @@ public class Shuttle
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
-                //System.out.println("Shuttle State: Off");
                 else if(isFull())
                 {
                     currentState = Transition.findNextState(currentState, Event.ShuttleFull);
@@ -75,7 +76,7 @@ public class Shuttle
                 if(initFlag)
                 {
                     currentPosition = getEncoderPosition();
-                    targetPosition = currentPosition + (100/12.0);
+                    targetPosition = currentPosition + (100/20.0);
                     initFlag = false;
                 }
 
@@ -94,7 +95,7 @@ public class Shuttle
                     initFlag = true;
                 }       
 
-                //System.out.println("Shuttle State: MovingOnePosition" + "\tTargetPosition: " + targetPosition + "\tCurrent Pos: " + currentPosition);
+                System.out.println("Shuttle State: MovingOnePosition" + "\tTargetPosition: " + targetPosition + "\tCurrent Pos: " + currentPosition);
 
                 if(currentPosition < targetPosition - 3)
                 {
@@ -118,10 +119,10 @@ public class Shuttle
             @Override
             void doAction() 
             {
-                //System.out.println("Shuttle State: Unloading");
+                System.out.println("Shuttle State: Unloading");
                 if(!isEmpty())
                 {
-                    setSpeed(0.50); //TODO: Find the right feed speed
+                    setSpeed(0.75); //TODO: Find the right feed speed
                 }
                 else
                 {
@@ -140,7 +141,7 @@ public class Shuttle
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
-                //System.out.println("Shuttle State: Full");
+                System.out.println("Shuttle State: Full");
                 if(isFull())
                 {
                     stopShuttle();
@@ -174,7 +175,7 @@ public class Shuttle
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
-                //System.out.println("Shuttle State: Empty");
+                System.out.println("Shuttle State: Empty");
                 if(!sensor1.get())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);
@@ -366,7 +367,7 @@ public class Shuttle
                 sensorFlag = false;
                 return true;
             }
-            else if(sensor6Pos - getEncoderPosition() < -13)
+            else if(sensor6Pos - getEncoderPosition() < -10)
             {
                 //System.out.println("Distance Traveled  " + (sensor6Pos - getEncoderPosition()));
                 return false;
@@ -483,7 +484,7 @@ public class Shuttle
 
     public static boolean isEmpty()
     {
-        if(sensor1.get() && sensor2.get() && sensor3.get() && sensor4.get() && sensor5.get() && getSensor6())//sensor6.get())
+        if(sensor1.get() && sensor2.get() && sensor3.get() && sensor4.get() && sensor5.get() && sensor6.get())//sensor6.get())
         {
             return true;
         }

@@ -92,7 +92,7 @@ public class Shooter implements Notified
       {
         //System.out.println("State: Calculating");
         //need to add calculations after testing
-        flywheelSpeed = 5300.0;
+        flywheelSpeed = 5400.0;
         shroudAngle = 20.0;
         currentState = Transition.findNextState(currentState, Event.ValuesCalulated);
       }
@@ -104,6 +104,7 @@ public class Shooter implements Notified
           //System.out.println("State: SettingTrajectory");
           flywheel.run(flywheelSpeed);
           //shroud.moveTo(shroudAngle);
+          shroud.setSpeed(0.75);
           currentState = Transition.findNextState(currentState, Event.TrajectorySet);
 
         }
@@ -112,6 +113,7 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
+          shroud.setSpeed(0.75);
           //System.out.println("State: PreShotCheck  " + "Speed: " + flywheel.getRPM());
           if(turretVision.isTargetFound())
           {
@@ -119,11 +121,12 @@ public class Shooter implements Notified
             {
               if(flywheel.getRPM() > (flywheelSpeed - 50) && flywheel.getRPM() < (flywheelSpeed + 50))
               {
-                // if(shroud.getCurrentAngle() < (shroudAngle + 1) && shroud.getCurrentAngle() > (shroudAngle - 1))
-                // {
+                if(shroud.getEncoder() > 120) 
+                {
+                  shroud.stop();
                   //flywheel.run(flywheelSpeed);
                   currentState = Transition.findNextState(currentState, Event.PreShotCheckPassed);
-                // }
+                }
               }
               //continue checking speeds and other data
             }
@@ -135,6 +138,7 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
+          
           //System.out.println("State: ShootingOneBall");
           shuttle.feedTopBall();
           if(operatorController.getAction(frc.controls.OperatorController.ButtonAction.kOnTarget))
