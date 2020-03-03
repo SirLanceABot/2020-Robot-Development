@@ -2,9 +2,13 @@ package frc.components.powercellsupervisor.intake;
 
 import frc.robot.Port;
 
+import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANPIDController;
 
 /**
@@ -31,8 +35,14 @@ public class Roller
 
     // initializing the encoder and pid controller
     private static CANEncoder centerEncoder = centerMotor.getEncoder();
+    private static CANDigitalInput centerForwardLimitSwitch;
+    private static CANDigitalInput centerReverseLimitSwitch;
     private static CANEncoder leftEncoder = leftMotor.getEncoder();
+    private static CANDigitalInput leftForwardLimitSwitch;
+    private static CANDigitalInput leftReverseLimitSwitch;
     private static CANEncoder rightEncoder = rightMotor.getEncoder();
+    private static CANDigitalInput rightForwardLimitSwitch;
+    private static CANDigitalInput rightReverseLimitSwitch;
     private static CANPIDController pidController = new CANPIDController(centerMotor);
 
     // creating the one instance of the Roller cass
@@ -44,24 +54,77 @@ public class Roller
     private Roller()
     {
         System.out.println(this.getClass().getName() + ": Started Constructing");
+
         centerMotor.restoreFactoryDefaults();
-        leftMotor.restoreFactoryDefaults();
-        rightMotor.restoreFactoryDefaults();
-        //leftMotor.follow(centerMotor);
-        //rightMotor.follow(centerMotor);
-        // slaveMotor.restoreFactoryDefaults();
-        //slaveMotor.follow(masterMotor);
-        rightMotor.setInverted(false);
         centerMotor.setInverted(true);
-        leftMotor.setInverted(true);
-        centerEncoder.setPosition(0);
+        centerMotor.setIdleMode(IdleMode.kBrake);
+
+        //soft limit switches
+        centerMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+        centerMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+        centerMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+        centerMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+
+        //hard limit switches
+        centerReverseLimitSwitch = centerMotor.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        centerReverseLimitSwitch.enableLimitSwitch(false);
+        centerForwardLimitSwitch = centerMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        centerForwardLimitSwitch.enableLimitSwitch(false);
+
+        centerMotor.setOpenLoopRampRate(0.1);
         centerMotor.setSmartCurrentLimit(40);
+
+        //left motor
+        leftMotor.restoreFactoryDefaults();
+        leftMotor.setInverted(true);
+        leftMotor.setIdleMode(IdleMode.kBrake);
+
+        //soft limit switches
+        leftMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+        leftMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+        leftMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+        leftMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+
+        //hard limit switches
+        leftReverseLimitSwitch = leftMotor.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        leftReverseLimitSwitch.enableLimitSwitch(false);
+        leftForwardLimitSwitch = leftMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        leftForwardLimitSwitch.enableLimitSwitch(false);
+
+        leftMotor.setOpenLoopRampRate(0.1);
+        leftMotor.setSmartCurrentLimit(40);
+
+        //right motor
+        rightMotor.restoreFactoryDefaults();
+        rightMotor.setInverted(false);
+        rightMotor.setIdleMode(IdleMode.kBrake);
+
+        //soft limit switches
+        rightMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+        rightMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+        rightMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+        rightMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+
+        //hard limit switches
+        rightReverseLimitSwitch = rightMotor.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        rightReverseLimitSwitch.enableLimitSwitch(false);
+        rightForwardLimitSwitch = rightMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        rightForwardLimitSwitch.enableLimitSwitch(false);
+
+        rightMotor.setOpenLoopRampRate(0.1);
+        rightMotor.setSmartCurrentLimit(40);
+
+        leftMotor.follow(rightMotor);
+
+        centerEncoder.setPosition(0);
+
         pidController.setP(kP);
         pidController.setI(kI);
         pidController.setD(kD);
         pidController.setIZone(kIz);
         pidController.setFF(kFF);
         pidController.setOutputRange(kMinOutput, kMaxOutput);
+
         System.out.println(this.getClass().getName() + ": Finished Constructing");
     }
 
@@ -86,7 +149,7 @@ public class Roller
     {
         rightMotor.set(1.0);
         centerMotor.set(0.2);
-        leftMotor.set(1.0);
+        // leftMotor.set(1.0);
     }
 
     /**
@@ -172,7 +235,7 @@ public class Roller
     private void setSpeed(double speed)
     {
         centerMotor.set(speed / 2.0);
-        leftMotor.set(speed);
+        // leftMotor.set(speed);
         rightMotor.set(speed);
         //System.out.println(centerMotor.getOutputCurrent());
         //double rpmSpeed = speed * maxRPM;

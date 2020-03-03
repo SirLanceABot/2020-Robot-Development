@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class MySparkMax extends Motor
 {
     private CANSparkMax motor;
-    private CANEncoder encoder;
+    // private CANEncoder encoder;
     private CANDigitalInput reverseLimitSwitch;
     private CANDigitalInput forwardLimitSwitch;
 

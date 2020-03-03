@@ -2,10 +2,14 @@ package frc.components.powercellsupervisor.shuttle;
 
 import frc.robot.Port;
 
+import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
@@ -286,6 +290,8 @@ public class Shuttle
     private static double sensor6Pos = 0.0;
     private static CANSparkMax motor = new CANSparkMax(Port.Motor.CAN_SHUTTLE, MotorType.kBrushless);
     private static CANEncoder encoder = new CANEncoder(motor);
+    private static CANDigitalInput forwardLimitSwitch;
+    private static CANDigitalInput reverseLimitSwitch;
     private static CANPIDController pidController = new CANPIDController(motor);
     //private static double currentPosition;
     private static DigitalInput sensor1 = new DigitalInput(Port.Sensor.SHUTTLE_1);
@@ -303,7 +309,24 @@ public class Shuttle
         System.out.println(className + " : Constructor Started");
 
         motor.restoreFactoryDefaults();
+        motor.setInverted(false);
+        motor.setIdleMode(IdleMode.kBrake);
+
+        //soft limit switches
+        motor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+        motor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+        motor.setSoftLimit(SoftLimitDirection.kForward, 0);
+        motor.enableSoftLimit(SoftLimitDirection.kForward, false);
+
+        //hard limit switches
+        reverseLimitSwitch = motor.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        reverseLimitSwitch.enableLimitSwitch(false);
+        forwardLimitSwitch = motor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        forwardLimitSwitch.enableLimitSwitch(false);
+
+        motor.setOpenLoopRampRate(0.1);
         motor.setSmartCurrentLimit(40);
+
         setEncoderPosition(0);
         // currentPosition = 0;
         targetPosition = 0;

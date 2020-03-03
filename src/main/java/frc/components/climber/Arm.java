@@ -6,8 +6,10 @@ import frc.robot.Port;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
+import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANEncoder;
 
 /**
@@ -27,6 +29,8 @@ public class Arm
     // Declare and initialize private instance variables.
     private static CANSparkMax armMotor = new CANSparkMax(Port.Motor.CAN_CLIMBER_ARM, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANEncoder armEncoder = armMotor.getEncoder();
+    private static CANDigitalInput forwardLimitSwitch;
+    private static CANDigitalInput reverseLimitSwitch;
     private static final int DEFAULT_POSITION = 10; // TODO: find actual default encoder position 
     private static final int ERROR_THRESHOLD = 5; // TODO: find actual threshold we want for the robot
     private static final double MINIMUM_HEIGHT = 0.0;
@@ -44,10 +48,21 @@ public class Arm
         armMotor.restoreFactoryDefaults();
         armMotor.setInverted(true);
         armMotor.setIdleMode(IdleMode.kBrake);
+
+        //soft limit switches
         armMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
         armMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
         armMotor.setSoftLimit(SoftLimitDirection.kForward, 120);
         armMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+
+        //hard limit switches
+        reverseLimitSwitch = armMotor.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        reverseLimitSwitch.enableLimitSwitch(false);
+        forwardLimitSwitch = armMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        forwardLimitSwitch.enableLimitSwitch(false);
+
+        armMotor.setOpenLoopRampRate(0.1);
+        armMotor.setSmartCurrentLimit(40);
 
         System.out.println(className + ": Constructor Finished"); 
     }

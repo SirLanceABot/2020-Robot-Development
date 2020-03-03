@@ -47,15 +47,19 @@ public class Winch
         winchMotor.setIdleMode(IdleMode.kBrake);
 
         //soft limit switches
-        winchMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
         winchMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
-        winchMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+        winchMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
         winchMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+        winchMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
 
         //hard limit switches
-        // forwardLimitSwitch = winchMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
-        // reverseLimitSwitch = winchMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
-        winchMotor.setSmartCurrentLimit(30);
+        reverseLimitSwitch = winchMotor.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        reverseLimitSwitch.enableLimitSwitch(false);
+        forwardLimitSwitch = winchMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        forwardLimitSwitch.enableLimitSwitch(false);
+
+        // winchMotor.setOpenLoopRampRate(0.1);
+        winchMotor.setSmartCurrentLimit(40);
     
         System.out.println(className + ": Constructor Finished");
     }
