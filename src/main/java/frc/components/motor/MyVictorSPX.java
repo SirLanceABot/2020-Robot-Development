@@ -1,6 +1,7 @@
 package frc.components.motor;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -24,12 +25,12 @@ public class MyVictorSPX extends Motor
 
     public void setReverseSoftLimitEnabled(boolean isEnabled)
     {
-        motor.configReverseSoftLimitEnable(isEnabled);
+        // motor.configReverseSoftLimitEnable(isEnabled);
     }
 
     public void setReverseSoftLimitThreshold(int threshold)
     {
-        motor.configReverseSoftLimitThreshold(threshold);
+        // motor.configReverseSoftLimitThreshold(threshold);
     }
 
     public void setReverseHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
@@ -44,22 +45,22 @@ public class MyVictorSPX extends Motor
 
     public void setForwardSoftLimitEnabled(boolean isEnabled)
     {
-        motor.configForwardSoftLimitEnable(isEnabled);
+        // motor.configForwardSoftLimitEnable(isEnabled);
     }
 
     public void setForwardSoftLimitThreshold(int threshold)
     {
-        motor.configForwardSoftLimitThreshold(threshold);
+        // motor.configForwardSoftLimitThreshold(threshold);
     }
 
     public void setForwardHardLimitEnabled(boolean isEnabled, boolean isNormallyOpen)
     {
-        if (isEnabled && isNormallyOpen)
-            motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
-        else if(isEnabled && !isNormallyOpen)
-            motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
-        else
-            motor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+        // if (isEnabled && isNormallyOpen)
+        //     motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+        // else if(isEnabled && !isNormallyOpen)
+        //     motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        // else
+        //     motor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
     }
 
     public void setNeutralMode(MyNeutralMode mode)
@@ -82,7 +83,17 @@ public class MyVictorSPX extends Motor
 
     public void setOpenLoopRamp(double seconds)
     {
-        motor.configOpenloopRamp(seconds);
+        // motor.configOpenloopRamp(seconds);
+    }
+
+    public void setFeedbackDevice(MyFeedbackDevice device)
+    {
+        // if (device == MyFeedbackDevice.kAnalog)
+        //     motor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
+        // else if(device == MyFeedbackDevice.kQuadEncoder)
+        //     motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        // else
+        //     motor.configSelectedFeedbackSensor(FeedbackDevice.None);
     }
 
     public WPI_VictorSPX getSuper()

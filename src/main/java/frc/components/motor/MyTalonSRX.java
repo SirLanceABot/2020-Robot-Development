@@ -1,6 +1,7 @@
 package frc.components.motor;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -84,6 +85,16 @@ public class MyTalonSRX extends Motor
     public void setOpenLoopRamp(double seconds)
     {
         motor.configOpenloopRamp(seconds);
+    }
+
+    public void setFeedbackDevice(MyFeedbackDevice device)
+    {
+        if (device == MyFeedbackDevice.kAnalog)
+            motor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
+        else if(device == MyFeedbackDevice.kQuadEncoder)
+            motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        else
+            motor.configSelectedFeedbackSensor(FeedbackDevice.None);
     }
 
     public WPI_TalonSRX getSuper()

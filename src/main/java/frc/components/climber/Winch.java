@@ -2,9 +2,12 @@ package frc.components.climber;
 
 import frc.robot.Port;
 
+import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 
 /**
  * Reels in rope to lift the robot.
@@ -22,6 +25,8 @@ public class Winch
 
     private static CANSparkMax winchMotor = new CANSparkMax(Port.Motor.CAN_CLIMBER_WINCH, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     private static CANEncoder winchEncoder = winchMotor.getEncoder();
+    private static CANDigitalInput forwardLimitSwitch;
+    private static CANDigitalInput reverseLimitSwitch;
 
     //TODO: determine actual height constraints.
     private static final double MINIMUM_HEIGHT = 0.0;
@@ -38,9 +43,20 @@ public class Winch
         System.out.println(className + " : Constructor Started");
 
         winchMotor.restoreFactoryDefaults();
-        winchMotor.setSmartCurrentLimit(30);
+        winchMotor.setInverted(false);
         winchMotor.setIdleMode(IdleMode.kBrake);
 
+        //soft limit switches
+        winchMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+        winchMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+        winchMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+        winchMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+
+        //hard limit switches
+        // forwardLimitSwitch = winchMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        // reverseLimitSwitch = winchMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+        winchMotor.setSmartCurrentLimit(30);
+    
         System.out.println(className + ": Constructor Finished");
     }
 

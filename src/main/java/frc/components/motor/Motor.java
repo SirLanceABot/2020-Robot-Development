@@ -7,6 +7,11 @@ public abstract class Motor
         kBrake, kCoast;
     }
 
+    public enum MyFeedbackDevice
+    {
+        kNone, kQuadEncoder, kAnalog;
+    }
+
     abstract void setInverted(boolean isInverted);
     abstract void setReverseSoftLimitEnabled(boolean isEnabled);
     abstract void setReverseSoftLimitThreshold(int threshold);
@@ -18,6 +23,7 @@ public abstract class Motor
     abstract void setStatorCurrentLimit(boolean isEnabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime);
     abstract void setSupplyCurrentLimit(boolean isEnabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime);
     abstract void setOpenLoopRamp(double seconds);
+    abstract void setFeedbackDevice(MyFeedbackDevice device);
     //abstract Motor getSuper();
 
     void configMotor(boolean setInverted, boolean reverseSoftLimitEnabled, int reverseSoftLimitThreshold, boolean reverseHardLimitEnabled, boolean reverseHardLimitNormallyOpen, boolean forwardSoftLimitEnabled, int forwardSoftLimitThreshold, boolean forwardHardLimitEnabled, boolean forwardHardLimitNormallyOpen, MyNeutralMode mode, boolean statorEnabled, double statorCurrentLimit, double statorTriggerThresholdCurrent, double statorTriggerThresholdTime, boolean supplyEnabled, double supplyCurrentLimit, double supplyTriggerThresholdCurrent, double supplyTriggerThresholdTime, double openLoopRamp)
