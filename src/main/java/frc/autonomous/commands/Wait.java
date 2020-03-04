@@ -5,9 +5,9 @@ import frc.autonomous.commands.interfaces.*;
 
 public class Wait implements Command 
 {
-    private static Timer timer = new Timer();
-    private static double timeToWait;
-    private static boolean isFinished;
+    private Timer timer = new Timer();
+    private double timeToWait;
+    private boolean isFinished;
     
     public Wait(double time)
     {

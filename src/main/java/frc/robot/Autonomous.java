@@ -2,6 +2,8 @@ package frc.robot;
 
 import frc.autonomous.AutonomousBuilder;
 import frc.autonomous.AutonomousExecuter;
+import frc.components.powercellsupervisor.shuttle.Shuttle;
+import edu.wpi.first.wpilibj.Relay;
 
 public class Autonomous
 {
@@ -16,7 +18,8 @@ public class Autonomous
     private static Autonomous instance = new Autonomous();
     private static AutonomousExecuter autonomousExecuter = AutonomousExecuter.getAutonomousExecuter();
     private static AutonomousBuilder autonomousBuilder = AutonomousBuilder.getInstance();
-
+    private static Shuttle shuttle = Shuttle.getInstance();
+    private static Relay led = new Relay(0);
     /**
      * The constructor for the Autonomous class. 
      */
@@ -43,6 +46,8 @@ public class Autonomous
 
     public void periodic()
     {
+        led.set(Relay.Value.kForward);
+        shuttle.runFSM();
         autonomousExecuter.executeAuto();   
     }
 }

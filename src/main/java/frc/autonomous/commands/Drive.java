@@ -11,9 +11,9 @@ import frc.components.drivetrain.Drivetrain;
 public class Drive implements Command
 {
     //creation/init of instance variables
-    private static Drivetrain drivetrain = Drivetrain.getInstance();
-    private static boolean isFinished;
-    private static double distance;
+    private Drivetrain drivetrain = Drivetrain.getInstance();
+    private boolean isFinished;
+    private double distance;
 
     //constuctor (takes the distance to drive)
     public Drive(double distanceToDrive)

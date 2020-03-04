@@ -38,7 +38,6 @@ public class AutonomousExecuter
                 currentCommandIndex++;
                 hasBeenInitialized = false;
                 endCommands(currentCommandList);
-
             }
             else if(hasBeenInitialized == false)
             {

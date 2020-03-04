@@ -4,8 +4,10 @@ package frc.components.powercellsupervisor.shooter;
 import frc.autonomous.commands.interfaces.Notified;
 import frc.components.powercellsupervisor.shuttle.Shuttle;
 import frc.controls.OperatorController;
+import frc.controls.OperatorController.AxisAction;
 import frc.controls.Logitech.Axis;
 import frc.controls.OperatorController.ButtonAction;
+
 // import frc.sensors.LidarLite.LIDAR_Lite;
 // import frc.sensors.LidarLite.Constants;
 import frc.vision.Vision;
@@ -79,11 +81,27 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
-          //System.out.println("State: Aligning");
-          if(turret.alignWithTarget())
+          if(turretVision.isTargetFound())
           {
-            currentState = Transition.findNextState(currentState, Event.AlignedWithTape);
+            if(turret.alignWithTarget())
+            {
+              currentState = Transition.findNextState(currentState, Event.AlignedWithTape);
+            }
           }
+          else
+          {
+            if(Math.abs(operatorController.getAction(OperatorController.AxisAction.kTurret)) > 0.2)
+            {
+                turret.setSpeed(operatorController.getAction(OperatorController.AxisAction.kTurret) / 2.0);
+            }
+            else
+            {
+                turret.stop();
+            }
+          }
+
+          //System.out.println("State: Aligning");
+
         }
       },
     Calculating() 
@@ -92,7 +110,7 @@ public class Shooter implements Notified
       {
         //System.out.println("State: Calculating");
         //need to add calculations after testing
-        flywheelSpeed = 5400.0;
+        flywheelSpeed = 5000.0;
         shroudAngle = 20.0;
         currentState = Transition.findNextState(currentState, Event.ValuesCalulated);
       }
@@ -119,7 +137,7 @@ public class Shooter implements Notified
           {
             if(Math.abs(turretVision.getAngleToTurn()) < 1.0)
             {
-              if(flywheel.getRPM() > (flywheelSpeed - 50) && flywheel.getRPM() < (flywheelSpeed + 50))
+              if(flywheel.getRPM() > (flywheelSpeed - 50)) //&& flywheel.getRPM() < (flywheelSpeed + 50))
               {
                 if(shroud.getEncoder() > 120) 
                 {
@@ -141,7 +159,7 @@ public class Shooter implements Notified
           
           //System.out.println("State: ShootingOneBall");
           shuttle.feedTopBall();
-          if(operatorController.getAction(frc.controls.OperatorController.ButtonAction.kOnTarget))
+          if(operatorController.getAction(frc.controls.OperatorController.ButtonAction.kOnTarget) || notification)
           {
             currentState = Transition.findNextState(currentState, Event.FirstPowerCellOnTarget);
           }

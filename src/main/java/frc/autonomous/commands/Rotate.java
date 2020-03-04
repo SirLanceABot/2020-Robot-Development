@@ -10,9 +10,9 @@ import frc.components.drivetrain.Drivetrain;
 public class Rotate implements Command
 {
     //Init the instance variables
-    private static Drivetrain drivetrain = Drivetrain.getInstance();
-    private static double absoluteAngle;
-    private static boolean isFinished;
+    private Drivetrain drivetrain = Drivetrain.getInstance();
+    private double absoluteAngle;
+    private boolean isFinished;
 
     //construct the object
     public Rotate(double angle)

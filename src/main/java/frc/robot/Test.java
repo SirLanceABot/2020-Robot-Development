@@ -84,7 +84,7 @@ public class Test
     private static Shooter shooter = Shooter.getInstance();
     private static Arm arm = Arm.getInstance();
     private static Winch winch = Winch.getInstance();
-    private static Relay led = new Relay(0);
+    // private static Relay led = new Relay(0);
     private static boolean timerFlag = true;
     private static Timer timer = new Timer();
 
@@ -190,7 +190,7 @@ public class Test
 
             //System.out.println("RPM: " + Math.round(flywheel.getRPM()) + '\t' + "Time: " + timer.get());
             testTurretPeriodic();
-            led.set(Relay.Value.kForward);
+            // led.set(Relay.Value.kForward);
             intake.runFSM();
             shuttle.runFSM();
             shooter.runFSM();

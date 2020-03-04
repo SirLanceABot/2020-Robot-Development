@@ -36,10 +36,10 @@ import frc.components.drivetrain.Drivetrain;
  *  */
 public class DriveTo implements Command
 {
-    private static Drivetrain drivetrain = Drivetrain.getInstance();
-    private static boolean isFinished;
-    private static double xPos = 0.0;
-    private static double yPos = 0.0;
+    private Drivetrain drivetrain = Drivetrain.getInstance();
+    private boolean isFinished;
+    private double xPos = 0.0;
+    private double yPos = 0.0;
 
     public DriveTo(double xPosition, double yPosition)
     {

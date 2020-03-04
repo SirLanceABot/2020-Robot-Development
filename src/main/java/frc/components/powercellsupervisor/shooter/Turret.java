@@ -100,17 +100,17 @@ public class Turret
         // motor.configFeedbackNotContinuous(false, 10);
 
         //soft limits
-        motor.configReverseSoftLimitThreshold(1);
-        motor.configReverseSoftLimitEnable(true);
-        motor.configForwardSoftLimitThreshold(359); // TODO: put real absolute encoder values in
-        motor.configForwardSoftLimitEnable(true);
+        // motor.configReverseSoftLimitThreshold(1);
+        // motor.configReverseSoftLimitEnable(true);
+        // motor.configForwardSoftLimitThreshold(359); // TODO: put real absolute encoder values in
+        // motor.configForwardSoftLimitEnable(true);
 
-        //hard limits
-        motor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
-        motor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+        // //hard limits
+        // motor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+        // motor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
         
         //current limits
-        motor.configOpenloopRamp(0.1);
+        //motor.configOpenloopRamp(0.1);
         motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 0.5), 10);
 
         /* Set the peak and nominal outputs */

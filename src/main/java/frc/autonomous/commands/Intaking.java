@@ -6,12 +6,12 @@ import frc.components.powercellsupervisor.intake.Intake;
 
 public class Intaking implements Command, Notifies
 {
-    private static boolean notification = false;
-    private static Intake intake = Intake.getInstance();
+    private boolean notification = false;
+    private Intake intake = Intake.getInstance();
 
-    private static Timer timer = new Timer();
-    private static double timeToWait;
-    private static boolean isFinished;
+    private Timer timer = new Timer();
+    private double timeToWait;
+    private boolean isFinished;
 
     public Intaking(double time)
     {
@@ -29,15 +29,19 @@ public class Intaking implements Command, Notifies
 
     public void execute()
     {
-        
+        System.out.println("Intaking: " + timer.get());
+        intake.runFSM();
         if(timer.get() > timeToWait)
         {
+            sendNotification(false);
+            intake.runFSM();
             end();
         }
     }
 
     public boolean isFinished()
     {
+        intake.runFSM();
         return isFinished;
     }
 
@@ -47,7 +51,7 @@ public class Intaking implements Command, Notifies
         timer.reset();
         isFinished = true;
         sendNotification(false);
-
+        intake.runFSM();
     }
 
 
