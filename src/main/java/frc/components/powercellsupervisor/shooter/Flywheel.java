@@ -6,6 +6,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
 /**
  * Class for the flywheel that ejects the power cells from the shooter
@@ -38,18 +42,40 @@ public class Flywheel
 
     private Flywheel()
     {
-
         System.out.println(className + " : Constructor Started");
-        masterMotor.configFactoryDefault();
-        followerMotor.configFactoryDefault();
-        masterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS);
-        
-        followerMotor.follow(masterMotor);
 
+        masterMotor.configFactoryDefault();
+        masterMotor.setInverted(false);
+        masterMotor.setNeutralMode(NeutralMode.Coast);
+
+        //feedback sensor
+        masterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0 , TIMEOUT_MS);
+        masterMotor.setSensorPhase(false);
+        // motor.configClearPositionOnLimitR(true, 10);
+        // motor.configFeedbackNotContinuous(false, 10);
+
+        //soft limits
+        masterMotor.configReverseSoftLimitThreshold(0);
+        masterMotor.configReverseSoftLimitEnable(false);
+        masterMotor.configForwardSoftLimitThreshold(0);
+        masterMotor.configForwardSoftLimitEnable(false);
+
+        //hard limits
+        masterMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+        masterMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+        
+        //current limits
+        masterMotor.configOpenloopRamp(0.1);
+        masterMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
+        
         masterMotor.config_kF(0, FEEDFORWARD, TIMEOUT_MS);
 		masterMotor.config_kP(0, PROPORTIONAL, TIMEOUT_MS);
 		masterMotor.config_kI(0, INTEGRAL, TIMEOUT_MS);
-		masterMotor.config_kD(0, DERIVATIVE, TIMEOUT_MS);
+        masterMotor.config_kD(0, DERIVATIVE, TIMEOUT_MS);
+        
+        followerMotor.configFactoryDefault();
+        
+        followerMotor.follow(masterMotor);
 
         System.out.println(className + ": Constructor Finished");
     }
