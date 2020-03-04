@@ -114,7 +114,7 @@ public class Roller
         rightMotor.setOpenLoopRampRate(0.1);
         rightMotor.setSmartCurrentLimit(40);
 
-        leftMotor.follow(rightMotor);
+        // leftMotor.follow(rightMotor);
 
         centerEncoder.setPosition(0);
 
@@ -148,8 +148,8 @@ public class Roller
     public void intakeUsingOuter()
     {
         rightMotor.set(1.0);
-        centerMotor.set(0.2);
-        // leftMotor.set(1.0);
+        centerMotor.set(0.1);
+        leftMotor.set(1.0);
     }
 
     /**
@@ -235,7 +235,7 @@ public class Roller
     private void setSpeed(double speed)
     {
         centerMotor.set(speed / 2.0);
-        // leftMotor.set(speed);
+        leftMotor.set(speed);
         rightMotor.set(speed);
         //System.out.println(centerMotor.getOutputCurrent());
         //double rpmSpeed = speed * maxRPM;

@@ -70,7 +70,7 @@ public class Intake implements Notified
             @Override
             void doAction() 
             {
-                //System.out.println("Turning On");
+                System.out.println("Turning On");
                 if(initFlag)
                 {
                     stopTimer();
@@ -79,7 +79,7 @@ public class Intake implements Notified
                     initFlag = false;
                 }
                 
-                else if(getTimer() > 1)
+                else if(getTimer() > 0.5)
                 {
                     currentState = Transition.findNextState(currentState, Event.kTurnedOn);
                     initFlag = true;
@@ -92,7 +92,7 @@ public class Intake implements Notified
             @Override
             void doAction() 
             {
-                //System.out.println("Intake State: Intaking");
+                System.out.println("Intake State: Intaking");
 
                 if(roller.getCenterRollerAmps() > 10)
                 {
@@ -115,7 +115,7 @@ public class Intake implements Notified
             @Override
             void doAction() 
             {
-                //System.out.println("Pinched");
+                System.out.println("Pinched");
                 roller.intakeUsingOuter();           
                 
                 if(roller.getLeftRollerAmps() < 7.5 && roller.getRightRollerAmps() < 7.5)

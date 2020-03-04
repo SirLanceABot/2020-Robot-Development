@@ -379,7 +379,7 @@ public class Shooter implements Notified
   {
     turretVision.set(Vision.turretNext);
     // turretVision.get();
-    System.out.println(flywheel.getRPM());
+    //System.out.println(flywheel.getRPM());
     currentState.doAction();
   }
 }

@@ -41,7 +41,7 @@ public class Shuttle
             @Override
             void doAction() 
             {   
-                System.out.println("Shuttle State: Off");
+                // System.out.println("Shuttle State: Off");
 
                 stopShuttle();
                 if(OperatorController.getInstance().getRawButton(1)) //assign the correct button
@@ -76,7 +76,7 @@ public class Shuttle
                 if(initFlag)
                 {
                     currentPosition = getEncoderPosition();
-                    targetPosition = currentPosition + (100/20.0);
+                    targetPosition = currentPosition + 3;//(100/50.0);
                     initFlag = false;
                 }
 
@@ -88,20 +88,20 @@ public class Shuttle
                     initFlag = true;
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
-                if(isFull())
-                {
-                    System.out.println("Shuttle Full");
-                    currentState = Transition.findNextState(currentState, Event.ShuttleFull);
-                    initFlag = true;
-                }       
+                // if(isFull())
+                // {
+                //     System.out.println("Shuttle Full");
+                //     currentState = Transition.findNextState(currentState, Event.ShuttleFull);
+                //     initFlag = true;
+                // }       
 
                 System.out.println("Shuttle State: MovingOnePosition" + "\tTargetPosition: " + targetPosition + "\tCurrent Pos: " + currentPosition);
 
-                if(currentPosition < targetPosition - 3)
+                if(currentPosition < targetPosition - 2)
                 {
                     motor.set(0.25);
                 }
-                else if(currentPosition > targetPosition + 3)
+                else if(currentPosition > targetPosition + 2)
                 {
                     motor.set(-0.25);
                 }
