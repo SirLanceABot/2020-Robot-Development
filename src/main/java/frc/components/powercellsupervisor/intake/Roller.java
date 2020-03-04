@@ -242,4 +242,24 @@ public class Roller
         //pidController.setReference(rpmSpeed, ControlType.kVelocity);
     }
 
+    public String getCenterRollerData()
+    {
+        return String.format("%+5.2f %6f %5f %4.1f %4.1f", 
+            centerMotor.get(), centerEncoder.getPosition(), centerEncoder.getVelocity(),
+            centerMotor.getOutputCurrent(), centerMotor.getMotorTemperature());
+    }
+
+    public String getRightRollerData()
+    {
+        return String.format("%+5.2f %6f %5.1f %4.1f %4.1f", 
+        rightMotor.get(), rightEncoder.getPosition(), rightEncoder.getVelocity(),
+        rightMotor.getOutputCurrent(), rightMotor.getMotorTemperature());
+    }
+
+    public String getLeftRollerData()
+    {
+        return String.format("%+5.2f %6f %5.1f %4.1f %4.1f", 
+        leftMotor.get(), leftEncoder.getPosition(), leftEncoder.getVelocity(),
+        leftMotor.getOutputCurrent(), leftMotor.getMotorTemperature());
+    }
 }

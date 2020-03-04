@@ -226,4 +226,19 @@ public class PowerCellSupervisor
     {
         return flywheel.getEncoderPosition();
     }
+
+    public String getCenterRollerData()
+    {
+        return intake.getCenterRollerData();
+    }
+
+    public String getRightRollerData()
+    {
+        return intake.getRightRollerData();
+    }
+
+    public String getLeftRollerData()
+    {
+        return intake.getLeftRollerData();
+    }
 }

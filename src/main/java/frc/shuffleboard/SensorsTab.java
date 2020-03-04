@@ -67,25 +67,25 @@ public class SensorsTab
         System.out.println(className + " : Constructor Started");
 
         // Create the text boxes for the Drivetrain encoders
-        frontLeftDriveEntry = createTextBox("Front Left Drive",   0, 0, 0, 4, 2);
-        frontRightDriveEntry = createTextBox("Front Right Drive", 0, 4, 0, 4, 2);
-        backLeftDriveEntry = createTextBox("Back Left Drive",     0, 0, 2, 4, 2);
-        backRightDriveEntry = createTextBox("Back Right Drive",   0, 4, 2, 4, 2);
+        frontLeftDriveEntry = createTextBox("Front Left Drive",   "0", 0, 0, 4, 2);
+        frontRightDriveEntry = createTextBox("Front Right Drive", "0", 4, 0, 4, 2);
+        backLeftDriveEntry = createTextBox("Back Left Drive",     "0", 0, 2, 4, 2);
+        backRightDriveEntry = createTextBox("Back Right Drive",   "0", 4, 2, 4, 2);
 
-        centerIntakeEntry = createTextBox("Center Intake",        0, 13, 0, 4, 2);
-        leftIntakeEntry = createTextBox("Left Intake",            0, 9, 0, 4, 2);
-        rightIntakeEntry = createTextBox("Right Intake",          0, 17, 0, 4, 2);
+        centerIntakeEntry = createTextBox("Center Intake",        "0", 13, 0, 4, 2);
+        leftIntakeEntry = createTextBox("Left Intake",            "0", 9, 0, 4, 2);
+        rightIntakeEntry = createTextBox("Right Intake",          "0", 17, 0, 4, 2);
 
-        shuttleEntry = createTextBox("Shuttle",                   0, 0, 5, 4, 2);
+        shuttleEntry = createTextBox("Shuttle",                   "0", 0, 5, 4, 2);
 
-        shroudEntry = createTextBox("Shroud",                     0, 4, 5, 4, 2);
+        shroudEntry = createTextBox("Shroud",                     "0", 4, 5, 4, 2);
 
-        turretEntry = createTextBox("Turret",                     0, 8, 5, 4, 2);
+        turretEntry = createTextBox("Turret",                     "0", 8, 5, 4, 2);
 
-        shooterEntry = createTextBox("Shooter",                   0, 12, 5, 4, 2);
+        shooterEntry = createTextBox("Shooter",                   "0", 12, 5, 4, 2);
 
-        climberArmEntry = createTextBox("Climber Arm",            0, 22, 0, 4, 2);
-        climberWinchEntry = createTextBox("Climber Winch",        0, 22, 2, 4, 2);
+        climberArmEntry = createTextBox("Climber Arm",            "0", 22, 0, 4, 2);
+        climberWinchEntry = createTextBox("Climber Winch",        "0", 22, 2, 4, 2);
 
 
 
@@ -130,6 +130,15 @@ public class SensorsTab
             .getEntry();
     }
 
+    private NetworkTableEntry createTextBox(String title, String defaultValue, int column, int row, int width, int height)
+    {
+        return sensorsTab.add(title, defaultValue)
+            .withWidget(BuiltInWidgets.kTextView)
+            .withPosition(column, row)
+            .withSize(width, height)
+            .getEntry();
+    }
+
     public void updateEncoderValues()
     {
         frontLeftDriveEntry.setNumber(drivetrain.getFrontLeftPosition());
@@ -137,9 +146,9 @@ public class SensorsTab
         backLeftDriveEntry.setNumber(drivetrain.getBackLeftPosition());
         backRightDriveEntry.setNumber(drivetrain.getBackRightPosition());
 
-        centerIntakeEntry.setNumber(powerCellSupervisor.getRollerCenterEncoderValue());
-        leftIntakeEntry.setNumber(powerCellSupervisor.getRollerLeftEncoderValue());
-        rightIntakeEntry.setNumber(powerCellSupervisor.getRollerRightEncoderValue());
+        centerIntakeEntry.setString(powerCellSupervisor.getCenterRollerData());
+        leftIntakeEntry.setString(powerCellSupervisor.getLeftRollerData());
+        rightIntakeEntry.setString(powerCellSupervisor.getRightRollerData());
 
         shuttleEntry.setNumber(powerCellSupervisor.getShuttleEncoderValue());
 

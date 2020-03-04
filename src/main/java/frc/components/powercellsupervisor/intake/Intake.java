@@ -273,4 +273,19 @@ public class Intake implements Notified
     {
         return roller.getRightEncoderValue();
     }
+
+    public String getCenterRollerData()
+    {
+        return roller.getCenterRollerData();
+    }
+
+    public String getRightRollerData()
+    {
+        return roller.getRightRollerData();
+    }
+
+    public String getLeftRollerData()
+    {
+        return roller.getLeftRollerData();
+    }
 }

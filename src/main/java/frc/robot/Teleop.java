@@ -60,6 +60,6 @@ public class Teleop
      */
     public void periodic()
     {
-
+        mainShuffleboard.updateSensors();
     }
 }
