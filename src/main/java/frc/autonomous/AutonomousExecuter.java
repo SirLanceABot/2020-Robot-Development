@@ -1,12 +1,16 @@
 package frc.autonomous;
 
 import java.util.ArrayList;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 import frc.autonomous.commands.interfaces.*;
 
 public class AutonomousExecuter
 {
     private static boolean hasBeenInitialized = false;
     private static int currentCommandIndex = 0;
+    private static ArrayList<Command> currentCommandList;
     private static AutonomousExecuter autoExecuter = new AutonomousExecuter();
     private static AutonomousBuilder autoBuilder = AutonomousBuilder.getInstance();
 
@@ -24,26 +28,33 @@ public class AutonomousExecuter
 
     public void executeAuto()
     {
-        ArrayList<Command> currentCommandList = commandList.get(currentCommandIndex);
-
-        if(areCommandsDone(currentCommandList) == true)
+        if(currentCommandIndex < commandList.size())
         {
-            System.out.println("Ending the Command number: " + currentCommandIndex);
-            currentCommandIndex++;
-            hasBeenInitialized = false;
-            endCommands(currentCommandList);
+            currentCommandList = commandList.get(currentCommandIndex);
 
+            if(areCommandsDone(currentCommandList) == true)
+            {
+                System.out.println("Ending the Command number: " + currentCommandIndex);
+                currentCommandIndex++;
+                hasBeenInitialized = false;
+                endCommands(currentCommandList);
+
+            }
+            else if(hasBeenInitialized == false)
+            {
+                System.out.println("Initializing the Command number: " + currentCommandIndex);
+                initCommands(currentCommandList);
+                hasBeenInitialized = true;
+            }   
+            else
+            {
+                System.out.println("Running the Command number: " + currentCommandIndex);
+                executeCommands(currentCommandList);
+            }
         }
-        else if(hasBeenInitialized == false)
-        {
-            System.out.println("Initializing the Command number: " + currentCommandIndex);
-            initCommands(currentCommandList);
-            hasBeenInitialized = true;
-        }   
         else
         {
-            System.out.println("Running the Command number: " + currentCommandIndex);
-            executeCommands(currentCommandList);
+            System.out.println("Done w auto");
         }
     }
 

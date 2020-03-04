@@ -1,5 +1,8 @@
 package frc.robot;
 
+import frc.autonomous.AutonomousBuilder;
+import frc.autonomous.AutonomousExecuter;
+
 public class Autonomous
 {
     private static final String className = new String("[Autonomous]");
@@ -11,6 +14,8 @@ public class Autonomous
     }
 
     private static Autonomous instance = new Autonomous();
+    private static AutonomousExecuter autonomousExecuter = AutonomousExecuter.getAutonomousExecuter();
+    private static AutonomousBuilder autonomousBuilder = AutonomousBuilder.getInstance();
 
     /**
      * The constructor for the Autonomous class. 
@@ -33,11 +38,11 @@ public class Autonomous
 
     public void init()
     {
-
+        autonomousBuilder.buildCommandList();
     }
 
     public void periodic()
     {
-
+        autonomousExecuter.executeAuto();   
     }
 }

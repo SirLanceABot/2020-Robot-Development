@@ -17,8 +17,7 @@ public class AutonomousBuilder
     
     protected AutonomousBuilder()
     {
-        addCommandNode(new Wait(5.0));
-        addCommandNode(new Shooting());
+
     }
 
     /**
@@ -58,9 +57,13 @@ public class AutonomousBuilder
         return masterCommandList;
     }
 
-    public static void buildCommandList()
+    public void buildCommandList()
     {
-        //insert code here to build the command list
+        addCommandNode(new Drive(-72));
+        addCommandNode(new Wait(5.0));
+        addCommandNode(new Drive(72));
+        
+        System.out.println("Command List built");
     }
 
 }

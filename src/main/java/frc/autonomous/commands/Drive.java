@@ -25,6 +25,7 @@ public class Drive implements Command
     @Override
     public void init()
     {
+        drivetrain.resetEncoders();
         System.out.println("Initializing Drive");
     }
 
@@ -32,8 +33,9 @@ public class Drive implements Command
     @Override
     public void execute()
     {   
-        System.out.println("Executing Drive");
-        drivetrain.drive(distance);
+        System.out.println("Executing Drive: " + distance);
+        //drivetrain.drive(distance);
+        //drivetrain.westCoastDrive(0.5, 0);
         if(drivetrain.drive(distance))
         {
             isFinished = true;

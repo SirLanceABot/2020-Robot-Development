@@ -24,6 +24,7 @@ public class Wait implements Command
 
     public void execute()
     {
+        System.out.println(timer.get());
         if(timer.get() > timeToWait)
         {
             end();

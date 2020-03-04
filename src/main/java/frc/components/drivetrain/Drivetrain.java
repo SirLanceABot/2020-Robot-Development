@@ -13,6 +13,11 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.sensors.NavX;
 
+
+/**
+ * Fast is 9.56 to 1
+ * Slow is 18 to 1
+ */
 public class Drivetrain extends DifferentialDrive
 {
     private static final String className = new String("[Drivetrain]");
@@ -27,7 +32,7 @@ public class Drivetrain extends DifferentialDrive
     private static WPI_TalonFX backRightMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_BACK_RIGHT);
     private static WPI_TalonFX backLeftMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_BACK_LEFT);
     private static WPI_TalonFX frontLeftMotor = new WPI_TalonFX(Port.Motor.CAN_DRIVETRAIN_FRONT_LEFT);
-    private static DoubleSolenoid coolantSolenoid = new DoubleSolenoid(Port.Pneumatic.DRIVERTRAIN_COOLING_ON, Port.Pneumatic.DRIVERTRAIN_COOLING_OFF);
+    //private static DoubleSolenoid coolantSolenoid = new DoubleSolenoid(Port.Pneumatic.DRIVERTRAIN_COOLING_ON, Port.Pneumatic.DRIVERTRAIN_COOLING_OFF);
 
 
     //private static MyTalonFX fr = new MyTalonFX(Port.Motor.CAN_DRIVETRAIN_FRONT_RIGHT);
@@ -39,7 +44,7 @@ public class Drivetrain extends DifferentialDrive
 
     private static boolean driveInitFlag = true;
     private static double targetDistance = 0.0;
-    private static double ticksPerRotation = 4096; //TODO: need to find real value
+    private static double ticksPerRotation = 2048; //TODO: need to find real value
     private static double diameterOfWheel = 6; // in inches;
     private static double distanceToTravel = 0.0;
     private static double startingEncoderValue = 0.0;
@@ -72,10 +77,10 @@ public class Drivetrain extends DifferentialDrive
         backRightMotor.setInverted(true);
         backLeftMotor.setInverted(false);
 
-        frontRightMotor.setNeutralMode(NeutralMode.Coast);
-        frontLeftMotor.setNeutralMode(NeutralMode.Coast);
-        backRightMotor.setNeutralMode(NeutralMode.Coast);
-        backLeftMotor.setNeutralMode(NeutralMode.Coast);
+        frontRightMotor.setNeutralMode(NeutralMode.Brake);
+        frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+        backRightMotor.setNeutralMode(NeutralMode.Brake);
+        backLeftMotor.setNeutralMode(NeutralMode.Brake);
 
         frontRightMotor.configReverseSoftLimitEnable(false);
         frontLeftMotor.configReverseSoftLimitEnable(false);
@@ -90,12 +95,18 @@ public class Drivetrain extends DifferentialDrive
         
 
 
-		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
-		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
-		backRightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
-		backLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+		backRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+		backLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 		
-		resetEncoders();
+        frontRightMotor.setSelectedSensorPosition(0);
+        frontLeftMotor.setSelectedSensorPosition(0);
+        backRightMotor.setSelectedSensorPosition(0);
+        backLeftMotor.setSelectedSensorPosition(0);
+
+       
+
 
         /**
          * This one inverts within software (flips a boolean)
@@ -128,16 +139,17 @@ public class Drivetrain extends DifferentialDrive
 
     public void coolMotors()
     {
-        coolantSolenoid.set(DoubleSolenoid.Value.kReverse);   
+        //coolantSolenoid.set(DoubleSolenoid.Value.kReverse);   
     }
 
     public void stopCoolingMotors()
     {
-        coolantSolenoid.set(DoubleSolenoid.Value.kForward);   
+        //coolantSolenoid.set(DoubleSolenoid.Value.kForward);   
     }
 
     public void westCoastDrive(double move, double rotate)
     {
+        //System.out.println("Westcoast is driving at: " + move);
         super.arcadeDrive(move, rotate);
     }
 
@@ -148,7 +160,8 @@ public class Drivetrain extends DifferentialDrive
 
     private double inchesToTicks(double inches)
     {
-        return (inches/(diameterOfWheel * Math.PI) * ticksPerRotation);
+        //System.out.println((inches/(diameterOfWheel * Math.PI) * ticksPerRotation) * 9.56);
+        return (inches/(diameterOfWheel * Math.PI) * ticksPerRotation) * 18.00;//9.56;
     }
     /**
      * Drives a distance forward
@@ -163,6 +176,11 @@ public class Drivetrain extends DifferentialDrive
             startingEncoderValue = (getLeftPosition() + getRightPosition()) / 2.0;
             distanceToTravel = inchesToTicks(distance) -  startingEncoderValue;
             targetDistance = inchesToTicks(distance) + startingEncoderValue;
+            System.out.println("Starting Encoder Value" + startingEncoderValue);
+            System.out.println("Distance to Travel" + distanceToTravel);
+            System.out.println("Target Distance" + targetDistance);
+
+
             if(targetDistance < 0)
             {
                 movingForward = false;
@@ -174,37 +192,44 @@ public class Drivetrain extends DifferentialDrive
         }
 
         distanceTraveled = ((getLeftPosition() + getRightPosition()) / 2.0) - startingEncoderValue;
+        System.out.println(distanceTraveled + "\t" + distanceToTravel);
+        // System.out.println("Left Position: " + getLeftPosition() + "\t" +  "Right Position: " + getRightPosition());
+
         
-        if(Math.abs(distanceTraveled) > targetDistance - 5 && Math.abs(distanceTraveled) < targetDistance + 5)
+        if(Math.abs(distanceTraveled) > Math.abs(targetDistance) - 100)
         {
+            //System.out.println("In the if");
             driveInitFlag = true;
             westCoastDrive(0.0, 0.0);
             return true;
         }
         else
         {   
-            if(Math.abs(distanceTraveled/distanceToTravel) > 0.1)
+            //System.out.println("In the else");
+            double speed = Math.abs((distanceToTravel - distanceTraveled) /distanceToTravel) * percentMax;
+            System.out.println(speed);
+            if(Math.abs(speed) > 0.5)
             {
                 if(movingForward)
                 {
-                    westCoastDrive(distanceTraveled/distanceToTravel * percentMax, 0);
-                    
+                    westCoastDrive(((distanceToTravel - distanceTraveled) /distanceToTravel) * percentMax, 0);
+                    //System.out.println(((distanceToTravel - distanceTraveled) /distanceToTravel) * percentMax);
                 }
                 else
                 {
-                    westCoastDrive(-distanceTraveled/distanceToTravel * percentMax, 0);
-    
+                    westCoastDrive(((-distanceToTravel - distanceTraveled) /distanceToTravel) * percentMax, 0);
+                    //System.out.println(((distanceToTravel - distanceTraveled)/distanceToTravel) * percentMax);
                 }
             }
             else
             {
                 if(movingForward)
                 {
-                    westCoastDrive(0.1, 0);
+                    westCoastDrive(0.5, 0);
                 }
                 else
                 {
-                    westCoastDrive(-0.1, 0);
+                    westCoastDrive(-0.5, 0);
                 }
             }
             return false;
@@ -283,14 +308,14 @@ public class Drivetrain extends DifferentialDrive
 
     public double getLeftPosition()
     {
-        return (frontLeftMotor.getSelectedSensorPosition(0)
-        + backLeftMotor.getSelectedSensorPosition(0)) / 2.0;
+        return (frontLeftMotor.getSelectedSensorPosition()
+        + backLeftMotor.getSelectedSensorPosition()) / 2.0;
     }
 
     public double getRightPosition()
     {
-        return (frontRightMotor.getSelectedSensorPosition(0)
-        + backRightMotor.getSelectedSensorPosition(0)) / 2.0;
+        return (frontRightMotor.getSelectedSensorPosition()
+        + backRightMotor.getSelectedSensorPosition()) / 2.0;
     }
 
     public double getFrontLeftPosition()
