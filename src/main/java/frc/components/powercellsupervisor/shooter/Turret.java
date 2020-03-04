@@ -4,6 +4,10 @@ import frc.robot.Port;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.sensors.NavX;
 import frc.vision.TargetDataB;
@@ -86,16 +90,30 @@ public class Turret
         System.out.println(className + " : Constructor Started");
 
         motor.configFactoryDefault();
-		/* Configure Selected Sensor for Talon */
-		motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative//,	// Feedback
-											//0, 											// PID ID
-                                            //kTIMEOUT_MS
-                                            );								// Timeout
+        motor.setInverted(false);
+        motor.setNeutralMode(NeutralMode.Brake);
 
-        motor.configForwardSoftLimitThreshold(359);
+        //feedback sensor
+        motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        motor.setSensorPhase(false);
+        // motor.configClearPositionOnLimitR(true, 10);
+        // motor.configFeedbackNotContinuous(false, 10);
+
+        //soft limits
         motor.configReverseSoftLimitThreshold(1);
+        motor.configReverseSoftLimitEnable(true);
+        motor.configForwardSoftLimitThreshold(359); // TODO: put real absolute encoder values in
+        motor.configForwardSoftLimitEnable(true);
 
-                                            		/* Set the peak and nominal outputs */
+        //hard limits
+        motor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+        motor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+        
+        //current limits
+        motor.configOpenloopRamp(0.1);
+        motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 0.5), 10);
+
+        /* Set the peak and nominal outputs */
 		// motor.configNominalOutputForward(0, kTimeoutMs);
 		// motor.configNominalOutputReverse(0, kTimeoutMs);
 		// motor.configPeakOutputForward(1, kTimeoutMs);
