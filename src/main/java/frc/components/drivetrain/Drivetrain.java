@@ -65,48 +65,82 @@ public class Drivetrain extends DifferentialDrive
         
         System.out.println(className + " : Constructor Started");
 
-
         frontRightMotor.configFactoryDefault();
-        frontLeftMotor.configFactoryDefault();
-        backRightMotor.configFactoryDefault();
-        backLeftMotor.configFactoryDefault();
-
-        //These invert the motor from the firmware on the motor controller
         frontRightMotor.setInverted(true);
-        frontLeftMotor.setInverted(false);
-        backRightMotor.setInverted(true);
-        backLeftMotor.setInverted(false);
+        frontRightMotor.setNeutralMode(NeutralMode.Coast);
 
-        frontRightMotor.setNeutralMode(NeutralMode.Brake);
-        frontLeftMotor.setNeutralMode(NeutralMode.Brake);
-        backRightMotor.setNeutralMode(NeutralMode.Brake);
-        backLeftMotor.setNeutralMode(NeutralMode.Brake);
+        //feedback sensor
+        frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
 
+        //soft limits
+        frontRightMotor.configReverseSoftLimitThreshold(0);
         frontRightMotor.configReverseSoftLimitEnable(false);
-        frontLeftMotor.configReverseSoftLimitEnable(false);
-        backRightMotor.configReverseSoftLimitEnable(false);
-        backLeftMotor.configReverseSoftLimitEnable(false);
-
+        frontRightMotor.configForwardSoftLimitThreshold(0);
         frontRightMotor.configForwardSoftLimitEnable(false);
-        frontLeftMotor.configForwardSoftLimitEnable(false);
-        backRightMotor.configForwardSoftLimitEnable(false);
-        backLeftMotor.configForwardSoftLimitEnable(false);
-
         
+        //current limits
+        frontRightMotor.configOpenloopRamp(0.1);
+        frontRightMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
+        frontRightMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
 
 
-		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-		backRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-		backLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        frontLeftMotor.configFactoryDefault();
+        frontLeftMotor.setInverted(false);
+        frontLeftMotor.setNeutralMode(NeutralMode.Coast);
+
+        //feedback sensor
+        frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+
+        //soft limits
+        frontLeftMotor.configReverseSoftLimitThreshold(0);
+        frontLeftMotor.configReverseSoftLimitEnable(false);
+        frontLeftMotor.configForwardSoftLimitThreshold(0);
+        frontLeftMotor.configForwardSoftLimitEnable(false);
+        
+        //current limits
+        frontLeftMotor.configOpenloopRamp(0.1);
+        frontLeftMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
+        frontLeftMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
+
+
+        backRightMotor.configFactoryDefault();
+        backRightMotor.setInverted(true);
+        backRightMotor.setNeutralMode(NeutralMode.Coast);
+
+        //feedback sensor
+        backRightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+
+        //soft limits
+        backRightMotor.configReverseSoftLimitThreshold(0);
+        backRightMotor.configReverseSoftLimitEnable(false);
+        backRightMotor.configForwardSoftLimitThreshold(0);
+        backRightMotor.configForwardSoftLimitEnable(false);
+        
+        //current limits
+        backRightMotor.configOpenloopRamp(0.1);
+        backRightMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
+        backRightMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
+
+
+        backLeftMotor.configFactoryDefault();
+        backLeftMotor.setInverted(false);
+        backLeftMotor.setNeutralMode(NeutralMode.Coast);
+
+        //feedback sensor
+        backLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+
+        //soft limits
+        backLeftMotor.configReverseSoftLimitThreshold(0);
+        backLeftMotor.configReverseSoftLimitEnable(false);
+        backLeftMotor.configForwardSoftLimitThreshold(0);
+        backLeftMotor.configForwardSoftLimitEnable(false);
+        
+        //current limits
+        backLeftMotor.configOpenloopRamp(0.1);
+        backLeftMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
+        backLeftMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
 		
-        frontRightMotor.setSelectedSensorPosition(0);
-        frontLeftMotor.setSelectedSensorPosition(0);
-        backRightMotor.setSelectedSensorPosition(0);
-        backLeftMotor.setSelectedSensorPosition(0);
-
-       
-
+		resetEncoders();
 
         /**
          * This one inverts within software (flips a boolean)
