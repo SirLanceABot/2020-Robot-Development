@@ -5,6 +5,8 @@ package frc.components.climber;
 import frc.components.climber.Arm;
 import frc.components.climber.Winch;
 import frc.controls.DriverController;
+import frc.controls.DriverController.AxisAction;
+import frc.controls.DriverController.ButtonAction;
 
 public class Climber
 {
@@ -55,21 +57,21 @@ public class Climber
      */
     public void run()
     {
-        if(driverController.getRawButtonPressed(LOWER_ARM_BUTTON))
+        if(driverController.getAction(ButtonAction.kLowerArms))
         {
             arm.retractArm(-0.5);
         }
-        else if(driverController.getRawButtonPressed(RAISE_ARM_BUTTON))
+        else if(driverController.getAction(ButtonAction.kRaiseArms))
         {
             arm.extendArm(0.5);
         }
-        else if(driverController.getRawButtonPressed(LOWER_WINCH_BUTTON))
+        else if(driverController.getAction(AxisAction.kUnspoolWinch) > 0.1)
         {
-            winch.lowerWinch(-0.5);
+            winch.lowerWinch(driverController.getAction(AxisAction.kUnspoolWinch));
         }
-        else if(driverController.getRawButtonPressed(RAISE_WINCH_BUTTON))
+        else if(driverController.getAction(AxisAction.kSpoolWinch) > 0.1)
         {
-            winch.raiseWinch(0.5);
+            winch.raiseWinch(driverController.getAction(AxisAction.kSpoolWinch));
         }
         else
         {

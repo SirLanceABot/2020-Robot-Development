@@ -26,7 +26,10 @@ public class DriverController extends Xbox
         kIntakeOn(Button.kRB),
         kIntakeUp(Button.kRightStick),
         kIntakeDown(Button.kLeftStick),
-        kWalk(Button.kLB);
+        kWalk(Button.kLB),
+        kRaiseArms(Button.kA),
+        kLowerArms(Button.kB);
+
 
         public final Button button;
 
@@ -39,7 +42,9 @@ public class DriverController extends Xbox
     public enum AxisAction
     {
         kMove(Axis.kLeftY),
-        kRotate(Axis.kRightX);
+        kRotate(Axis.kRightX),
+        kSpoolWinch(Axis.kRightTrigger),
+        kUnspoolWinch(Axis.kLeftTrigger);
 
         public final Axis axis;
 
@@ -88,8 +93,9 @@ public class DriverController extends Xbox
         setAxisSettings(Axis.kRightX, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
         setAxisSettings(Axis.kRightY, 0.1, 0.0, 1.0, true, AxisScale.kLinear);
 
-        setAxisSettings(Axis.kLeftTrigger, 0.1, 0.0, 0.5, false, AxisScale.kLinear);
-        setAxisSettings(Axis.kRightTrigger, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
+        setAxisSettings(Axis.kLeftTrigger, 0.2, 0.3, 0.5, false, AxisScale.kLinear);
+        setAxisSettings(Axis.kRightTrigger, 0.2, 0.3, 0.5, false, AxisScale.kLinear);
+
 
         createRumbleEvent(60.0, 1.0, 0.5, 0.5);
         createRumbleEvent(30.0, 2.0, 0.75, 0.75);

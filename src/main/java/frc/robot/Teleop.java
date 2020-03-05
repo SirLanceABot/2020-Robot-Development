@@ -1,5 +1,15 @@
 package frc.robot;
 
+import java.sql.Driver;
+
+import frc.components.climber.Climber;
+import frc.components.drivetrain.Drivetrain;
+import frc.components.powercellsupervisor.PowerCellSupervisor;
+import frc.components.powercellsupervisor.shooter.Shooter;
+import frc.components.powercellsupervisor.shuttle.Shuttle;
+import frc.controls.DriverController;
+import frc.controls.OperatorController;
+import frc.controls.DriverController.AxisAction;
 // import frc.components.climber.Climber;
 // import frc.components.drivetrain.Drivetrain;
 // import frc.components.powercellsupervisor.PowerCellSupervisor;
@@ -32,6 +42,14 @@ public class Teleop
     // private static OperatorController operatorController = OperatorController.getInstance();
     private static MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
 
+    private static Shuttle shuttle = Shuttle.getInstance();
+    private static Shooter shooter = Shooter.getInstance();
+    private static Drivetrain drivetrain = Drivetrain.getInstance();
+    private static Climber climber = Climber.getInstance();
+    private static OperatorController operatorController = OperatorController.getInstance();
+    private static DriverController driverController = DriverController.getInstance();
+    private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
+
     private static Teleop teleop = new Teleop();
 
     private Teleop()
@@ -60,6 +78,11 @@ public class Teleop
      */
     public void periodic()
     {
+        shuttle.runFSM();
+        shooter.runFSM();
+        drivetrain.westCoastDrive(driverController.getAction(AxisAction.kMove), driverController.getAction(AxisAction.kRotate));
+        climber.run();
+        System.out.println(driverController.getAction(AxisAction.kSpoolWinch));
         mainShuffleboard.updateSensors();
     }
 }
