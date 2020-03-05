@@ -242,9 +242,9 @@ public class PowerCellSupervisor
         return intake.getLeftRollerData();
     }
 
-    public String getShuttleData()
+    public String getShuttleMotorData()
     {
-        return shuttle.getShuttleData();
+        return shuttle.getShuttleMotorData();
     }
 
     public String getFlywheelData()
@@ -260,5 +260,10 @@ public class PowerCellSupervisor
     public String getTurretData()
     {
         return shooter.getTurretData();
+    }
+
+    public String getShuttleSensorData()
+    {
+        return shuttle.getShuttleSensorData();
     }
 }

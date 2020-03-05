@@ -38,7 +38,7 @@ public class SensorsTab
     private static NetworkTableEntry leftIntakeEntry;
     private static NetworkTableEntry rightIntakeEntry;
 
-    private static NetworkTableEntry shuttleEntry;
+    private static NetworkTableEntry shuttleMotorEntry;
     
     private static NetworkTableEntry shooterEntry;
 
@@ -53,12 +53,7 @@ public class SensorsTab
     private static NetworkTableEntry wristExtendedEntry; 
     private static NetworkTableEntry wristRetractedEntry; 
 
-    private static NetworkTableEntry shuttleSensor1Entry; 
-    private static NetworkTableEntry shuttleSensor2Entry; 
-    private static NetworkTableEntry shuttleSensor3Entry; 
-    private static NetworkTableEntry shuttleSensor4Entry; 
-    private static NetworkTableEntry shuttleSensor5Entry; 
-    private static NetworkTableEntry shuttleSensor6Entry; 
+    private static NetworkTableEntry shuttleSensorEntry;
     
     private static SensorsTab instance = new SensorsTab();
 
@@ -67,37 +62,32 @@ public class SensorsTab
         System.out.println(className + " : Constructor Started");
 
         // Create the text boxes for the Drivetrain encoders
-        frontLeftDriveEntry = createTextBox("Front Left Drive",   "0", 0, 0, 4, 2);
-        frontRightDriveEntry = createTextBox("Front Right Drive", "0", 4, 0, 4, 2);
-        backLeftDriveEntry = createTextBox("Back Left Drive",     "0", 0, 2, 4, 2);
-        backRightDriveEntry = createTextBox("Back Right Drive",   "0", 4, 2, 4, 2);
+        frontLeftDriveEntry = createTextBox("Front Left Drive",   "0, 0, 0, 0", 0, 0, 4, 2);
+        frontRightDriveEntry = createTextBox("Front Right Drive", "0, 0, 0, 0", 4, 0, 4, 2);
+        backLeftDriveEntry = createTextBox("Back Left Drive",     "0, 0, 0, 0", 0, 2, 4, 2);
+        backRightDriveEntry = createTextBox("Back Right Drive",   "0, 0, 0, 0", 4, 2, 4, 2);
 
-        centerIntakeEntry = createTextBox("Center Intake",        "0", 13, 0, 4, 2);
-        leftIntakeEntry = createTextBox("Left Intake",            "0", 9, 0, 4, 2);
-        rightIntakeEntry = createTextBox("Right Intake",          "0", 17, 0, 4, 2);
+        centerIntakeEntry = createTextBox("Center Intake",        "0, 0, 0, 0, 0", 13, 0, 4, 2);
+        leftIntakeEntry = createTextBox("Left Intake",            "0, 0, 0, 0, 0", 9, 0, 4, 2);
+        rightIntakeEntry = createTextBox("Right Intake",          "0, 0, 0, 0, 0", 17, 0, 4, 2);
 
-        shuttleEntry = createTextBox("Shuttle",                   "0", 0, 5, 4, 2);
+        shuttleMotorEntry = createTextBox("Shuttle",              "0, 0, 0, 0, 0", 0, 5, 4, 2);
 
-        shroudEntry = createTextBox("Shroud",                     "0", 4, 5, 4, 2);
+        shroudEntry = createTextBox("Shroud",                     "0, 0, 0, 0", 4, 5, 4, 2);
 
-        turretEntry = createTextBox("Turret",                     "0", 8, 5, 4, 2);
+        turretEntry = createTextBox("Turret",                     "0, 0, 0, 0", 8, 5, 4, 2);
 
-        shooterEntry = createTextBox("Shooter",                   "0", 12, 5, 4, 2);
+        shooterEntry = createTextBox("Shooter",                   "0, 0, 0, 0, 0", 12, 5, 4, 2);
 
-        climberArmEntry = createTextBox("Climber Arm",            "0", 22, 0, 4, 2);
-        climberWinchEntry = createTextBox("Climber Winch",        "0", 22, 2, 4, 2);
+        climberArmEntry = createTextBox("Climber Arm",            "0, 0, 0, 0, 0", 22, 0, 4, 2);
+        climberWinchEntry = createTextBox("Climber Winch",        "0, 0, 0, 0, 0", 22, 2, 4, 2);
 
 
 
         wristExtendedEntry = createTextBox("Wrist Sensor 1",      false, 18, 5, 4, 2);
         wristRetractedEntry = createTextBox("Wrist Sensor 2",     false, 23, 5, 4, 2);
 
-        shuttleSensor1Entry = createTextBox("Shuttle Sensor 1",   false, 0, 8, 4, 2);
-        shuttleSensor2Entry = createTextBox("Shuttle Sensor 2",   false, 4, 8, 4, 2);
-        shuttleSensor3Entry = createTextBox("Shuttle Sensor 3",   false, 8, 8, 4, 2);
-        shuttleSensor4Entry = createTextBox("Shuttle Sensor 4",   false, 12, 8, 4, 2);
-        shuttleSensor5Entry = createTextBox("Shuttle Sensor 5",   false, 16, 8, 4, 2);
-        shuttleSensor6Entry = createTextBox("Shuttle Sensor 6",   false, 20, 8, 4, 2);
+        shuttleSensorEntry = createTextBox("Shuttle Sensors",     "0, 0, 0, 0, 0, 0", 0, 8, 4, 2);
 
 
         System.out.println(className + ": Constructor Finished");
@@ -150,7 +140,7 @@ public class SensorsTab
         leftIntakeEntry.setString(powerCellSupervisor.getLeftRollerData());
         rightIntakeEntry.setString(powerCellSupervisor.getRightRollerData());
 
-        shuttleEntry.setString(powerCellSupervisor.getShuttleData());
+        shuttleMotorEntry.setString(powerCellSupervisor.getShuttleMotorData());
 
         shroudEntry.setString(powerCellSupervisor.getShroudData());
 
@@ -166,11 +156,6 @@ public class SensorsTab
         wristExtendedEntry.setBoolean(powerCellSupervisor.getWristSensorExtended());
         wristRetractedEntry.setBoolean(powerCellSupervisor.getWristSensorRetracted());
 
-        shuttleSensor1Entry.setBoolean(powerCellSupervisor.getShuttleSensor(1));
-        shuttleSensor2Entry.setBoolean(powerCellSupervisor.getShuttleSensor(2));
-        shuttleSensor3Entry.setBoolean(powerCellSupervisor.getShuttleSensor(3));
-        shuttleSensor4Entry.setBoolean(powerCellSupervisor.getShuttleSensor(4));
-        shuttleSensor5Entry.setBoolean(powerCellSupervisor.getShuttleSensor(5));
-        shuttleSensor6Entry.setBoolean(powerCellSupervisor.getShuttleSensor(6));
+        shuttleSensorEntry.setString(powerCellSupervisor.getShuttleSensorData());
     }
 }

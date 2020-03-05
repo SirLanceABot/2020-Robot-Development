@@ -564,12 +564,22 @@ public class Shuttle
         currentState.doAction();
     }
 
-    public String getShuttleData()
+    public String getShuttleMotorData()
     {
         return String.format("%+5.2f %6f %5f %4.1f %4.1f", 
             motor.get(), encoder.getPosition(), encoder.getVelocity(),
             motor.getOutputCurrent(), motor.getMotorTemperature());
     }
 
- 
+    public String getShuttleSensorData()
+    {
+        return String.format("%2d %2d %2d %2d %2d %2d", 
+            toInt(getSensorValue(1)), toInt(getSensorValue(2)), toInt(getSensorValue(3)), 
+            toInt(getSensorValue(4)), toInt(getSensorValue(5)), toInt(getSensorValue(6)));
+    }
+
+    public int toInt(boolean bool)
+    {
+        return bool ? 1 : 0;
+    }
 }
