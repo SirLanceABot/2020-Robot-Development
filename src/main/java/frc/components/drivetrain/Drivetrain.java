@@ -413,4 +413,32 @@ public class Drivetrain extends DifferentialDrive
     {
         shifter.forceShiftDown();
     }
+
+    public String getFrontRightData()
+    {
+        return String.format("%+5.2f %6f %4.1f %4.1f", 
+            frontRightMotor.getMotorOutputPercent(), frontRightMotor.getSelectedSensorPosition(), 
+            frontRightMotor.getStatorCurrent(), frontRightMotor.getTemperature());
+    }
+
+    public String getFrontLeftData()
+    {
+        return String.format("%+5.2f %6f %4.1f %4.1f", 
+            frontLeftMotor.getMotorOutputPercent(), frontLeftMotor.getSelectedSensorPosition(), 
+            frontLeftMotor.getStatorCurrent(), frontLeftMotor.getTemperature());
+    }
+
+    public String getBackRightData()
+    {
+        return String.format("%+5.2f %6f %4.1f %4.1f", 
+            backRightMotor.getMotorOutputPercent(), backRightMotor.getSelectedSensorPosition(), 
+            backRightMotor.getStatorCurrent(), backRightMotor.getTemperature());
+    }
+
+    public String getBackLeftData()
+    {
+        return String.format("%+5.2f %6f %4.1f %4.1f", 
+            backLeftMotor.getMotorOutputPercent(), backLeftMotor.getSelectedSensorPosition(), 
+            backLeftMotor.getStatorCurrent(), backLeftMotor.getTemperature());
+    }
 }

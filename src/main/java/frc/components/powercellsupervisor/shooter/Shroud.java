@@ -206,4 +206,11 @@ public class Shroud
     // {
     //     return motor.rever// .getSensorCollection().get
     // }
+
+    public String getShroudData()
+    {
+        return String.format("%+5.2f %6f %4.1f %4.1f", 
+            motor.getMotorOutputPercent(), motor.getSelectedSensorPosition(), 
+            motor.getStatorCurrent(), motor.getTemperature());
+    }
 }

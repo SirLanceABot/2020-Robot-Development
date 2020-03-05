@@ -164,4 +164,11 @@ public class Arm
             stopArm();
         }
     }
+
+    public String getArmData()
+    {
+        return String.format("%+5.2f %6f %5f %4.1f %4.1f", 
+            armMotor.get(), armEncoder.getPosition(), armEncoder.getVelocity(),
+            armMotor.getOutputCurrent(), armMotor.getMotorTemperature());
+    }
 }

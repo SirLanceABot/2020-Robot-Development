@@ -155,9 +155,18 @@ public class Flywheel
         //setSpeed(speedToRun);
     }
 
+    
     public int getEncoderPosition()
     {
-        return masterMotor.getSensorCollection().getQuadraturePosition();
+        return masterMotor.getSelectedSensorPosition();
+    }
+    
+
+    public String getFlywheelData()
+    {
+        return String.format("%+5.2f %6f %5.1f %4.1f %4.1f", 
+            masterMotor.getMotorOutputPercent(), masterMotor.getSelectedSensorPosition(), getRPM(),
+            masterMotor.getStatorCurrent(), masterMotor.getTemperature());
     }
 
 }

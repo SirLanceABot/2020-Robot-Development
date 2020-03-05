@@ -141,25 +141,25 @@ public class SensorsTab
 
     public void updateEncoderValues()
     {
-        frontLeftDriveEntry.setNumber(drivetrain.getFrontLeftPosition());
-        frontRightDriveEntry.setNumber(drivetrain.getFrontRightPosition());
-        backLeftDriveEntry.setNumber(drivetrain.getBackLeftPosition());
-        backRightDriveEntry.setNumber(drivetrain.getBackRightPosition());
+        frontLeftDriveEntry.setString(drivetrain.getFrontLeftData());
+        frontRightDriveEntry.setString(drivetrain.getFrontRightData());
+        backLeftDriveEntry.setString(drivetrain.getBackLeftData());
+        backRightDriveEntry.setString(drivetrain.getBackRightData());
 
         centerIntakeEntry.setString(powerCellSupervisor.getCenterRollerData());
         leftIntakeEntry.setString(powerCellSupervisor.getLeftRollerData());
         rightIntakeEntry.setString(powerCellSupervisor.getRightRollerData());
 
-        shuttleEntry.setNumber(powerCellSupervisor.getShuttleEncoderValue());
+        shuttleEntry.setString(powerCellSupervisor.getShuttleData());
 
-        shroudEntry.setNumber(powerCellSupervisor.getShroudEncoderValue());
+        shroudEntry.setString(powerCellSupervisor.getShroudData());
 
-        turretEntry.setNumber(powerCellSupervisor.getTurretEncoderValue());
+        turretEntry.setString(powerCellSupervisor.getTurretData());
 
-        shooterEntry.setNumber(powerCellSupervisor.getFlywheelEncoderValue());
+        shooterEntry.setString(powerCellSupervisor.getFlywheelData());
 
-        climberArmEntry.setNumber(climber.getArmEncoderPosition());
-        climberWinchEntry.setNumber(climber.getWinchEncoderPosition());
+        climberArmEntry.setString(climber.getArmData());
+        climberWinchEntry.setString(climber.getWinchData());
 
 
 

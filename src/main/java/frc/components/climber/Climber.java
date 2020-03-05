@@ -89,4 +89,14 @@ public class Climber
     {
         return winch.getEncoderPosition();
     }
+
+    public String getArmData()
+    {
+        return arm.getArmData();
+    }
+
+    public String getWinchData()
+    {
+        return winch.getWinchData();
+    }
 }

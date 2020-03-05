@@ -382,4 +382,19 @@ public class Shooter implements Notified
     //System.out.println(flywheel.getRPM());
     currentState.doAction();
   }
+
+  public String getFlywheelData()
+  {
+    return flywheel.getFlywheelData();
+  }
+
+  public String getShroudData()
+  {
+    return shroud.getShroudData();
+  }
+
+  public String getTurretData()
+  {
+    return turret.getTurretData();
+  }
 }

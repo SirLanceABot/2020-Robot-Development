@@ -143,4 +143,11 @@ public class Winch
             System.out.println("Cannot raise the winch. It is already at the maximum height.");
         }
     }
+
+    public String getWinchData()
+    {
+        return String.format("%+5.2f %6f %5f %4.1f %4.1f", 
+            winchMotor.get(), winchEncoder.getPosition(), winchEncoder.getVelocity(),
+            winchMotor.getOutputCurrent(), winchMotor.getMotorTemperature());
+    }
 }
