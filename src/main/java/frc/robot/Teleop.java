@@ -4,6 +4,7 @@ import frc.components.climber.Climber;
 import frc.components.drivetrain.Drivetrain;
 import frc.components.powercellsupervisor.PowerCellSupervisor;
 import frc.components.powercellsupervisor.intake.Intake;
+import frc.components.powercellsupervisor.intake.Roller;
 import frc.components.powercellsupervisor.shooter.Flywheel;
 import frc.components.powercellsupervisor.shooter.Shooter;
 import frc.components.powercellsupervisor.shooter.Shroud;
@@ -11,12 +12,12 @@ import frc.components.powercellsupervisor.shooter.Turret;
 import frc.components.powercellsupervisor.shuttle.Shuttle;
 
 import frc.controls.DriverController;
-// import frc.controls.DriverController.AxisAction;
-// import frc.controls.DriverController.ButtonAction;
+import frc.controls.DriverController.DriverAxisAction;
+import frc.controls.DriverController.DriverButtonAction;
 
 import frc.controls.OperatorController;
-// import frc.controls.OperatorController.AxisAction;
-// import frc.controls.OperatorController.ButtonAction;
+import frc.controls.OperatorController.OperatorAxisAction;
+import frc.controls.OperatorController.OperatorButtonAction;
 
 
 import frc.shuffleboard.MainShuffleboard;
@@ -55,7 +56,7 @@ public class Teleop
     private static Turret turret = Turret.getInstance();
     private static Shroud shroud = Shroud.getInstance();
     private static Intake intake = Intake.getInstance();
-
+    private static Roller roller = Roller.getInstance();
 
     private static Teleop teleop = new Teleop();
 
@@ -86,7 +87,7 @@ public class Teleop
     public void periodic()
     {
         //running the shuttle with an override capability
-        if(operatorController.getAction(frc.controls.OperatorController.OperatorButtonAction.kShuttleOverride))
+        if(operatorController.getAction(OperatorButtonAction.kShuttleOverride))
         {
             shuttle.overrideSetSpeet(0.25);
         }
@@ -96,11 +97,11 @@ public class Teleop
         }
    
         //running the shooter
-        if(operatorController.getAction(frc.controls.OperatorController.OperatorButtonAction.kShooterOverride))
+        if(operatorController.getAction(OperatorButtonAction.kShooterOverride))
         {
-            turret.setSpeed(operatorController.getAction(frc.controls.OperatorController.OperatorAxisAction.kTurret)); 
-            flywheel.setSpeedOverride(operatorController.getAction(frc.controls.OperatorController.OperatorAxisAction.kShooterPower));
-            shroud.setSpeed(operatorController.getAction(frc.controls.OperatorController.OperatorAxisAction.kShroud));
+            turret.setSpeed(operatorController.getAction(OperatorAxisAction.kTurret)); 
+            flywheel.setSpeedOverride(operatorController.getAction(OperatorAxisAction.kShooterPower));
+            shroud.setSpeed(operatorController.getAction(OperatorAxisAction.kShroud));
         }
         else
         {
@@ -108,11 +109,22 @@ public class Teleop
         }
 
         //running the intake
-        intake.runFSM();
+        if(driverController.getAction(DriverButtonAction.kIntakeReverse))
+        {
+            roller.setSpeedOverride(-1.0);
+        }
+        else if(driverController.getAction(DriverButtonAction.kIntakeOn))
+        {
+            roller.setSpeedOverride(1);
+        }
+        else
+        {
+            intake.runFSM();
+        }
 
         //run the drivetrain
-        drivetrain.westCoastDrive(driverController.getAction(frc.controls.DriverController.DriverAxisAction.kMove)
-                                , driverController.getAction(frc.controls.DriverController.DriverAxisAction.kRotate));
+        drivetrain.westCoastDrive(driverController.getAction(DriverAxisAction.kMove)
+                                , driverController.getAction(DriverAxisAction.kRotate));
 
         //run the climber
         climber.run();

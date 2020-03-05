@@ -24,12 +24,12 @@ public class DriverController extends Xbox
     public enum DriverButtonAction
     {
         kIntakeOn(Button.kRB),
+        kIntakeReverse(Button.kLB),
         kIntakeUp(Button.kRightStick),
         kIntakeDown(Button.kLeftStick),
         kWalk(Button.kLB),
         kRaiseArms(Button.kA),
         kLowerArms(Button.kB);
-
 
         public final Button button;
 
@@ -45,7 +45,6 @@ public class DriverController extends Xbox
         kRotate(Axis.kRightX),
         kSpoolWinch(Axis.kRightTrigger),
         kUnspoolWinch(Axis.kLeftTrigger);
-
         public final Axis axis;
 
         private DriverAxisAction(Axis axis)

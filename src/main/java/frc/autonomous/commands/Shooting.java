@@ -41,6 +41,7 @@ public class Shooting implements Command, Notifies
 
     public void end()
     {
+        isFinished = false;
         System.out.println("Ending Shooter");
         shooter.runFSM();
     }

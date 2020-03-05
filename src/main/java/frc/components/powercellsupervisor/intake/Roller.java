@@ -242,6 +242,21 @@ public class Roller
         //pidController.setReference(rpmSpeed, ControlType.kVelocity);
     }
 
+    /**
+     * Private method to set the speed of the roller
+     * @param speed value from -1 to 1
+     */
+    public void setSpeedOverride(double speed)
+    {
+        centerMotor.set(speed / 2.0);
+        leftMotor.set(speed);
+        rightMotor.set(speed);
+        //System.out.println(centerMotor.getOutputCurrent());
+        //double rpmSpeed = speed * maxRPM;
+        //pidController.setReference(rpmSpeed, ControlType.kVelocity);
+    }
+
+
     public String getCenterRollerData()
     {
         return String.format("%+5.2f %6f %5f %4.1f %4.1f", 
