@@ -382,6 +382,11 @@ public class Shooter implements Notified
     //System.out.println(flywheel.getRPM());
     currentState.doAction();
   }
+  
+  public void overrideFSM()
+  {
+    currentState = State.Off;
+  }
 
   public String getFlywheelData()
   {

@@ -86,6 +86,8 @@ public class Teleop
      */
     public void periodic()
     {
+
+     
         //running the shuttle with an override capability
         if(operatorController.getAction(OperatorButtonAction.kShuttleOverride))
         {
@@ -93,6 +95,7 @@ public class Teleop
         }
         else
         {
+            shuttle.overrideFSM();
             shuttle.runFSM();
         }
    
@@ -105,16 +108,19 @@ public class Teleop
         }
         else
         {
+            shooter.overrideFSM();
             shooter.runFSM();
         }
 
         //running the intake
         if(driverController.getAction(DriverButtonAction.kIntakeReverse))
         {
+            intake.overrideFSM();
             roller.setSpeedOverride(-1.0);
         }
         else if(driverController.getAction(DriverButtonAction.kIntakeOn))
         {
+            intake.overrideFSM();
             roller.setSpeedOverride(1);
         }
         else
@@ -122,12 +128,12 @@ public class Teleop
             intake.runFSM();
         }
 
-        //run the drivetrain
+        // //run the drivetrain
         drivetrain.westCoastDrive(driverController.getAction(DriverAxisAction.kMove)
                                 , driverController.getAction(DriverAxisAction.kRotate));
 
-        //run the climber
-        climber.run();
-        mainShuffleboard.updateSensors();
+        // //run the climber
+        // climber.run();
+        // mainShuffleboard.updateSensors();
     }
 }

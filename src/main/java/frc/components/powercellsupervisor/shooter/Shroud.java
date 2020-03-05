@@ -25,7 +25,7 @@ public class Shroud
     }
 
     private static final int TIMEOUT_MS = 30;
-    private static final int UPPER_LIMIT = 125; //TODO: Find out the upper limit
+    private static final int UPPER_LIMIT = 122; //TODO: Find out the upper limit
     private static final int LOWER_LIMIT = -5;   //TODO: Find out the lower limit
     private static final int TRENCH_SHOT = 70;
     private static final int CLOSE_SHOT = 10;
@@ -85,6 +85,7 @@ public class Shroud
     public void setSpeed(double speed)
     {
         motor.set(ControlMode.PercentOutput, speed);
+        //System.out.println(getEncoderPosition());
         setCurrentAngle();
     }
 

@@ -96,6 +96,7 @@ public class Turret
         //feedback sensor
         motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
         motor.setSensorPhase(false);
+        motor.setSelectedSensorPosition(0);
         // motor.configClearPositionOnLimitR(true, 10);
         // motor.configFeedbackNotContinuous(false, 10);
 
@@ -140,6 +141,8 @@ public class Turret
      */
     public void setSpeed(double speed)
     {
+        System.out.println(motor.getSelectedSensorPosition());
+
         motor.set(ControlMode.PercentOutput, speed);
         setCurrentPosition(getEncoderPosition());
         setIsMoving(true);

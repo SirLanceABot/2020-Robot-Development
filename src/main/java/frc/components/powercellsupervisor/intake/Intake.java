@@ -223,6 +223,11 @@ public class Intake implements Notified
         currentState.doAction();
     }
 
+    public void overrideFSM()
+    {
+        currentState = State.Off;
+    }
+
     public static void startTimer()
     {
         timer.start();
