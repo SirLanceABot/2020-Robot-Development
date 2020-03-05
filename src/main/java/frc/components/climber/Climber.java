@@ -62,7 +62,7 @@ public class Climber
     {
         if(driverController.getAction(DriverButtonAction.kLowerArms))
         {
-            arm.retractArm(-0.5);
+            arm.retractArm(-0.05);
         }
         else if(driverController.getAction(DriverButtonAction.kRaiseArms))
         {
