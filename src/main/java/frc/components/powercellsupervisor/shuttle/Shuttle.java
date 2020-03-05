@@ -383,11 +383,10 @@ public class Shuttle
 
 
     /**
-     * FOR USE ONLY IN TEST!
+     * For use when overriding the FSM
      * @param speed
      */
-    @Deprecated
-    public void setSpeedTestOnly(double speed)
+    public void overrideSetSpeet(double speed)
     {
         setSpeed(speed);
     }

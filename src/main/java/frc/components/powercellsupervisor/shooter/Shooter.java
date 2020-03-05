@@ -4,9 +4,9 @@ package frc.components.powercellsupervisor.shooter;
 import frc.autonomous.commands.interfaces.Notified;
 import frc.components.powercellsupervisor.shuttle.Shuttle;
 import frc.controls.OperatorController;
-import frc.controls.OperatorController.AxisAction;
+import frc.controls.OperatorController.OperatorAxisAction;
 import frc.controls.Logitech.Axis;
-import frc.controls.OperatorController.ButtonAction;
+import frc.controls.OperatorController.OperatorButtonAction;
 
 // import frc.sensors.LidarLite.LIDAR_Lite;
 // import frc.sensors.LidarLite.Constants;
@@ -55,7 +55,7 @@ public class Shooter implements Notified
     
         flywheel.stop();
         shroud.setSpeed(-0.33);
-        if(operatorController.getAction(ButtonAction.kAutoAim) || notification)
+        if(operatorController.getAction(OperatorButtonAction.kAutoAim) || notification)
         {
           currentState = Transition.findNextState(currentState, Event.VisionAssistButtonPressed);
         }
@@ -90,9 +90,9 @@ public class Shooter implements Notified
           }
           else
           {
-            if(Math.abs(operatorController.getAction(OperatorController.AxisAction.kTurret)) > 0.2)
+            if(Math.abs(operatorController.getAction(OperatorController.OperatorAxisAction.kTurret)) > 0.2)
             {
-                turret.setSpeed(operatorController.getAction(OperatorController.AxisAction.kTurret) / 2.0);
+                turret.setSpeed(operatorController.getAction(OperatorController.OperatorAxisAction.kTurret) / 2.0);
             }
             else
             {
@@ -159,11 +159,11 @@ public class Shooter implements Notified
           
           //System.out.println("State: ShootingOneBall");
           shuttle.feedTopBall();
-          if(operatorController.getAction(frc.controls.OperatorController.ButtonAction.kOnTarget) || notification)
+          if(operatorController.getAction(frc.controls.OperatorController.OperatorButtonAction.kOnTarget) || notification)
           {
             currentState = Transition.findNextState(currentState, Event.FirstPowerCellOnTarget);
           }
-          else if(operatorController.getAction(frc.controls.OperatorController.ButtonAction.kOffTarget))
+          else if(operatorController.getAction(frc.controls.OperatorController.OperatorButtonAction.kOffTarget))
           {
             currentState = Transition.findNextState(currentState, Event.FirstPowerCellOffTarget);
           }
@@ -174,7 +174,7 @@ public class Shooter implements Notified
         void doAction() 
         {
           //System.out.println("State: UserCorrection");
-          if(operatorController.getAction(ButtonAction.kShoot) || notification)
+          if(operatorController.getAction(OperatorButtonAction.kShoot) || notification)
           {
             double userXCorrection = operatorController.getRawAxis(Axis.kXAxis);
             double userYCorrection = operatorController.getRawAxis(Axis.kYAxis);

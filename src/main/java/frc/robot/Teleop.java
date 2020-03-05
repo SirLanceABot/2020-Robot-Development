@@ -1,22 +1,24 @@
 package frc.robot;
 
-import java.sql.Driver;
-
 import frc.components.climber.Climber;
 import frc.components.drivetrain.Drivetrain;
 import frc.components.powercellsupervisor.PowerCellSupervisor;
+import frc.components.powercellsupervisor.intake.Intake;
+import frc.components.powercellsupervisor.shooter.Flywheel;
 import frc.components.powercellsupervisor.shooter.Shooter;
+import frc.components.powercellsupervisor.shooter.Shroud;
+import frc.components.powercellsupervisor.shooter.Turret;
 import frc.components.powercellsupervisor.shuttle.Shuttle;
+
 import frc.controls.DriverController;
+// import frc.controls.DriverController.AxisAction;
+// import frc.controls.DriverController.ButtonAction;
+
 import frc.controls.OperatorController;
-import frc.controls.DriverController.AxisAction;
-// import frc.components.climber.Climber;
-// import frc.components.drivetrain.Drivetrain;
-// import frc.components.powercellsupervisor.PowerCellSupervisor;
-// import frc.controls.DriverController;
-// import frc.controls.Xbox;
-// import frc.controls.OperatorController;
-// import frc.controls.Logitech;
+// import frc.controls.OperatorController.AxisAction;
+// import frc.controls.OperatorController.ButtonAction;
+
+
 import frc.shuffleboard.MainShuffleboard;
 
 /**
@@ -49,6 +51,11 @@ public class Teleop
     private static OperatorController operatorController = OperatorController.getInstance();
     private static DriverController driverController = DriverController.getInstance();
     private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
+    private static Flywheel flywheel = Flywheel.getInstance();
+    private static Turret turret = Turret.getInstance();
+    private static Shroud shroud = Shroud.getInstance();
+    private static Intake intake = Intake.getInstance();
+
 
     private static Teleop teleop = new Teleop();
 
@@ -78,11 +85,37 @@ public class Teleop
      */
     public void periodic()
     {
-        shuttle.runFSM();
-        shooter.runFSM();
-        drivetrain.westCoastDrive(driverController.getAction(AxisAction.kMove), driverController.getAction(AxisAction.kRotate));
+        //running the shuttle with an override capability
+        if(operatorController.getAction(frc.controls.OperatorController.OperatorButtonAction.kShuttleOverride))
+        {
+            shuttle.overrideSetSpeet(0.25);
+        }
+        else
+        {
+            shuttle.runFSM();
+        }
+   
+        //running the shooter
+        if(operatorController.getAction(frc.controls.OperatorController.OperatorButtonAction.kShooterOverride))
+        {
+            turret.setSpeed(operatorController.getAction(frc.controls.OperatorController.OperatorAxisAction.kTurret)); 
+            flywheel.setSpeedOverride(operatorController.getAction(frc.controls.OperatorController.OperatorAxisAction.kShooterPower));
+            shroud.setSpeed(operatorController.getAction(frc.controls.OperatorController.OperatorAxisAction.kShroud));
+        }
+        else
+        {
+            shooter.runFSM();
+        }
+
+        //running the intake
+        intake.runFSM();
+
+        //run the drivetrain
+        drivetrain.westCoastDrive(driverController.getAction(frc.controls.DriverController.DriverAxisAction.kMove)
+                                , driverController.getAction(frc.controls.DriverController.DriverAxisAction.kRotate));
+
+        //run the climber
         climber.run();
-        System.out.println(driverController.getAction(AxisAction.kSpoolWinch));
         mainShuffleboard.updateSensors();
     }
 }

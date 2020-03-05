@@ -21,7 +21,7 @@ public class DriverController extends Xbox
         System.out.println(className + " : Class Loading");
     }
 
-    public enum ButtonAction
+    public enum DriverButtonAction
     {
         kIntakeOn(Button.kRB),
         kIntakeUp(Button.kRightStick),
@@ -33,13 +33,13 @@ public class DriverController extends Xbox
 
         public final Button button;
 
-        private ButtonAction(Button button)
+        private DriverButtonAction(Button button)
         {
             this.button = button;
         }
     }
 
-    public enum AxisAction
+    public enum DriverAxisAction
     {
         kMove(Axis.kLeftY),
         kRotate(Axis.kRightX),
@@ -48,7 +48,7 @@ public class DriverController extends Xbox
 
         public final Axis axis;
 
-        private AxisAction(Axis axis)
+        private DriverAxisAction(Axis axis)
         {
             this.axis = axis;
         }
@@ -157,12 +157,12 @@ public class DriverController extends Xbox
         return super.getRawButton(button);
     }
 
-    public boolean getAction(ButtonAction buttonAction)
+    public boolean getAction(DriverButtonAction buttonAction)
     {
         return getRawButton(buttonAction.button);
     }
 
-    public double getAction(AxisAction axisAction)
+    public double getAction(DriverAxisAction axisAction)
     {
         return getRawAxis(axisAction.axis);
     }

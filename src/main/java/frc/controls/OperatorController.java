@@ -12,7 +12,7 @@ public class OperatorController extends Logitech
         System.out.println(className + " : Class Loading");
     }
 
-    public enum ButtonAction
+    public enum OperatorButtonAction
     {
         kShoot(Button.kTrigger),
         kAutoAim(Button.kHandleSide),
@@ -28,13 +28,13 @@ public class OperatorController extends Logitech
         ;
         public final Button button;
 
-        private ButtonAction(Button button)
+        private OperatorButtonAction(Button button)
         {
            this.button = button;
         }
     }
 
-    public enum AxisAction
+    public enum OperatorAxisAction
     {
         kTurret(Axis.kZAxis),
         kShroud(Axis.kYAxis),
@@ -43,7 +43,7 @@ public class OperatorController extends Logitech
 
         public final Axis axis;
 
-        private AxisAction(Axis axis)
+        private OperatorAxisAction(Axis axis)
         {
            this.axis = axis;
         }
@@ -82,12 +82,12 @@ public class OperatorController extends Logitech
         return super.getRawAxis(axis);
     }
 
-    public boolean getAction(ButtonAction buttonAction)
+    public boolean getAction(OperatorButtonAction buttonAction)
     {
         return getRawButton(buttonAction.button);
     }
 
-    public double getAction(AxisAction axisAction)
+    public double getAction(OperatorAxisAction axisAction)
     {
         return getRawAxis(axisAction.axis);
     }

@@ -5,8 +5,11 @@ package frc.components.climber;
 import frc.components.climber.Arm;
 import frc.components.climber.Winch;
 import frc.controls.DriverController;
-import frc.controls.DriverController.AxisAction;
-import frc.controls.DriverController.ButtonAction;
+import frc.controls.OperatorController;
+import frc.controls.DriverController.DriverAxisAction;
+import frc.controls.DriverController.DriverButtonAction;
+import frc.controls.OperatorController.OperatorAxisAction;
+import frc.controls.OperatorController.OperatorButtonAction;
 
 public class Climber
 {
@@ -57,21 +60,21 @@ public class Climber
      */
     public void run()
     {
-        if(driverController.getAction(ButtonAction.kLowerArms))
+        if(driverController.getAction(DriverButtonAction.kLowerArms))
         {
             arm.retractArm(-0.5);
         }
-        else if(driverController.getAction(ButtonAction.kRaiseArms))
+        else if(driverController.getAction(DriverButtonAction.kRaiseArms))
         {
             arm.extendArm(0.5);
         }
-        else if(driverController.getAction(AxisAction.kUnspoolWinch) > 0.1)
+        else if(driverController.getAction(DriverAxisAction.kUnspoolWinch) > 0.1)
         {
-            winch.lowerWinch(driverController.getAction(AxisAction.kUnspoolWinch));
+            winch.lowerWinch(driverController.getAction(DriverAxisAction.kUnspoolWinch));
         }
-        else if(driverController.getAction(AxisAction.kSpoolWinch) > 0.1)
+        else if(driverController.getAction(DriverAxisAction.kSpoolWinch) > 0.1)
         {
-            winch.raiseWinch(driverController.getAction(AxisAction.kSpoolWinch));
+            winch.raiseWinch(driverController.getAction(DriverAxisAction.kSpoolWinch));
         }
         else
         {

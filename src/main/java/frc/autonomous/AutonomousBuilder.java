@@ -59,11 +59,11 @@ public class AutonomousBuilder
 
     public void buildCommandList()
     {
-        //addCommandNode(new Shooting());
-        addCommandNode(new Drive(156), new Intaking(7));
-        addCommandNode(new Wait(1.0));
-        addCommandNode(new Drive(-60));
         addCommandNode(new Shooting());
+        addCommandNode(new Drive(10));
+        // addCommandNode(new Wait(1.0));
+        // addCommandNode(new Drive(-60));
+        // addCommandNode(new Shooting());
 
         System.out.println("Command List built");
     }

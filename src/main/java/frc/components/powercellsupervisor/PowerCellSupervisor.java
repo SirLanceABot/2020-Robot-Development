@@ -8,7 +8,7 @@ import frc.components.powercellsupervisor.shooter.Turret;
 import frc.components.powercellsupervisor.shuttle.Shuttle;
 import frc.controls.DriverController;
 import frc.controls.OperatorController;
-import frc.controls.OperatorController.ButtonAction;
+import frc.controls.OperatorController.OperatorButtonAction;
 
 public class PowerCellSupervisor
 {
@@ -36,11 +36,11 @@ public class PowerCellSupervisor
                 {
                     currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
                 }
-                else if(operatorController.getAction(ButtonAction.kShoot) || operatorController.getAction(ButtonAction.kAutoAim))
+                else if(operatorController.getAction(OperatorButtonAction.kShoot) || operatorController.getAction(OperatorButtonAction.kAutoAim))
                 {
                     currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
                 }
-                else if(driverController.getAction(DriverController.ButtonAction.kIntakeOn))
+                else if(driverController.getAction(DriverController.DriverButtonAction.kIntakeOn))
                 {
                     currentState = Transition.findNextState(currentState, Event.Intaking);
                 }
@@ -62,11 +62,11 @@ public class PowerCellSupervisor
                 {
                     currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
                 }
-                else if(operatorController.getAction(ButtonAction.kShoot) || operatorController.getAction(ButtonAction.kAutoAim))
+                else if(operatorController.getAction(OperatorButtonAction.kShoot) || operatorController.getAction(OperatorButtonAction.kAutoAim))
                 {
                     currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
                 }
-                else if(driverController.getAction(DriverController.ButtonAction.kIntakeOn))
+                else if(driverController.getAction(DriverController.DriverButtonAction.kIntakeOn))
                 {
                     currentState = Transition.findNextState(currentState, Event.Intaking);
                 }
@@ -88,11 +88,11 @@ public class PowerCellSupervisor
                 {
                     currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
                 }
-                else if(operatorController.getAction(ButtonAction.kShoot) || operatorController.getAction(ButtonAction.kAutoAim))
+                else if(operatorController.getAction(OperatorButtonAction.kShoot) || operatorController.getAction(OperatorButtonAction.kAutoAim))
                 {
                     currentState = Transition.findNextState(currentState, Event.ReadyToShoot);
                 }
-                else if(driverController.getAction(DriverController.ButtonAction.kIntakeOn))
+                else if(driverController.getAction(DriverController.DriverButtonAction.kIntakeOn))
                 {
                     currentState = Transition.findNextState(currentState, Event.Intaking);
                 }

@@ -5,7 +5,7 @@ import frc.vision.TargetDataE;
 import frc.vision.Vision;
 import frc.controls.DriverController;
 import frc.controls.Xbox;
-import frc.controls.OperatorController.ButtonAction;
+import frc.controls.OperatorController.OperatorButtonAction;
 import frc.controls.OperatorController;
 import frc.controls.Logitech;
 import frc.shuffleboard.MainShuffleboard;
@@ -384,7 +384,7 @@ public class Test
     {
         //drivetrain.setLeftPower(0.1);
         //drivetrain.setRightPower(0.1);
-        drivetrain.westCoastDrive(driverController.getAction(DriverController.AxisAction.kMove), driverController.getAction(DriverController.AxisAction.kRotate));
+        drivetrain.westCoastDrive(driverController.getAction(DriverController.DriverAxisAction.kMove), driverController.getAction(DriverController.DriverAxisAction.kRotate));
         
         
         
@@ -516,9 +516,9 @@ public class Test
     {
         //System.out.println(flywheel.getRPM());
         // Button A runs the Flywheel using the Left Y joystick
-        if(operatorController.getAction(OperatorController.AxisAction.kShooterPower) > 0.25)
+        if(operatorController.getAction(OperatorController.OperatorAxisAction.kShooterPower) > 0.25)
         {
-            flywheel.run(operatorController.getAction(OperatorController.AxisAction.kShooterPower));
+            flywheel.run(operatorController.getAction(OperatorController.OperatorAxisAction.kShooterPower));
         }
         else
         {
@@ -593,9 +593,9 @@ public class Test
         //     System.out.println("Aligned with target");
         // }
         // Button B rotates the Turret using the Left X joystick
-        if(Math.abs(operatorController.getAction(OperatorController.AxisAction.kTurret)) > 0.2)
+        if(Math.abs(operatorController.getAction(OperatorController.OperatorAxisAction.kTurret)) > 0.2)
         {
-            turret.setSpeed(operatorController.getAction(OperatorController.AxisAction.kTurret) / 2.0);
+            turret.setSpeed(operatorController.getAction(OperatorController.OperatorAxisAction.kTurret) / 2.0);
         }
         else
         {

@@ -89,6 +89,23 @@ public class Flywheel
         return instance;
     }
 
+        /**
+     * sets the speed of the motor when in override state
+     * @param speed
+     */
+    public void setSpeedOverride(double speed)
+    {
+        if(speed == 0.0)
+        {
+            stop();
+        }
+        else
+        {
+            masterMotor.set(ControlMode.PercentOutput, speed);
+            setIsMoving(true);
+        }
+
+    }
 
 
     /**

@@ -5,7 +5,7 @@ import frc.autonomous.commands.interfaces.Notified;
 import frc.components.powercellsupervisor.intake.Roller;
 import frc.components.powercellsupervisor.intake.Wrist;
 import frc.controls.DriverController;
-import frc.controls.DriverController.ButtonAction;
+import frc.controls.DriverController.DriverButtonAction;
 
 /**
  * Class to control the Intake subsystem
@@ -22,7 +22,7 @@ public class Intake implements Notified
             {
                 //System.out.println("Intake State: Off");
                 roller.stop();
-                if(driverController.getAction(ButtonAction.kIntakeOn) || notification)
+                if(driverController.getAction(DriverButtonAction.kIntakeOn) || notification)
                 {
                     currentState = Transition.findNextState(currentState, Event.kIntakeButtonPressed);
                 }
@@ -100,7 +100,7 @@ public class Intake implements Notified
                 }
 
                 roller.intake();
-                if(driverController.getAction(ButtonAction.kIntakeOn) || notification)
+                if(driverController.getAction(DriverButtonAction.kIntakeOn) || notification)
                 {
                     currentState = Transition.findNextState(currentState, Event.kIntakeButtonPressed);
                 }
