@@ -1,5 +1,6 @@
 package frc.components.powercellsupervisor.shooter;
 
+import frc.controls.OperatorController;
 import frc.robot.Port;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -12,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.sensors.NavX;
 import frc.vision.TargetDataB;
 import frc.vision.Vision;
-
+import frc.controls.OperatorController.OperatorAxisAction;
 
 /**
  * Class for controlling the turret that aims the shooter on the X plane
@@ -81,14 +82,22 @@ public class Turret
     private static TargetDataB turretVision = new TargetDataB();
     private static NavX navX = NavX.getInstance();
     private static TalonSRX motor = new TalonSRX(Port.Motor.CAN_TURRET);
+    private static AS5600EncoderPwm encoder = new AS5600EncoderPwm(motor.getSensorCollection());
     private static double currentPostion;
     private static boolean isMoving = false;
     private static Turret instance = new Turret();
+    private static OperatorController operatorController = OperatorController.getInstance();
+
+    private static double currentTurretValue = 0;
+    private static double previousTurretValue = 0;
+    private static boolean ccLocked = false;
 
     private Turret()
     {
         System.out.println(className + " : Constructor Started");
 
+        currentTurretValue = getCurrentAngle();
+        previousTurretValue = currentTurretValue;
         motor.configFactoryDefault();
         motor.setInverted(false);
         motor.setNeutralMode(NeutralMode.Brake);
@@ -96,15 +105,15 @@ public class Turret
         //feedback sensor
         motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
         motor.setSensorPhase(false);
-        motor.setSelectedSensorPosition(0);
+        // motor.setSelectedSensorPosition(0);
         // motor.configClearPositionOnLimitR(true, 10);
-        // motor.configFeedbackNotContinuous(false, 10);
+        motor.configFeedbackNotContinuous(true, 10);
 
         //soft limits
-        // motor.configReverseSoftLimitThreshold(1);
-        // motor.configReverseSoftLimitEnable(true);
-        // motor.configForwardSoftLimitThreshold(359); // TODO: put real absolute encoder values in
-        // motor.configForwardSoftLimitEnable(true);
+        motor.configReverseSoftLimitThreshold(200);
+        motor.configReverseSoftLimitEnable(true);
+        motor.configForwardSoftLimitThreshold(3800); // TODO: put real absolute encoder values in
+        motor.configForwardSoftLimitEnable(true);
 
         // //hard limits
         // motor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
@@ -141,10 +150,38 @@ public class Turret
      */
     public void setSpeed(double speed)
     {
-        System.out.println(motor.getSelectedSensorPosition());
+        // if(ccLocked)
+        // {
 
+        // }
+        // if(currentTurretValue > 100.0 && previousTurretValue < 100.0)
+        // {
+        //     ccLocked = true;
+        // }
+
+        // else if(currentTurretValue < 90.0 && previousTurretValue > 90.0)
+        // {
+        //     if(currentTurretValue - previousTurretValue < 0)
+        //     {
+                
+        //         if(operatorController.getAction(OperatorAxisAction.kTurret) > 0)
+        //         {                
+        //             System.out.println("At clockwise limit");
+        //             stop();
+        //         }
+        //         else
+        //         {
+        //             motor.set(ControlMode.PercentOutput, speed);
+        //         }
+        //     }
+        //     else
+        //     {
+                
+        //     }
+        // }
+        // //System.out.println(motor.getSelectedSensorPosition());
         motor.set(ControlMode.PercentOutput, speed);
-        setCurrentPosition(getEncoderPosition());
+        //setCurrentPosition(getEncoderPosition());
         setIsMoving(true);
     }
 
@@ -182,7 +219,8 @@ public class Turret
      */
     public double getEncoderPosition()
     {
-        return motor.getSelectedSensorPosition(0);
+        // return encoder.getPwmPosition();
+        return motor.getSelectedSensorPosition();
     }
 
     /**
@@ -200,23 +238,9 @@ public class Turret
      */
     public double getCurrentAngle()
     {
-        return ((currentPostion - kZERO_LOCATION) / kTOTAL_TICKS) * 180.0;
-    }
-
-	/**
-	 * @param units CTRE mag encoder sensor units 
-	 * @return degrees rounded to tenths.
-	 */
-	String ToDeg(int units) {
-		double deg = units * 360.0 / 4096.0;
-
-		/* truncate to 0.1 res */
-		deg *= 10;
-		deg = (int) deg;
-		deg /= 10;
-
-		return "" + deg;
-	}
+        // return ((currentPostion - kZERO_LOCATION) / kTOTAL_TICKS) * 180.0;
+        return ToDeg(getEncoderPosition());
+    };
 
     /**
      * sets the instance variable that determines if it is running
@@ -356,4 +380,10 @@ public class Turret
             motor.getMotorOutputPercent(), motor.getSelectedSensorPosition(), 
             motor.getStatorCurrent(), motor.getTemperature());
     }
+
+    public double ToDeg(double units) {
+		return (units % 4096) * 360.0 / 4096.0;
+    }
+    
+
 }

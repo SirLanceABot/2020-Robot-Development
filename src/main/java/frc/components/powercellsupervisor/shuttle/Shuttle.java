@@ -386,10 +386,16 @@ public class Shuttle
      * For use when overriding the FSM
      * @param speed
      */
-    public void overrideSetSpeet(double speed)
+    public void overrideSetSpeed(double speed)
     {
         setSpeed(speed);
     }
+
+    public void overrideFSM()
+    {
+        currentState = State.Off;
+    }
+
 
     private static void stopShuttle()
     {

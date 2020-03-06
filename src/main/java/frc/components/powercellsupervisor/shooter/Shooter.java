@@ -7,7 +7,8 @@ import frc.controls.OperatorController;
 import frc.controls.OperatorController.OperatorAxisAction;
 import frc.controls.Logitech.Axis;
 import frc.controls.OperatorController.OperatorButtonAction;
-
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 // import frc.sensors.LidarLite.LIDAR_Lite;
 // import frc.sensors.LidarLite.Constants;
 import frc.vision.Vision;
@@ -26,7 +27,7 @@ public class Shooter implements Notified
   //Vision stuff
   private static Vision vision = Vision.getInstance();
   private static TargetDataB turretVision = new TargetDataB(); 
-
+  private static Relay led = new Relay(0);
   private static State currentState = State.Off;
   private static Flywheel flywheel = Flywheel.getInstance();
   private static Turret turret = Turret.getInstance();
@@ -52,7 +53,7 @@ public class Shooter implements Notified
       {
         //System.out.println("State: Off");
         // shuttle.stop();
-    
+        led.set(Relay.Value.kOff);
         flywheel.stop();
         shroud.setSpeed(-0.33);
         if(operatorController.getAction(OperatorButtonAction.kAutoAim) || notification)
@@ -65,6 +66,7 @@ public class Shooter implements Notified
     {
       void doAction() 
       {
+        led.set(Relay.Value.kForward);
         //System.out.println("State: Searching");
         //turret.rotateToWall();
         if(turretVision.isFreshData())

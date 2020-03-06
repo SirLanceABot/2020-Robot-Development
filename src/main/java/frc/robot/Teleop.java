@@ -5,6 +5,7 @@ import frc.components.drivetrain.Drivetrain;
 import frc.components.powercellsupervisor.PowerCellSupervisor;
 import frc.components.powercellsupervisor.intake.Intake;
 import frc.components.powercellsupervisor.intake.Roller;
+import frc.components.powercellsupervisor.intake.Wrist;
 import frc.components.powercellsupervisor.shooter.Flywheel;
 import frc.components.powercellsupervisor.shooter.Shooter;
 import frc.components.powercellsupervisor.shooter.Shroud;
@@ -18,8 +19,7 @@ import frc.controls.DriverController.DriverButtonAction;
 import frc.controls.OperatorController;
 import frc.controls.OperatorController.OperatorAxisAction;
 import frc.controls.OperatorController.OperatorButtonAction;
-
-
+import frc.controls.Xbox.Button;
 import frc.shuffleboard.MainShuffleboard;
 
 /**
@@ -57,7 +57,7 @@ public class Teleop
     private static Shroud shroud = Shroud.getInstance();
     private static Intake intake = Intake.getInstance();
     private static Roller roller = Roller.getInstance();
-
+    private static Wrist wrist = Wrist.getInstance();
     private static Teleop teleop = new Teleop();
 
     private Teleop()
@@ -86,12 +86,12 @@ public class Teleop
      */
     public void periodic()
     {
-
-     
+   
+        
         //running the shuttle with an override capability
         if(operatorController.getAction(OperatorButtonAction.kShuttleOverride))
         {
-            shuttle.overrideSetSpeet(0.25);
+            shuttle.overrideSetSpeed(0.25);
         }
         else
         {
@@ -99,16 +99,16 @@ public class Teleop
             shuttle.runFSM();
         }
    
-        //running the shooter
+        // running the shooter
         if(operatorController.getAction(OperatorButtonAction.kShooterOverride))
         {
+            shooter.overrideFSM();
             turret.setSpeed(operatorController.getAction(OperatorAxisAction.kTurret)); 
             flywheel.setSpeedOverride(operatorController.getAction(OperatorAxisAction.kShooterPower));
             shroud.setSpeed(operatorController.getAction(OperatorAxisAction.kShroud));
         }
         else
         {
-            shooter.overrideFSM();
             shooter.runFSM();
         }
 
@@ -128,12 +128,12 @@ public class Teleop
             intake.runFSM();
         }
 
-        // //run the drivetrain
+        //run the drivetrain
         drivetrain.westCoastDrive(driverController.getAction(DriverAxisAction.kMove)
                                 , driverController.getAction(DriverAxisAction.kRotate));
 
-        // //run the climber
-        // climber.run();
-        // mainShuffleboard.updateSensors();
+        //run the climber
+        climber.run();
+        mainShuffleboard.updateSensors();
     }
 }
