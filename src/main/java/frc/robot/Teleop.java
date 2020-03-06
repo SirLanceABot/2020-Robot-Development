@@ -134,6 +134,6 @@ public class Teleop
 
         //run the climber
         climber.run();
-        mainShuffleboard.updateSensors();
+        //mainShuffleboard.updateSensors();
     }
 }

@@ -49,11 +49,12 @@ public class Arm
         armMotor.setInverted(true);
         armMotor.setIdleMode(IdleMode.kBrake);
 
+        armEncoder.setPosition(0);
         //soft limit switches
-        armMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
-        armMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-        armMotor.setSoftLimit(SoftLimitDirection.kForward, 120);
-        armMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        // armMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+        armMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+        // armMotor.setSoftLimit(SoftLimitDirection.kForward, 140);
+        armMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
 
         //hard limit switches
         reverseLimitSwitch = armMotor.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
@@ -61,8 +62,8 @@ public class Arm
         forwardLimitSwitch = armMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
         forwardLimitSwitch.enableLimitSwitch(false);
 
-        armMotor.setOpenLoopRampRate(0.1);
-        armMotor.setSmartCurrentLimit(40);
+        // armMotor.setOpenLoopRampRate(0.1);
+        // armMotor.setSmartCurrentLimit(40);
 
         System.out.println(className + ": Constructor Finished"); 
     }

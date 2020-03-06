@@ -62,11 +62,11 @@ public class Climber
     {
         if(driverController.getAction(DriverButtonAction.kLowerArms))
         {
-            arm.retractArm(-0.05);
+            arm.setExtensionSpeed(-0.05);
         }
         else if(driverController.getAction(DriverButtonAction.kRaiseArms))
         {
-            arm.extendArm(0.5);
+            arm.setExtensionSpeed(0.65);
         }
         else if(driverController.getAction(DriverAxisAction.kUnspoolWinch) > 0.1)
         {
