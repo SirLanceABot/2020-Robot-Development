@@ -86,16 +86,16 @@ public class Teleop
      */
     public void periodic()
     {
-   
+        shooter.turnLightOn();
         
         //running the shuttle with an override capability
         if(operatorController.getAction(OperatorButtonAction.kShuttleOverride))
         {
+            shuttle.overrideFSM();
             shuttle.overrideSetSpeed(0.25);
         }
         else
         {
-            shuttle.overrideFSM();
             shuttle.runFSM();
         }
    
@@ -109,7 +109,7 @@ public class Teleop
         }
         else
         {
-            shooter.runFSM();
+            // shooter.runFSM();
         }
 
         //running the intake

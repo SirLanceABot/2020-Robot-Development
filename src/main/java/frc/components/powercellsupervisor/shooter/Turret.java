@@ -201,6 +201,8 @@ public class Turret
      */
     private void setCurrentPosition(double position)
     {
+
+        
         currentPostion = position;
     }
 

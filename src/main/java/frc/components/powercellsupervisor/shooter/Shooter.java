@@ -359,6 +359,10 @@ public class Shooter implements Notified
     return currentState;
   }
 
+  public void turnLightOn()
+  {
+    led.set(Relay.Value.kForward);
+  }
   public Boolean isOff()
   {
     if(currentState == State.Off)
