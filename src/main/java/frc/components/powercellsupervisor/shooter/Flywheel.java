@@ -27,11 +27,20 @@ public class Flywheel
 
     //----------------------------- Constants --------------------------//
     private static final int TIMEOUT_MS = 30;
-    //private static final int VELOCITY_ERROR = 3;
-    private static final double PROPORTIONAL = 0.8;
-    private static final double INTEGRAL = 0.000065;
+    // //private static final int VELOCITY_ERROR = 3;
+
+    //6000 rpm 
+    // private static final double PROPORTIONAL = 0.8;
+    // private static final double INTEGRAL = 0.000065;
+    // private static final double DERIVATIVE = 0.0000001;
+    // private static final double FEEDFORWARD = 0.00;
+
+    //4000
+    private static final double PROPORTIONAL = 0.4;
+    private static final double INTEGRAL = 0.000025;
     private static final double DERIVATIVE = 0.0000001;
     private static final double FEEDFORWARD = 0.00;
+
     private static final double TICK_TO_RPM = (1 / 100.0) * (1/4096.0) * (18/32.0) * (1000/1.0) * (60/1.0);
     //------------------------------------------------------------------//
 
@@ -65,8 +74,8 @@ public class Flywheel
         masterMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
         
         //current limits
-        masterMotor.configOpenloopRamp(0.1);
-        masterMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
+        masterMotor.configOpenloopRamp(0.5);
+        masterMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 35, 40, 0.5), 10);
         
         masterMotor.config_kF(0, FEEDFORWARD, TIMEOUT_MS);
 		masterMotor.config_kP(0, PROPORTIONAL, TIMEOUT_MS);
@@ -74,7 +83,9 @@ public class Flywheel
         masterMotor.config_kD(0, DERIVATIVE, TIMEOUT_MS);
         
         followerMotor.configFactoryDefault();
-        
+        followerMotor.setNeutralMode(NeutralMode.Coast);
+        followerMotor.setInverted(false);
+
         followerMotor.follow(masterMotor);
 
         System.out.println(className + ": Constructor Finished");
@@ -95,16 +106,15 @@ public class Flywheel
      */
     public void setSpeedOverride(double speed)
     {
-        if(speed == 0.0)
+        if(speed > 0)
         {
-            stop();
+            masterMotor.set(ControlMode.Velocity, (speed * 5300.0) / TICK_TO_RPM);
         }
         else
         {
-            masterMotor.set(ControlMode.PercentOutput, speed);
-            setIsMoving(true);
+            masterMotor.set(ControlMode.PercentOutput, 0.0);
         }
-
+        System.out.println(getRPM());
     }
 
 
@@ -112,7 +122,7 @@ public class Flywheel
      * sets the speed of the motor
      * @param speed
      */
-    private void setSpeed(double speed)
+    public void setSpeed(double speed)
     {
         if(speed == 0.0)
         {
@@ -164,11 +174,18 @@ public class Flywheel
      * 
      * @param speedToRun in RPM
      */
-    public void run(double speedToRun)
+    public void run(double speed)
     {
         
-        masterMotor.set(ControlMode.Velocity, speedToRun / TICK_TO_RPM);
-        //System.out.println(getRPM());
+        if(speed > 0)
+        {
+            masterMotor.set(ControlMode.Velocity, (speed) / TICK_TO_RPM);
+        }
+        else
+        {
+            masterMotor.set(ControlMode.PercentOutput, 0.0);
+        }
+                System.out.println(getRPM());
         //setSpeed(speedToRun);
     }
 

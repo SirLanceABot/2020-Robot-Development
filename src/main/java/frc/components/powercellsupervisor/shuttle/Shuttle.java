@@ -84,7 +84,7 @@ public class Shuttle
                 //if(!sensor6.get())
                 if(!getSensor6())
                 {
-                    System.out.println("Powercell at Flywheel");
+                    // System.out.println("Powercell at Flywheel");
                     initFlag = true;
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
@@ -95,7 +95,7 @@ public class Shuttle
                 //     initFlag = true;
                 // }       
 
-                System.out.println("Shuttle State: MovingOnePosition" + "\tTargetPosition: " + targetPosition + "\tCurrent Pos: " + currentPosition);
+                // System.out.println("Shuttle State: MovingOnePosition" + "\tTargetPosition: " + targetPosition + "\tCurrent Pos: " + currentPosition);
 
                 if(currentPosition < targetPosition - 2)
                 {
@@ -107,7 +107,7 @@ public class Shuttle
                 }
                 else
                 {
-                    System.out.println("No Powercell ready");
+                    // System.out.println("No Powercell ready");
                     currentState = Transition.findNextState(currentState, Event.NoPowerCellReadyToShuttle);
                     initFlag = true;
                 }
@@ -119,7 +119,7 @@ public class Shuttle
             @Override
             void doAction() 
             {
-                System.out.println("Shuttle State: Unloading");
+                // System.out.println("Shuttle State: Unloading");
                 if(!isEmpty())
                 {
                     setSpeed(0.75); //TODO: Find the right feed speed
@@ -141,7 +141,7 @@ public class Shuttle
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
-                System.out.println("Shuttle State: Full");
+                // System.out.println("Shuttle State: Full");
                 if(isFull())
                 {
                     stopShuttle();
@@ -175,7 +175,7 @@ public class Shuttle
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellAtFlywheel);
                 }       
-                System.out.println("Shuttle State: Empty");
+                // System.out.println("Shuttle State: Empty");
                 if(!sensor1.get())
                 {
                     currentState = Transition.findNextState(currentState, Event.PowerCellReadyToShuttle);

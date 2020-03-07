@@ -53,7 +53,7 @@ public class Shooter implements Notified
       {
         //System.out.println("State: Off");
         // shuttle.stop();
-        led.set(Relay.Value.kOff);
+        turnLightOff();
         flywheel.stop();
         shroud.setSpeed(-0.33);
         if(operatorController.getAction(OperatorButtonAction.kAutoAim) || notification)
@@ -66,8 +66,8 @@ public class Shooter implements Notified
     {
       void doAction() 
       {
-        led.set(Relay.Value.kForward);
-        //System.out.println("State: Searching");
+        turnLightOn();
+        System.out.println("State: Searching");
         //turret.rotateToWall();
         if(turretVision.isFreshData())
         {
@@ -75,6 +75,10 @@ public class Shooter implements Notified
             if(turretVision.isTargetFound())
             {
               currentState = Transition.findNextState(currentState, Event.TapeFound);
+            }
+            else
+            {
+              turret.setSpeed(operatorController.getAction(OperatorAxisAction.kTurret)); 
             }
         }
       }
@@ -90,19 +94,9 @@ public class Shooter implements Notified
               currentState = Transition.findNextState(currentState, Event.AlignedWithTape);
             }
           }
-          else
-          {
-            if(Math.abs(operatorController.getAction(OperatorController.OperatorAxisAction.kTurret)) > 0.2)
-            {
-                turret.setSpeed(operatorController.getAction(OperatorController.OperatorAxisAction.kTurret) / 2.0);
-            }
-            else
-            {
-                turret.stop();
-            }
-          }
 
-          //System.out.println("State: Aligning");
+
+          System.out.println("State: Aligning");
 
         }
       },
@@ -110,9 +104,9 @@ public class Shooter implements Notified
     {
       void doAction() 
       {
-        //System.out.println("State: Calculating");
+        System.out.println("State: Calculating");
         //need to add calculations after testing
-        flywheelSpeed = 5000.0;
+        flywheelSpeed = 4000.0;
         shroudAngle = 20.0;
         currentState = Transition.findNextState(currentState, Event.ValuesCalulated);
       }
@@ -121,7 +115,7 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
-          //System.out.println("State: SettingTrajectory");
+          System.out.println("State: SettingTrajectory");
           flywheel.run(flywheelSpeed);
           //shroud.moveTo(shroudAngle);
           shroud.setSpeed(0.75);
@@ -134,7 +128,7 @@ public class Shooter implements Notified
         void doAction() 
         {
           shroud.setSpeed(0.75);
-          //System.out.println("State: PreShotCheck  " + "Speed: " + flywheel.getRPM());
+          System.out.println("State: PreShotCheck  " + "Speed: " + flywheel.getRPM());
           if(turretVision.isTargetFound())
           {
             if(Math.abs(turretVision.getAngleToTurn()) < 1.0)
@@ -159,7 +153,7 @@ public class Shooter implements Notified
         void doAction() 
         {
           
-          //System.out.println("State: ShootingOneBall");
+          System.out.println("State: ShootingOneBall");
           shuttle.feedTopBall();
           if(operatorController.getAction(frc.controls.OperatorController.OperatorButtonAction.kOnTarget) || notification)
           {
@@ -175,7 +169,7 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
-          //System.out.println("State: UserCorrection");
+          System.out.println("State: UserCorrection");
           if(operatorController.getAction(OperatorButtonAction.kShoot) || notification)
           {
             double userXCorrection = operatorController.getRawAxis(Axis.kXAxis);
@@ -191,7 +185,7 @@ public class Shooter implements Notified
     {
         void doAction() 
         {
-          //System.out.println("State: ShootingRestOfClip");
+          System.out.println("State: ShootingRestOfClip");
           shuttle.feedAllPowerCells();
 
           if(shuttle.isEmpty())
@@ -359,10 +353,16 @@ public class Shooter implements Notified
     return currentState;
   }
 
-  public void turnLightOn()
+  public static void turnLightOn()
   {
     led.set(Relay.Value.kForward);
   }
+
+  public static void turnLightOff()
+  {
+    led.set(Relay.Value.kOff);
+  }
+  
   public Boolean isOff()
   {
     if(currentState == State.Off)

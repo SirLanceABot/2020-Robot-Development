@@ -84,6 +84,7 @@ public class Shroud
      */
     public void setSpeed(double speed)
     {
+        // motor.set(ControlMode.PercentOutput, 0.0);
         motor.set(ControlMode.PercentOutput, speed);
         //System.out.println(getEncoderPosition());
         setCurrentAngle();

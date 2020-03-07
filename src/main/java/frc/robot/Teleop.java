@@ -51,7 +51,7 @@ public class Teleop
     private static Climber climber = Climber.getInstance();
     private static OperatorController operatorController = OperatorController.getInstance();
     private static DriverController driverController = DriverController.getInstance();
-    private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
+    // private static PowerCellSupervisor powerCellSupervisor = PowerCellSupervisor.getInstance();
     private static Flywheel flywheel = Flywheel.getInstance();
     private static Turret turret = Turret.getInstance();
     private static Shroud shroud = Shroud.getInstance();
@@ -77,8 +77,8 @@ public class Teleop
      */
     public void init()
     {
-        mainShuffleboard.setDriverControllerSettings();
-        mainShuffleboard.setOperatorControllerSettings();
+        // mainShuffleboard.setDriverControllerSettings();
+        // mainShuffleboard.setOperatorControllerSettings();
     }
 
     /**
@@ -86,7 +86,15 @@ public class Teleop
      */
     public void periodic()
     {
-        shooter.turnLightOn();
+        // System.out.println(flywheel.getRPM());
+        if(driverController.getAction(DriverButtonAction.kIntakeDown))
+        {
+            wrist.forceLower();
+        }
+        else if(driverController.getAction(DriverButtonAction.kIntakeUp))
+        {
+            wrist.forceRaise();
+        }
         
         //running the shuttle with an override capability
         if(operatorController.getAction(OperatorButtonAction.kShuttleOverride))
@@ -100,16 +108,24 @@ public class Teleop
         }
    
         // running the shooter
-        if(operatorController.getAction(OperatorButtonAction.kShooterOverride))
+        if (operatorController.getAction(OperatorButtonAction.kShooterOverride) 
+            && operatorController.getAction(OperatorButtonAction.kFlywheelOverride))
         {
             shooter.overrideFSM();
             turret.setSpeed(operatorController.getAction(OperatorAxisAction.kTurret)); 
             flywheel.setSpeedOverride(operatorController.getAction(OperatorAxisAction.kShooterPower));
+            shroud.setSpeed(operatorController.getAction(OperatorAxisAction.kShroud));        
+        }
+        else if(operatorController.getAction(OperatorButtonAction.kShooterOverride))
+        {
+            shooter.overrideFSM();
+            turret.setSpeed(operatorController.getAction(OperatorAxisAction.kTurret)); 
+            // flywheel.setSpeedOverride(operatorController.getAction(OperatorAxisAction.kShooterPower));
             shroud.setSpeed(operatorController.getAction(OperatorAxisAction.kShroud));
         }
         else
         {
-            // shooter.runFSM();
+            shooter.runFSM();
         }
 
         //running the intake

@@ -70,7 +70,7 @@ public class Drivetrain extends DifferentialDrive
         frontRightMotor.setNeutralMode(NeutralMode.Coast);
 
         //feedback sensor
-        frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+        frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 30);
 
         //soft limits
         frontRightMotor.configReverseSoftLimitThreshold(0);
@@ -89,7 +89,7 @@ public class Drivetrain extends DifferentialDrive
         frontLeftMotor.setNeutralMode(NeutralMode.Coast);
 
         //feedback sensor
-        frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+        frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 30);
 
         //soft limits
         frontLeftMotor.configReverseSoftLimitThreshold(0);
@@ -108,7 +108,7 @@ public class Drivetrain extends DifferentialDrive
         backRightMotor.setNeutralMode(NeutralMode.Coast);
 
         //feedback sensor
-        backRightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+        backRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 30);
 
         //soft limits
         backRightMotor.configReverseSoftLimitThreshold(0);
@@ -127,7 +127,7 @@ public class Drivetrain extends DifferentialDrive
         backLeftMotor.setNeutralMode(NeutralMode.Coast);
 
         //feedback sensor
-        backLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+        backLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 30);
 
         //soft limits
         backLeftMotor.configReverseSoftLimitThreshold(0);

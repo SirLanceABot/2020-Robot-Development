@@ -117,15 +117,17 @@ public class Winch
      */
     public void lowerWinch(double speed)
     {
-        double currentPosition = getEncoderPosition();
-        if(currentPosition > MINIMUM_HEIGHT - ERROR_THRESHOLD)
-        {
-            setWinchSpeed(-Math.abs(speed));
-        }
-        else
-        {
-            System.out.println("Cannot lower the winch. It is already at the minimum height.");
-        }
+        setWinchSpeed(-Math.abs(speed));
+
+        // double currentPosition = getEncoderPosition();
+        // if(currentPosition > MINIMUM_HEIGHT - ERROR_THRESHOLD)
+        // {
+        //     setWinchSpeed(-Math.abs(speed));
+        // }
+        // else
+        // {
+        //     System.out.println("Cannot lower the winch. It is already at the minimum height.");
+        // }
     }
 
     /**
@@ -133,15 +135,16 @@ public class Winch
      */
     public void raiseWinch(double speed)
     {
-        double currentPosition = getEncoderPosition();
-        if(currentPosition < MAXIMUM_HEIGHT + ERROR_THRESHOLD)
-        {
-            setWinchSpeed(Math.abs(speed));
-        }
-        else
-        {
-            System.out.println("Cannot raise the winch. It is already at the maximum height.");
-        }
+        setWinchSpeed(Math.abs(speed));
+        // double currentPosition = getEncoderPosition();
+        // if(currentPosition < MAXIMUM_HEIGHT + ERROR_THRESHOLD)
+        // {
+        //     setWinchSpeed(Math.abs(speed));
+        // }
+        // else
+        // {
+        //     System.out.println("Cannot raise the winch. It is already at the maximum height.");
+        // }
     }
 
     public String getWinchData()
