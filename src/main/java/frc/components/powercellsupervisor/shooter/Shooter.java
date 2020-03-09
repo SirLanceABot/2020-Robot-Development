@@ -69,9 +69,9 @@ public class Shooter implements Notified
         turnLightOn();
         System.out.println("State: Searching");
         //turret.rotateToWall();
+        System.out.println(turretVision.isTargetFound() + "\tframe number: " + turretVision.getFrameNumber());
         if(turretVision.isFreshData())
         {
-            System.out.println(turretVision.isTargetFound());
             if(turretVision.isTargetFound())
             {
               currentState = Transition.findNextState(currentState, Event.TapeFound);
@@ -384,6 +384,7 @@ public class Shooter implements Notified
   public void runFSM() 
   {
     turretVision.set(Vision.turretNext);
+    
     // turretVision.get();
     //System.out.println(flywheel.getRPM());
     currentState.doAction();

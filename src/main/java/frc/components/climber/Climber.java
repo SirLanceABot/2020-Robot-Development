@@ -10,6 +10,7 @@ import frc.controls.DriverController.DriverAxisAction;
 import frc.controls.DriverController.DriverButtonAction;
 import frc.controls.OperatorController.OperatorAxisAction;
 import frc.controls.OperatorController.OperatorButtonAction;
+import frc.controls.Xbox.Button;
 
 public class Climber
 {
@@ -60,6 +61,10 @@ public class Climber
      */
     public void run()
     {
+        if(driverController.getRawButton(7))
+        {
+            arm.setExtensionSpeed(-0.3);
+        }
         if(driverController.getAction(DriverButtonAction.kLowerArms))
         {
             arm.setExtensionSpeed(-0.05);
@@ -78,7 +83,7 @@ public class Climber
         }
         else
         {
-            arm.stopArm();
+            arm.holdArm();
             winch.stopWinch();
         }
     }

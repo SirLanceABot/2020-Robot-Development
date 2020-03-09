@@ -141,11 +141,25 @@ public class Arm
     /**
      * The method to stop the extension or retraction of the Arm.
      */
+    public void holdArm()
+    {
+        setExtensionSpeed(0.05);
+    }
+
     public void stopArm()
     {
         setExtensionSpeed(0.0);
     }
 
+    public void setCoastMode()
+    {
+        armMotor.setIdleMode(IdleMode.kCoast);
+    }
+
+    public void setBrakeMode()
+    {
+        armMotor.setIdleMode(IdleMode.kBrake);
+    }
     /**
      * The method to set the Arm to the default position.
      */
@@ -162,7 +176,7 @@ public class Arm
         }
         else 
         {
-            stopArm();
+            holdArm();
         }
     }
 

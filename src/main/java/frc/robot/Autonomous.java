@@ -46,30 +46,31 @@ public class Autonomous
 
     public void init()
     {
-        timer.reset();
-        timer.start();
-        //autonomousBuilder.buildCommandList();
+        // timer.reset();
+        // timer.start();
+        autonomousBuilder.buildCommandList();
     }
 
     public void periodic()
     {
-        flywheel.setSpeed(0.20);
-        if(timer.get() > 1.5)
-        {
-            shuttle.overrideSetSpeed(0.15);
-        }
+        autonomousExecuter.executeAuto();
+        // flywheel.setSpeed(0.20);
+        // if(timer.get() > 1.5)
+        // {
+        //     shuttle.overrideSetSpeed(0.15);
+        // }
         
-        if(shuttle.isEmpty())
-        {
-            shuttle.stop();
-            flywheel.stop();
-            drivetrain.westCoastDrive(0.5, 0);
-        }
+        // if(shuttle.isEmpty())
+        // {
+        //     shuttle.stop();
+        //     flywheel.stop();
+        //     drivetrain.westCoastDrive(0.5, 0);
+        // }
         
-        if(timer.get() > 8.0)
-        {
-            drivetrain.westCoastDrive(0.0, 0);
+        // if(timer.get() > 8.0)
+        // {
+        //     drivetrain.westCoastDrive(0.0, 0);
 
-        }
+        // }
     }
 }

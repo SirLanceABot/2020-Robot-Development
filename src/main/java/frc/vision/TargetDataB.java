@@ -131,6 +131,7 @@ public class TargetDataB
      */
     public synchronized double getAngleToTurn()
     {
+        // isFreshData = false;
         return angleToTurn;
     }
 
