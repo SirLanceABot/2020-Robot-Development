@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import frc.vision.Vision;
 import frc.shuffleboard.MainShuffleboard;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -22,6 +21,9 @@ public class Robot extends TimedRobot
         System.out.println(className + " : Class Loading");
     }
 
+    /**
+     * This keeps track of the current state of the robot, from startup to auto, to teleop, etc.
+     */
     public enum RobotState
     {
         kNone,
@@ -34,12 +36,11 @@ public class Robot extends TimedRobot
         kTest;
     }
 
-    private static Vision vision = Vision.getInstance();
     private static Test test = Test.getInstance();
     private static Autonomous autonomous = Autonomous.getInstance();
     private static Disabled disabled = Disabled.getInstance();
     private static Teleop teleop = Teleop.getInstance();
-    private MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
+    private static MainShuffleboard mainShuffleboard = MainShuffleboard.getInstance();
 
     private static RobotState robotState = RobotState.kNone;
 
@@ -53,7 +54,7 @@ public class Robot extends TimedRobot
     }
 
     /**
-     * This function is run when the robot is first started up and should be used for any initialization code.
+     * This method is run when the robot is first started up and should be used for any initialization code.
      */
     @Override
     public void robotInit()
@@ -62,7 +63,7 @@ public class Robot extends TimedRobot
     }
 
     /**
-     * This function is called periodically.
+     * This method is called periodically.
      */
     @Override
     public void robotPeriodic()
@@ -71,7 +72,7 @@ public class Robot extends TimedRobot
     }
 
     /**
-     * This function is run once each time the robot enters autonomous mode.
+     * This method is run once each time the robot enters autonomous mode.
      */
     @Override
     public void autonomousInit()
@@ -82,7 +83,7 @@ public class Robot extends TimedRobot
     }
 
     /**
-     * This function is called periodically during autonomous.
+     * This method is called periodically during autonomous.
      */
     @Override
     public void autonomousPeriodic()
@@ -91,7 +92,7 @@ public class Robot extends TimedRobot
     }
 
     /**
-     * This function is called once each time the robot enters teleoperated mode.
+     * This method is called once each time the robot enters teleoperated mode.
      */
     @Override
     public void teleopInit()
@@ -102,7 +103,7 @@ public class Robot extends TimedRobot
     }
 
     /**
-     * This function is called periodically during teleoperated mode.
+     * This method is called periodically during teleoperated mode.
      */
     @Override
     public void teleopPeriodic()
@@ -111,7 +112,7 @@ public class Robot extends TimedRobot
     }
 
     /**
-     * This function is called once each time the robot enters test mode.
+     * This method is called once each time the robot enters test mode.
      */
     @Override
     public void testInit()
@@ -122,7 +123,7 @@ public class Robot extends TimedRobot
     }
 
     /**
-     * This function is called periodically during test mode.
+     * This method is called periodically during test mode.
      */
     @Override
     public void testPeriodic()
@@ -130,8 +131,8 @@ public class Robot extends TimedRobot
         test.periodic();
     }
 
-        /**
-     * This function is called once each time the robot is disabled.
+    /**
+     * This method is called once each time the robot is disabled.
      */
     @Override
     public void disabledInit()
@@ -149,7 +150,7 @@ public class Robot extends TimedRobot
     }
 
     /**
-     * This function is called periodically when the robot is disabled.
+     * This method is called periodically when the robot is disabled.
      */
     @Override
     public void disabledPeriodic()
@@ -157,6 +158,11 @@ public class Robot extends TimedRobot
         disabled.periodic();
     }
 
+    /**
+     * This method returns the current state of the robot
+     * @return the robot state
+     * @see RobotState
+     */
     public static RobotState getRobotState()
     {
         return robotState;
