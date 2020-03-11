@@ -19,7 +19,7 @@ public class Xbox extends Joystick
 
     public enum Button
     {
-        kA(1), kB(2), kX(3), kY(4), kLB(5), kRB(6), kBack(7), kStart(8), kLeftStick(9), kRightStick(10);
+        kA(1), kB(2), kX(3), kY(4), kLeftBumper(5), kRightBumper(6), kBack(7), kStart(8), kLeftStick(9), kRightStick(10);
 
         public final int value;
 
