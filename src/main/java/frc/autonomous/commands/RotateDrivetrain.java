@@ -7,7 +7,7 @@ import frc.components.drivetrain.Drivetrain;
  * Autonomous command to rotate to an absolute angle
  * @author Maxwell Li
  */
-public class Rotate implements Command
+public class RotateDrivetrain implements Command
 {
     //Init the instance variables
     private Drivetrain drivetrain = Drivetrain.getInstance();
@@ -15,7 +15,7 @@ public class Rotate implements Command
     private boolean isFinished;
 
     //construct the object
-    public Rotate(double angle)
+    public RotateDrivetrain(double angle)
     {
         absoluteAngle = angle;
     }

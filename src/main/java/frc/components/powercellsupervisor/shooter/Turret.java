@@ -120,7 +120,7 @@ public class Turret
         // motor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
         
         //current limits
-        //motor.configOpenloopRamp(0.1);
+        motor.configOpenloopRamp(0.1);
         motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 0.5), 10);
 
         /* Set the peak and nominal outputs */
@@ -291,20 +291,23 @@ public class Turret
      * TODO: needs to use a PID loop
      * @param angle
      */
-    public void rotateTo(double angle)
+    public boolean rotateTo(double angle)
     {
         double currentAngle = getCurrentAngle();
-        if(angle < currentAngle - 5)
+        if(angle < currentAngle - 1)
         {
-            setSpeed(0.5);
+            setSpeed(0.75);
+            return false;
         }
-        else if(angle > currentAngle + 5)
+        else if(angle > currentAngle + 1)
         {
-            setSpeed(-0.5);
+            setSpeed(-0.75);
+            return false;
         }
         else
         {
             stop();
+            return true;
         }
     }
     
