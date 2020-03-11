@@ -26,6 +26,7 @@ public class Drive implements Command
     public void init()
     {
         drivetrain.resetEncoders();
+        drivetrain.configLoopRampRate(0.75);
         System.out.println("Initializing Drive");
     }
 
@@ -53,6 +54,7 @@ public class Drive implements Command
     @Override
     public void end()
     {
+        drivetrain.configLoopRampRate(0.1);
         System.out.println("Ending Drive");
     }
 }

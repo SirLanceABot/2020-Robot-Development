@@ -79,7 +79,7 @@ public class Drivetrain extends DifferentialDrive
         frontRightMotor.configForwardSoftLimitEnable(false);
         
         //current limits
-        frontRightMotor.configOpenloopRamp(0.1);
+        frontRightMotor.configOpenloopRamp(0.5);
         frontRightMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
         frontRightMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
 
@@ -98,7 +98,7 @@ public class Drivetrain extends DifferentialDrive
         frontLeftMotor.configForwardSoftLimitEnable(false);
         
         //current limits
-        frontLeftMotor.configOpenloopRamp(0.1);
+        frontLeftMotor.configOpenloopRamp(0.5);
         frontLeftMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
         frontLeftMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
 
@@ -117,7 +117,7 @@ public class Drivetrain extends DifferentialDrive
         backRightMotor.configForwardSoftLimitEnable(false);
         
         //current limits
-        backRightMotor.configOpenloopRamp(0.1);
+        backRightMotor.configOpenloopRamp(0.5);
         backRightMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
         backRightMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
 
@@ -136,7 +136,7 @@ public class Drivetrain extends DifferentialDrive
         backLeftMotor.configForwardSoftLimitEnable(false);
         
         //current limits
-        backLeftMotor.configOpenloopRamp(0.1);
+        backLeftMotor.configOpenloopRamp(0.5);
         backLeftMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
         backLeftMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 60, 0.5), 10);
 		
@@ -170,6 +170,38 @@ public class Drivetrain extends DifferentialDrive
     {
         return instance;
     }
+
+    public void configLoopRampRate(double time)
+    {
+        frontRightMotor.configOpenloopRamp(time);
+        frontLeftMotor.configOpenloopRamp(time);
+        backRightMotor.configOpenloopRamp(time);
+        backLeftMotor.configOpenloopRamp(time);
+    }
+
+    /**
+     * true t
+     */
+    public void setToBrakeMode(boolean brake)
+    {
+        if(brake)
+        {
+            frontRightMotor.setNeutralMode(NeutralMode.Brake);
+            frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+            backRightMotor.setNeutralMode(NeutralMode.Brake);
+            backLeftMotor.setNeutralMode(NeutralMode.Brake);
+        }
+        else
+        {
+            frontRightMotor.setNeutralMode(NeutralMode.Coast);
+            frontLeftMotor.setNeutralMode(NeutralMode.Coast);
+            backRightMotor.setNeutralMode(NeutralMode.Coast);
+            backLeftMotor.setNeutralMode(NeutralMode.Coast);
+        }
+
+    }
+
+    
 
     public void coolMotors()
     {
@@ -240,7 +272,7 @@ public class Drivetrain extends DifferentialDrive
         else
         {   
             //System.out.println("In the else");
-            double speed = Math.abs((distanceToTravel - distanceTraveled) /distanceToTravel) * percentMax;
+            double speed = Math.abs((distanceToTravel - distanceTraveled) /1000) * percentMax;
             System.out.println(speed);
             if(Math.abs(speed) > 0.5)
             {
