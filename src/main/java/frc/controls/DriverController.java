@@ -23,13 +23,21 @@ public class DriverController extends Xbox
 
     public enum DriverButtonAction
     {
-        kIntakeOn(Button.kRB),
-        kIntakeReverse(Button.kLB),
+        kRaiseArms(Button.kA),
+        kLowerArms(Button.kB),
+
         kIntakeUp(Button.kX),
         kIntakeDown(Button.kY),
-        //kWalk(Button.kLB),
-        kRaiseArms(Button.kA),
-        kLowerArms(Button.kB);
+
+        kIntakeReverse(Button.kLeftBumper),
+        kIntakeOn(Button.kRightBumper)
+
+        // kNoAction(Button.kBack),
+        // kNoAction(Button.kStart),
+
+        // kNoAction(Button.LeftStick),
+        // kNoAction(Button.RightStick),
+        ;
 
         public final Button button;
 
@@ -41,16 +49,32 @@ public class DriverController extends Xbox
 
     public enum DriverAxisAction
     {
-        kMove(Axis.kLeftY),
-        kRotate(Axis.kRightX),
-        kSpoolWinch(Axis.kRightTrigger),
-        kUnspoolWinch(Axis.kLeftTrigger);
-        public final Axis axis;
+        // kNoAction(Axis.kLeftX, 0.1, 0.0, 1.0, false, AxisScale.kLinear),
+        kMove(Axis.kLeftY, 0.1, 0.0, 1.0, true, AxisScale.kLinear),
 
-        private DriverAxisAction(Axis axis)
+        kRotate(Axis.kRightX, 0.1, 0.0, 1.0, false, AxisScale.kLinear),
+        // kNoAction(Axis.kRightY, 0.1, 0.0, 1.0, true, AxisScale.kLinear),
+
+        kUnspoolWinch(Axis.kLeftTrigger, 0.2, 0.3, 0.5, false, AxisScale.kLinear),
+        kSpoolWinch(Axis.kRightTrigger, 0.2, 0.3, 1.0, false, AxisScale.kLinear)
+        ;
+
+        public final Axis axis;
+        public final double axisDeadzone;
+        public final double axisMinOutput;
+        public final double axisMaxOutput;
+        public final boolean axisIsFlipped;
+        public final AxisScale axisScale;
+
+        private DriverAxisAction(Axis axis, double axisDeadzone, double axisMinOutput, double axisMaxOutput, boolean axisIsFlipped, AxisScale axisScale)
         {
             this.axis = axis;
-        }
+            this.axisDeadzone = axisDeadzone;
+            this.axisMinOutput = axisMinOutput;
+            this.axisMaxOutput = axisMaxOutput;
+            this.axisIsFlipped = axisIsFlipped;
+            this.axisScale = axisScale;
+        } 
     }
 
     public class RumbleEvent
@@ -86,15 +110,10 @@ public class DriverController extends Xbox
 
         System.out.println(className + " : Constructor Started");
 
-        setAxisSettings(Axis.kLeftX, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
-        setAxisSettings(Axis.kLeftY, 0.1, 0.0, 1.0, true, AxisScale.kLinear);
-
-        setAxisSettings(Axis.kRightX, 0.1, 0.0, 1.0, false, AxisScale.kLinear);
-        setAxisSettings(Axis.kRightY, 0.1, 0.0, 1.0, true, AxisScale.kLinear);
-
-        setAxisSettings(Axis.kLeftTrigger, 0.2, 0.3, 0.5, false, AxisScale.kLinear);
-        setAxisSettings(Axis.kRightTrigger, 0.2, 0.3, 0.5, false, AxisScale.kLinear);
-
+        for(DriverAxisAction action : DriverAxisAction.values())
+        {
+            setAxisSettings(action.axis, action.axisDeadzone, action.axisMinOutput, action.axisMaxOutput, action.axisIsFlipped, action.axisScale);
+        }
 
         createRumbleEvent(60.0, 1.0, 0.5, 0.5);
         createRumbleEvent(30.0, 2.0, 0.75, 0.75);
@@ -151,7 +170,19 @@ public class DriverController extends Xbox
     }
 
     @Deprecated
+    public double getRawAxis(int axis)
+    {
+        return super.getRawAxis(axis);
+    }
+
+    @Deprecated
     public boolean getRawButton(Button button)
+    {
+        return super.getRawButton(button);
+    }
+
+    @Deprecated
+    public boolean getRawButton(int button)
     {
         return super.getRawButton(button);
     }
