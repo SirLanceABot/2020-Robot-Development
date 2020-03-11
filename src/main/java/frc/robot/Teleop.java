@@ -19,7 +19,6 @@ import frc.controls.DriverController.DriverButtonAction;
 import frc.controls.OperatorController;
 import frc.controls.OperatorController.OperatorAxisAction;
 import frc.controls.OperatorController.OperatorButtonAction;
-import frc.controls.Xbox.Button;
 import frc.shuffleboard.MainShuffleboard;
 
 /**
@@ -79,6 +78,7 @@ public class Teleop
     {
         // mainShuffleboard.setDriverControllerSettings();
         // mainShuffleboard.setOperatorControllerSettings();
+        driverController.resetRumbleCounter();
     }
 
     /**
@@ -152,5 +152,7 @@ public class Teleop
         //run the climber
         climber.run();
         //mainShuffleboard.updateSensors();
+
+        driverController.checkRumbleEvent();
     }
 }
