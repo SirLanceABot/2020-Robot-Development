@@ -89,6 +89,8 @@ public class Shooter implements Notified
         {
           if(turretVision.isTargetFound())
           {
+            shroud.setSpeed(0.75);
+            flywheel.setSpeedOverride(0.4);
             if(turret.alignWithTarget())
             {
               currentState = Transition.findNextState(currentState, Event.AlignedWithTape);
