@@ -88,16 +88,17 @@ public class Turret
     private static Turret instance = new Turret();
     private static OperatorController operatorController = OperatorController.getInstance();
 
-    private static double currentTurretValue = 0;
-    private static double previousTurretValue = 0;
-    private static boolean ccLocked = false;
+    private static double startingAngle = 0.0;
+    private static double targetAngle = 0.0;
+    private static double visionAngle = 0.0;
+    private static double angleToTravel = 0.0;
+    private static double angleTraveled = 0.0;
+    private static boolean movingForward = true;
+    private static boolean alignWithTargetInit = true;
 
     private Turret()
     {
         System.out.println(className + " : Constructor Started");
-
-        currentTurretValue = getCurrentAngle();
-        previousTurretValue = currentTurretValue;
         motor.configFactoryDefault();
         motor.setInverted(false);
         motor.setNeutralMode(NeutralMode.Brake);
@@ -360,6 +361,79 @@ public class Turret
         }
         return false;
 
+    }
+
+    public boolean scaledAlignWithTarget()
+    {
+        turretVision = vision.getTurret();
+
+
+        if(alignWithTargetInit)
+        {
+            alignWithTargetInit = false;
+            visionAngle = turretVision.getAngleToTurn();
+
+            startingAngle = getCurrentAngle();
+            angleToTravel = visionAngle -  startingAngle;
+            targetAngle = visionAngle + startingAngle;
+            System.out.println("Starting Encoder Value" + startingAngle);
+            System.out.println("Distance to Travel" + angleToTravel);
+            System.out.println("Target Distance" + targetAngle);
+
+
+            if(targetAngle < 0)
+            {
+                movingForward = false;
+            }
+            else
+            {
+                movingForward = true;
+            }
+        }
+
+        angleTraveled = getCurrentAngle() - startingAngle;
+        System.out.println(angleTraveled + "\t" + angleToTravel);
+        // System.out.println("Left Position: " + getLeftPosition() + "\t" +  "Right Position: " + getRightPosition());
+
+        
+        if(Math.abs(angleTraveled) > Math.abs(targetAngle) - 0.5)
+        {
+            //System.out.println("In the if");
+            alignWithTargetInit = true;
+            stop();
+            return true;
+        }
+        else
+        {   
+            //System.out.println("In the else");
+            double speed = Math.abs((angleToTravel - angleTraveled) / 10.0) * 1;
+            System.out.println(speed);
+            if(Math.abs(speed) > 0.5)
+            {
+                if(movingForward)
+                {
+                    setSpeed((angleToTravel - angleTraveled) / 5.0);
+                    //System.out.println(((angleToTravel - distanceTraveled) /angleToTravel) * percentMax);
+                }
+                else
+                {
+                    setSpeed((-angleToTravel - angleTraveled) /5.0);
+                    //System.out.println(((angleToTravel - distanceTraveled)/angleToTravel) * percentMax);
+                }
+            }
+            else
+            {
+                if(movingForward)
+                {
+                    setSpeed(0.2);
+                }
+                else
+                {
+                    setSpeed(-0.2);
+                }
+            }
+            return false;
+        }
     }
 
     public String toString()
