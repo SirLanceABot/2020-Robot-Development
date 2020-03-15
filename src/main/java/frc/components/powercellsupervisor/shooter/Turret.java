@@ -5,15 +5,12 @@ import frc.robot.Port;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.sensors.NavX;
 import frc.vision.TargetDataB;
 import frc.vision.Vision;
-import frc.controls.OperatorController.OperatorAxisAction;
 
 /**
  * Class for controlling the turret that aims the shooter on the X plane
@@ -29,48 +26,6 @@ public class Turret
     {
         System.out.println(className + " : Class Loading");
     }
-
-    public static class Gains {
-        public final double kP;
-        public final double kI;
-        public final double kD;
-        public final double kF;
-        public final int kIzone;
-        public final double kPeakOutput;
-        
-        public Gains(double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput){
-            kP = _kP;
-            kI = _kI;
-            kD = _kD;
-            kF = _kF;
-            kIzone = _kIzone;
-            kPeakOutput = _kPeakOutput;
-        }
-    }
-    	/**
-	 * Which PID slot to pull gains from. Starting 2018, you can choose from
-	 * 0,1,2 or 3. Only the first two (0,1) are visible in web-based
-	 * configuration.
-	 */
-	public static final int kSlotIdx = 0;
-
-	/**
-	 * Talon SRX/ Victor SPX will supported multiple (cascaded) PID loops. For
-	 * now we just want the primary one.
-	 */
-	public static final int kPIDLoopIdx = 0;
-
-	/**
-	 * set to zero to skip waiting for confirmation, set to nonzero to wait and
-	 * report to DS if action fails.
-	 */
-	public static final int kTimeoutMs = 30;
-
-	/**
-	 * Gains used in Motion Magic, to be adjusted accordingly
-     * Gains(kp, ki, kd, kf, izone, peak output);
-     */
-    static final Gains kGains = new Gains(0.2, 0.0, 0.0, 0.0, 0, 1.0);
 
     private static final double kZERO_LOCATION = 0; //TODO: Find out what value is straight ahead
     private static final int kTIMEOUT_MS = 30;
@@ -151,36 +106,6 @@ public class Turret
      */
     public void setSpeed(double speed)
     {
-        // if(ccLocked)
-        // {
-
-        // }
-        // if(currentTurretValue > 100.0 && previousTurretValue < 100.0)
-        // {
-        //     ccLocked = true;
-        // }
-
-        // else if(currentTurretValue < 90.0 && previousTurretValue > 90.0)
-        // {
-        //     if(currentTurretValue - previousTurretValue < 0)
-        //     {
-                
-        //         if(operatorController.getAction(OperatorAxisAction.kTurret) > 0)
-        //         {                
-        //             System.out.println("At clockwise limit");
-        //             stop();
-        //         }
-        //         else
-        //         {
-        //             motor.set(ControlMode.PercentOutput, speed);
-        //         }
-        //     }
-        //     else
-        //     {
-                
-        //     }
-        // }
-        // //System.out.println(motor.getSelectedSensorPosition());
         motor.set(ControlMode.PercentOutput, speed);
         //setCurrentPosition(getEncoderPosition());
         setIsMoving(true);
@@ -325,10 +250,14 @@ public class Turret
 
     public void rotateToWall()
     {
-        double targetAngle = navX.getAngleOfPowerPortWall();
-        double currentAngle = navX.getAngleOfPowerPortWall();
+        double robotAngle = Math.abs(navX.getAngle() - 180);
+        double targetTurretAngle = robotAngle + 90;
 
-        rotateTo(targetAngle - currentAngle);
+        if(targetTurretAngle < 0)
+        {
+            targetAngle = 360 - targetTurretAngle;
+        }
+        scaledAlignWithTarget(targetTurretAngle);
     }
 
     /**
@@ -372,6 +301,79 @@ public class Turret
         {
             alignWithTargetInit = false;
             visionAngle = turretVision.getAngleToTurn();
+
+            startingAngle = getCurrentAngle();
+            angleToTravel = visionAngle -  startingAngle;
+            targetAngle = visionAngle + startingAngle;
+            System.out.println("Starting Encoder Value" + startingAngle);
+            System.out.println("Distance to Travel" + angleToTravel);
+            System.out.println("Target Distance" + targetAngle);
+
+
+            if(targetAngle < 0)
+            {
+                movingForward = false;
+            }
+            else
+            {
+                movingForward = true;
+            }
+        }
+
+        angleTraveled = getCurrentAngle() - startingAngle;
+        System.out.println(angleTraveled + "\t" + angleToTravel);
+        // System.out.println("Left Position: " + getLeftPosition() + "\t" +  "Right Position: " + getRightPosition());
+
+        
+        if(Math.abs(angleTraveled) > Math.abs(targetAngle) - 0.5)
+        {
+            //System.out.println("In the if");
+            alignWithTargetInit = true;
+            stop();
+            return true;
+        }
+        else
+        {   
+            //System.out.println("In the else");
+            double speed = Math.abs((angleToTravel - angleTraveled) / 10.0) * 1;
+            System.out.println(speed);
+            if(Math.abs(speed) > 0.5)
+            {
+                if(movingForward)
+                {
+                    setSpeed((angleToTravel - angleTraveled) / 5.0);
+                    //System.out.println(((angleToTravel - distanceTraveled) /angleToTravel) * percentMax);
+                }
+                else
+                {
+                    setSpeed((-angleToTravel - angleTraveled) /5.0);
+                    //System.out.println(((angleToTravel - distanceTraveled)/angleToTravel) * percentMax);
+                }
+            }
+            else
+            {
+                if(movingForward)
+                {
+                    setSpeed(0.2);
+                }
+                else
+                {
+                    setSpeed(-0.2);
+                }
+            }
+            return false;
+        }
+    }
+
+    public boolean scaledAlignWithTarget(double angle)
+    {
+        turretVision = vision.getTurret();
+
+
+        if(alignWithTargetInit)
+        {
+            alignWithTargetInit = false;
+            visionAngle = angle;
 
             startingAngle = getCurrentAngle();
             angleToTravel = visionAngle -  startingAngle;
