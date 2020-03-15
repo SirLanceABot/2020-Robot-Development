@@ -122,7 +122,7 @@ public class Shuttle
                 // System.out.println("Shuttle State: Unloading");
                 if(!isEmpty())
                 {
-                    setSpeed(0.75); //TODO: Find the right feed speed
+                    setSpeed(1.00); //TODO: Find the right feed speed
                 }
                 else
                 {
