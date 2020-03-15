@@ -68,7 +68,7 @@ public class Shooter implements Notified
       {
         turnLightOn();
         System.out.println("State: Searching");
-        //turret.rotateToWall();
+        turret.rotateToWall();
         System.out.println(turretVision.isTargetFound() + "\tframe number: " + turretVision.getFrameNumber());
         if(turretVision.isFreshData())
         {
